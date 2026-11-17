@@ -31,7 +31,7 @@ jobs:
           npm --prefix web run build
 
       - name: Build .NET Server Solution
-        run: dotnet build server/src/DeckBoard.Server/DeckBoard.Server.csproj -c Release
+        run: dotnet build server/src/OpenDeck.Server/OpenDeck.Server.csproj -c Release
 
       - name: Run Build & Packaging Script
         shell: powershell
