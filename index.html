@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenDeck — Tu celular, convertido en un Stream Deck</title>
+    <meta
+      name="description"
+      content="Botonera macro, telemetría y portapapeles para Windows desde el celular. 100 % local, por tu Wi-Fi, sin cuentas ni nube. Gratis y open source."
+    />
+    <meta name="theme-color" content="#080A0C" />
+    <link rel="icon" href="assets/opendeck-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+
+    <header class="nav" id="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top">
+          <img src="assets/opendeck-icon.png" alt="" width="34" height="34" />
+          <span>Open<b>Deck</b></span>
+        </a>
+        <nav class="nav-links" id="navLinks">
+          <a href="#funciones">Funciones</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#requisitos">Requisitos</a>
+          <a href="#faq">Preguntas</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn btn-ghost btn-sm" href="#descargar">Descargar</a>
+          <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <p class="pill" data-reveal>
+              <span class="pill-dot"></span> v0.2.0 · Windows 10 y 11
+            </p>
+            <h1 data-reveal>
+              Tu celular, convertido en un <span class="grad">Stream Deck</span>.
+            </h1>
+            <p class="lead" data-reveal>
+              OpenDeck pone tus atajos, el volumen, el portapapeles y la telemetría de la PC en una
+              botonera táctil. Todo por tu Wi-Fi: sin cuentas, sin nube y sin que nada salga de tu
+              red.
+            </p>
+            <div class="hero-cta" data-reveal>
+              <a class="btn btn-primary" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-Setup-0.2.0.exe">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+                Descargar instalador
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-0.2.0-portable.zip">
+                Versión portable (.zip)
+              </a>
+            </div>
+            <ul class="hero-facts" data-reveal>
+              <li>Gratis y open source (MIT)</li>
+              <li>~9 MB de RAM en reposo</li>
+              <li>Sin instalar nada en el celular</li>
+            </ul>
+          </div>
+
+          <div class="hero-visual" data-reveal>
+            <div class="glow" aria-hidden="true"></div>
+            <div class="phone" aria-hidden="true">
+              <div class="phone-screen">
+                <div class="p-top">
+                  <div class="p-chip">
+                    <span class="p-dot"></span>
+                    <span class="p-chip-name">Global</span>
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg>
+                  </div>
+                  <div class="p-ping"><span class="p-dot p-dot-live"></span> 12 ms</div>
+                </div>
+
+                <div class="p-tel">
+                  <div class="p-slot">
+                    <div class="p-slot-head"><span>CPU</span><span class="p-slot-sub">52°C</span></div>
+                    <div class="p-value">38<span>%</span></div>
+                    <div class="p-bar"><i style="width: 38%"></i></div>
+                  </div>
+                  <div class="p-slot">
+                    <div class="p-slot-head"><span>RAM</span></div>
+                    <div class="p-value">44<span>%</span></div>
+                    <div class="p-bar"><i style="width: 44%"></i></div>
+                  </div>
+                  <div class="p-slot">
+                    <div class="p-slot-head"><span>PING APP</span></div>
+                    <div class="p-value">12<span>ms</span></div>
+                    <div class="p-bar"><i style="width: 8%"></i></div>
+                  </div>
+                  <div class="p-slot">
+                    <div class="p-slot-head"><span>BAJADA</span><span class="p-slot-sub">1.2 MB/s</span></div>
+                    <div class="p-value">8.4<span>MB/s</span></div>
+                    <div class="p-bar"><i style="width: 17%"></i></div>
+                  </div>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="m2 2 20 20"/></svg>
+                    <span>Micrófono</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                    <span>Play / pausa</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></svg>
+                    <span>Anterior</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg>
+                    <span>Siguiente</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg>
+                    <span>Captura</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>Escritorio</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>Admin tareas</span>
+                  </div>
+                  <div class="p-key p-key-accent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Bloquear PC</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>
+                    <span>Audio</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    <span>Spotify</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg>
+                    <span>Salida audio</span>
+                  </div>
+                  <div class="p-key">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+                    <span>Terminal</span>
+                  </div>
+                </div>
+
+                <div class="p-dots"><i class="on"></i><i></i><i></i></div>
+
+                <div class="p-nav">
+                  <span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Deck</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>Utilidades</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>Perfiles</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Ajustes</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="float-card float-a">
+              <span class="fc-dot"></span>
+              <div>
+                <strong>VS Code detectado</strong>
+                <small>Perfil cambiado solo</small>
+              </div>
+            </div>
+            <div class="float-card float-b">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <div>
+                <strong>Celular emparejado</strong>
+                <small>QR de un solo uso</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="funciones">
+        <div class="wrap">
+          <header class="section-head">
+            <p class="eyebrow" data-reveal>Funciones</p>
+            <h2 data-reveal>Todo lo que tocás mil veces, a un dedo de distancia</h2>
+            <p class="section-lead" data-reveal>
+              Doce botones por página, las páginas que quieras y un perfil distinto para cada
+              programa. Sin abrir la consola ni acordarte de ningún atajo.
+            </p>
+          </header>
+
+          <div class="cards">
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3>100 % local y privado</h3>
+              <p>
+                Sin cuentas, sin nube y sin telemetría a internet. El servidor corre en tu PC y habla
+                solo con los celulares de tu red Wi-Fi.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+              </div>
+              <h3>Grilla táctil PWA</h3>
+              <p>
+                Botones grandes, vibración al tocar, pulso de luz en el punto exacto del dedo y modo
+                OLED con negro puro para no encandilarte de noche.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+              </div>
+              <h3>Auto-switching de perfiles</h3>
+              <p>
+                Detecta qué programa está en foco y cambia el perfil con su propio color de acento:
+                VS Code, Chrome, Spotify, tu juego o la terminal.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <h3>Telemetría en vivo</h3>
+              <p>
+                Cuatro slots para carga y temperatura de CPU y GPU, memoria, red y ping, con alertas
+                que vibran cuando algo pasa de 85 °C.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <h3>Atajos, audio y multimedia</h3>
+              <p>
+                Combinaciones de teclas, volumen maestro y por aplicación, cambio de salida de audio,
+                Now Playing y acciones de energía con confirmación.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 14h6"/><path d="M9 18h6"/></svg>
+              </div>
+              <h3>Portapapeles en los dos sentidos</h3>
+              <p>
+                Copiá, cortá y pegá entre el celular y la PC con un toque, incluido "pegar solo
+                texto", plantillas fijas e historial de los últimos 10 elementos.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <h3>Logos reales de tus apps</h3>
+              <p>
+                El botón de lanzar muestra el ícono nítido de la aplicación, extraído del propio
+                programa, del acceso directo o de la Microsoft Store.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              </div>
+              <h3>Editor visual con deshacer</h3>
+              <p>
+                Armá la grilla desde el panel: elegí la acción con selectores, arrastrá botones de
+                celda, soltalos en otra página y volvé atrás con Ctrl+Z.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="steps" id="como-funciona">
+        <div class="wrap">
+          <header class="section-head">
+            <p class="eyebrow" data-reveal>Cómo funciona</p>
+            <h2 data-reveal>Tres pasos y ya está</h2>
+          </header>
+
+          <ol class="step-list">
+            <li data-reveal>
+              <span class="step-n">01</span>
+              <h3>Instalá OpenDeck</h3>
+              <p>
+                El instalador crea la tarea de arranque sin UAC, abre el firewall en redes privadas y
+                te deja elegir dónde guardar la configuración. ¿Sin instalar nada? Usá el portable.
+              </p>
+            </li>
+            <li data-reveal>
+              <span class="step-n">02</span>
+              <h3>Escaneá el QR</h3>
+              <p>
+                Desde el panel, con el celular en la misma Wi-Fi. Se instala el certificado local, el
+                celular queda emparejado por HTTPS y se abre la botonera como app.
+              </p>
+            </li>
+            <li data-reveal>
+              <span class="step-n">03</span>
+              <h3>Tocá y listo</h3>
+              <p>
+                La PC responde al instante. Editá la grilla desde el panel, sumá páginas y dejá que el
+                perfil cambie solo cuando cambiás de programa.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="split" id="requisitos">
+        <div class="wrap split-inner">
+          <div class="panel" data-reveal>
+            <h2>Requisitos</h2>
+            <ul class="checks">
+              <li>Windows 10 (2004 o posterior) o Windows 11, 64 bits</li>
+              <li>Celular o tablet con navegador moderno, en la misma red Wi-Fi</li>
+              <li>No hace falta .NET: la versión publicada es auto-contenida</li>
+              <li>No hace falta internet, ni una cuenta, ni un servidor afuera</li>
+            </ul>
+          </div>
+          <div class="panel panel-accent" data-reveal>
+            <h2>Por qué todo queda en tu casa</h2>
+            <ul class="checks">
+              <li>El servidor escucha solo en tu PC, en los puertos 47800 a 47802</li>
+              <li>El certificado HTTPS lo genera tu propia PC con su CA local</li>
+              <li>El emparejamiento usa un QR de un solo uso y un token por celular</li>
+              <li>Los scripts corren desde tu disco y solo si están en la lista blanca</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq" id="faq">
+        <div class="wrap">
+          <header class="section-head">
+            <p class="eyebrow" data-reveal>Preguntas frecuentes</p>
+            <h2 data-reveal>Lo que todos preguntan</h2>
+          </header>
+
+          <div class="faq-list">
+            <details data-reveal>
+              <summary>¿Necesito internet para usarlo?</summary>
+              <p>
+                No. OpenDeck funciona entero dentro de tu red local: si se cae internet, la botonera
+                sigue andando igual.
+              </p>
+            </details>
+            <details data-reveal>
+              <summary>¿Es gratis?</summary>
+              <p>
+                Sí. Es open source bajo licencia MIT, sin versión paga ni funciones bloqueadas.
+              </p>
+            </details>
+            <details data-reveal>
+              <summary>¿Funciona con iPhone?</summary>
+              <p>
+                Sí. Se abre desde Safari y se agrega a la pantalla de inicio. En Android se instala
+                como PWA y queda con ícono propio.
+              </p>
+            </details>
+            <details data-reveal>
+              <summary>¿Tengo que instalar una app en el celular?</summary>
+              <p>
+                No. Es una aplicación web: el celular solo abre la dirección de tu PC y guarda la
+                sesión.
+              </p>
+            </details>
+            <details data-reveal>
+              <summary>¿Puedo usar más de un celular?</summary>
+              <p>
+                Sí. Cada celular se empareja con su propio QR y podés revocarlo cuando quieras desde
+                el panel, sin tocar los demás.
+              </p>
+            </details>
+            <details data-reveal>
+              <summary>¿Gasta recursos mientras no lo uso?</summary>
+              <p>
+                Poco. Con la ventana cerrada en la bandeja, el servidor queda en torno a 9 MB de RAM y
+                no deja ningún proceso de WebView2 abierto.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="final" id="descargar">
+        <div class="wrap final-inner" data-reveal>
+          <img src="assets/opendeck-icon.png" alt="" width="64" height="64" />
+          <h2>Probalo esta noche</h2>
+          <p>
+            Se instala en un minuto y no toca nada de tu sistema más que una tarea de arranque y una
+            regla de firewall.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-Setup-0.2.0.exe">
+              Descargar instalador
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-0.2.0-portable.zip">
+              Versión portable (.zip)
+            </a>
+          </div>
+          <small>Windows 10/11 · v0.2.0 · MIT</small>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="#top">
+            <img src="assets/opendeck-icon.png" alt="" width="30" height="30" />
+            <span>Open<b>Deck</b></span>
+          </a>
+          <p>Botonera macro y telemetría por LAN para Windows.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Producto</h4>
+          <a href="#funciones">Funciones</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#descargar">Descargar</a>
+        </div>
+        <div class="footer-col">
+          <h4>Documentación</h4>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/README.md">README</a>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/docs/ARQUITECTURA.md">Arquitectura</a>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/docs/PROTOCOLO.md">Protocolo</a>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/CHANGELOG.md">Changelog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/LICENSE">Licencia MIT</a>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/SECURITY.md">Seguridad</a>
+          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/THIRD-PARTY-NOTICES.md">Terceros</a>
+        </div>
+      </div>
+      <div class="wrap footer-bottom">
+        <span>© <span id="year">2026</span> OpenDeck</span>
+        <span>Hecho para Windows, manejado desde el celular.</span>
+      </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
