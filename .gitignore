@@ -1,0 +1,42 @@
+# --- builds y dependencias ---
+bin/
+obj/
+**/bin/
+**/obj/
+node_modules/
+dist/
+
+# --- datos y logs locales de OpenDeck ---
+data/
+logs/
+*.log
+.verify-*/
+.verify-publish/
+.measure-data/
+server/src/OpenDeck.Server/wwwroot/logs/
+
+# --- proyecto de video (no va al repo) ---
+landing/video/
+*.mp4
+*.webm
+
+# --- documentos usados como prompt ---
+OPENDECK_v0.2_PROMPT.md
+OPENDECK_BLUEPRINT.md
+
+# --- herramientas y scratch local ---
+.freebuff/
+.cloud-attachments/
+.dotnet-home/
+.nuget/
+.tmp/
+.hyperframes/
+.deploy/
+.vs/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# --- salidas sueltas de verificación ---
+.verify-server.*

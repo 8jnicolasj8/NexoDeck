@@ -1,0 +1,58 @@
+name: OpenDeck CI & Release
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Web Dependencies & Build PWA
+        run: |
+          npm --prefix web ci
+          npm --prefix web run build
+
+      - name: Build .NET Server Solution
+        run: dotnet build server/src/DeckBoard.Server/DeckBoard.Server.csproj -c Release
+
+      - name: Run Build & Packaging Script
+        shell: powershell
+        run: |
+          # Install Inno Setup via choco if not present
+          if (-not (Get-Command iscc -ErrorAction SilentlyContinue)) {
+            choco install innosetup --no-progress -y
+            echo "C:\Program Files (x86)\Inno Setup 6" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          }
+          powershell -ExecutionPolicy Bypass -File installer/build.ps1
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenDeck-Release-Binaries
+          path: dist/*
+
+      - name: Create GitHub Release (On Tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

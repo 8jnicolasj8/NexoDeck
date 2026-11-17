@@ -1,0 +1,480 @@
+{
+  "version": 1,
+  "categories": [
+    { "id": "browser", "labelKey": "cat.browser" },
+    { "id": "windows", "labelKey": "cat.windows" },
+    { "id": "editing", "labelKey": "cat.editing" },
+    { "id": "media", "labelKey": "cat.media" },
+    { "id": "vscode", "labelKey": "cat.vscode" },
+    { "id": "audio", "labelKey": "cat.audio" },
+    { "id": "apps", "labelKey": "cat.apps" },
+    { "id": "system", "labelKey": "cat.system" },
+    { "id": "clipboard", "labelKey": "cat.clipboard" },
+    { "id": "profile", "labelKey": "cat.profile" }
+  ],
+  "kinds": [
+    {
+      "kind": "hotkey",
+      "category": "windows",
+      "labelKey": "action.hotkey",
+      "icon": "keyboard",
+      "params": [
+        {
+          "name": "keys",
+          "type": "hotkey",
+          "labelKey": "param.keys",
+          "required": true,
+          "maxKeys": 4
+        }
+      ],
+      "presets": [
+        { "group": "browser", "labelKey": "preset.browser.newTab", "keys": ["ctrl", "t"] },
+        { "group": "browser", "labelKey": "preset.browser.closeTab", "keys": ["ctrl", "w"] },
+        { "group": "browser", "labelKey": "preset.browser.reopenTab", "keys": ["ctrl", "shift", "t"] },
+        { "group": "browser", "labelKey": "preset.browser.nextTab", "keys": ["ctrl", "pagedown"] },
+        { "group": "browser", "labelKey": "preset.browser.prevTab", "keys": ["ctrl", "pageup"] },
+        { "group": "browser", "labelKey": "preset.browser.reload", "keys": ["f5"] },
+        { "group": "browser", "labelKey": "preset.browser.hardReload", "keys": ["ctrl", "f5"] },
+        { "group": "browser", "labelKey": "preset.browser.devtools", "keys": ["f12"] },
+        { "group": "browser", "labelKey": "preset.browser.bookmark", "keys": ["ctrl", "d"] },
+        { "group": "browser", "labelKey": "preset.browser.history", "keys": ["ctrl", "h"] },
+        { "group": "browser", "labelKey": "preset.browser.downloads", "keys": ["ctrl", "j"] },
+        { "group": "browser", "labelKey": "preset.browser.incognito", "keys": ["ctrl", "shift", "n"] },
+        { "group": "browser", "labelKey": "preset.browser.newWindow", "keys": ["ctrl", "n"] },
+        { "group": "browser", "labelKey": "preset.browser.addressBar", "keys": ["ctrl", "l"] },
+        { "group": "browser", "labelKey": "preset.browser.find", "keys": ["ctrl", "f"] },
+        { "group": "browser", "labelKey": "preset.browser.zoomIn", "keys": ["ctrl", "add"] },
+        { "group": "browser", "labelKey": "preset.browser.zoomOut", "keys": ["ctrl", "subtract"] },
+        { "group": "browser", "labelKey": "preset.browser.zoomReset", "keys": ["ctrl", "0"] },
+        { "group": "windows", "labelKey": "preset.windows.desktop", "keys": ["win", "d"] },
+        { "group": "windows", "labelKey": "preset.windows.screenshot", "keys": ["win", "shift", "s"] },
+        { "group": "windows", "labelKey": "preset.windows.taskManager", "keys": ["ctrl", "shift", "esc"] },
+        { "group": "windows", "labelKey": "preset.windows.explorer", "keys": ["win", "e"] },
+        { "group": "windows", "labelKey": "preset.windows.settings", "keys": ["win", "i"] },
+        { "group": "windows", "labelKey": "preset.windows.lock", "keys": ["win", "l"] },
+        { "group": "windows", "labelKey": "preset.windows.run", "keys": ["win", "r"] },
+        { "group": "windows", "labelKey": "preset.windows.snapLeft", "keys": ["win", "left"] },
+        { "group": "windows", "labelKey": "preset.windows.snapRight", "keys": ["win", "right"] },
+        { "group": "windows", "labelKey": "preset.windows.minimizeAll", "keys": ["win", "m"] },
+        { "group": "windows", "labelKey": "preset.windows.emoji", "keys": ["win", "."] },
+        { "group": "editing", "labelKey": "preset.editing.undo", "keys": ["ctrl", "z"] },
+        { "group": "editing", "labelKey": "preset.editing.redo", "keys": ["ctrl", "y"] },
+        { "group": "editing", "labelKey": "preset.editing.cut", "keys": ["ctrl", "x"] },
+        { "group": "editing", "labelKey": "preset.editing.copy", "keys": ["ctrl", "c"] },
+        { "group": "editing", "labelKey": "preset.editing.paste", "keys": ["ctrl", "v"] },
+        { "group": "editing", "labelKey": "preset.editing.selectAll", "keys": ["ctrl", "a"] },
+        { "group": "editing", "labelKey": "preset.editing.save", "keys": ["ctrl", "s"] },
+        { "group": "editing", "labelKey": "preset.editing.find", "keys": ["ctrl", "f"] },
+        { "group": "editing", "labelKey": "preset.editing.print", "keys": ["ctrl", "p"] },
+        { "group": "media", "labelKey": "preset.media.playPause", "keys": ["space"] },
+        { "group": "media", "labelKey": "preset.media.next", "keys": ["ctrl", "right"] },
+        { "group": "media", "labelKey": "preset.media.prev", "keys": ["ctrl", "left"] },
+        { "group": "media", "labelKey": "preset.media.fullscreen", "keys": ["f11"] },
+        { "group": "media", "labelKey": "preset.media.escape", "keys": ["esc"] },
+        { "group": "vscode", "labelKey": "preset.vscode.commandPalette", "keys": ["ctrl", "shift", "p"] },
+        { "group": "vscode", "labelKey": "preset.vscode.searchAll", "keys": ["ctrl", "shift", "f"] },
+        { "group": "vscode", "labelKey": "preset.vscode.terminal", "keys": ["ctrl", "`"] },
+        { "group": "vscode", "labelKey": "preset.vscode.saveAll", "keys": ["ctrl", "k", "s"] },
+        { "group": "vscode", "labelKey": "preset.vscode.debug", "keys": ["f5"] },
+        { "group": "vscode", "labelKey": "preset.vscode.stepOver", "keys": ["f10"] },
+        { "group": "vscode", "labelKey": "preset.vscode.stopDebug", "keys": ["shift", "f5"] },
+        { "group": "vscode", "labelKey": "preset.vscode.toggleComment", "keys": ["ctrl", "/"] },
+        { "group": "vscode", "labelKey": "preset.vscode.commit", "keys": ["ctrl", "enter"] },
+        { "group": "vscode", "labelKey": "preset.vscode.format", "keys": ["shift", "alt", "f"] },
+        { "group": "vscode", "labelKey": "preset.vscode.fullscreen", "keys": ["f11"] },
+        { "group": "vscode", "labelKey": "preset.vscode.closeTab", "keys": ["ctrl", "w"] }
+      ]
+    },
+    {
+      "kind": "text.type",
+      "category": "apps",
+      "labelKey": "action.textType",
+      "icon": "type",
+      "params": [
+        {
+          "name": "text",
+          "type": "textarea",
+          "labelKey": "param.text",
+          "required": true,
+          "maxLength": 1000,
+          "placeholderKey": "placeholder.textType"
+        }
+      ]
+    },
+    {
+      "kind": "media",
+      "category": "media",
+      "labelKey": "action.media",
+      "icon": "play",
+      "params": [
+        {
+          "name": "cmd",
+          "type": "select",
+          "labelKey": "param.mediaCmd",
+          "required": true,
+          "default": "playpause",
+          "options": [
+            { "value": "playpause", "labelKey": "option.media.playpause" },
+            { "value": "next", "labelKey": "option.media.next" },
+            { "value": "prev", "labelKey": "option.media.prev" },
+            { "value": "stop", "labelKey": "option.media.stop" },
+            { "value": "volup", "labelKey": "option.media.volup" },
+            { "value": "voldown", "labelKey": "option.media.voldown" },
+            { "value": "mute", "labelKey": "option.media.mute" }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "volume.master",
+      "category": "audio",
+      "labelKey": "action.volumeMaster",
+      "icon": "volume-2",
+      "params": [],
+      "slider": { "min": 0, "max": 100, "step": 1, "stateBinding": "audio.masterVolume" }
+    },
+    {
+      "kind": "volume.app",
+      "category": "audio",
+      "labelKey": "action.volumeApp",
+      "icon": "volume-1",
+      "params": [
+        {
+          "name": "process",
+          "type": "process-picker",
+          "labelKey": "param.process",
+          "required": true
+        }
+      ],
+      "slider": { "min": 0, "max": 100, "step": 1 }
+    },
+    {
+      "kind": "mute.toggle",
+      "category": "audio",
+      "labelKey": "action.muteToggle",
+      "icon": "volume-x",
+      "params": [
+        {
+          "name": "target",
+          "type": "select",
+          "labelKey": "param.muteTarget",
+          "required": true,
+          "default": "master",
+          "options": [
+            { "value": "master", "labelKey": "option.mute.master" },
+            { "value": "mic", "labelKey": "option.mute.mic" },
+            { "value": "app", "labelKey": "option.mute.app" }
+          ]
+        },
+        {
+          "name": "process",
+          "type": "process-picker",
+          "labelKey": "param.process",
+          "required": true,
+          "showIf": { "param": "target", "equals": "app" }
+        }
+      ],
+      "stateBinding": { "param": "target", "map": { "master": "audio.muted", "mic": "mic.muted" } }
+    },
+    {
+      "kind": "audio.device",
+      "category": "audio",
+      "labelKey": "action.audioDevice",
+      "icon": "headphones",
+      "params": [
+        {
+          "name": "flow",
+          "type": "select",
+          "labelKey": "param.audioFlow",
+          "required": true,
+          "default": "output",
+          "options": [
+            { "value": "output", "labelKey": "option.flow.output" },
+            { "value": "input", "labelKey": "option.flow.input" }
+          ]
+        },
+        {
+          "name": "mode",
+          "type": "select",
+          "labelKey": "param.audioMode",
+          "required": true,
+          "default": "cycle",
+          "options": [
+            { "value": "cycle", "labelKey": "option.audioMode.cycle" },
+            { "value": "specific", "labelKey": "option.audioMode.specific" }
+          ]
+        },
+        {
+          "name": "deviceId",
+          "type": "audio-device-picker",
+          "labelKey": "param.audioDevice",
+          "required": true,
+          "showIf": { "param": "mode", "equals": "specific" }
+        },
+        {
+          "name": "devices",
+          "type": "audio-device-multi",
+          "labelKey": "param.audioDevicePool",
+          "showIf": { "param": "mode", "equals": "cycle" },
+          "helpKey": "help.audioDevicePool"
+        }
+      ]
+    },
+    {
+      "kind": "launch",
+      "category": "apps",
+      "labelKey": "action.launch",
+      "icon": "app-window",
+      "params": [
+        {
+          "name": "path",
+          "type": "app-picker",
+          "labelKey": "param.app",
+          "required": true
+        },
+        {
+          "name": "args",
+          "type": "text",
+          "labelKey": "param.args",
+          "maxLength": 512,
+          "placeholderKey": "placeholder.args"
+        }
+      ]
+    },
+    {
+      "kind": "script.run",
+      "category": "apps",
+      "labelKey": "action.scriptRun",
+      "icon": "terminal",
+      "params": [
+        {
+          "name": "file",
+          "type": "script-picker",
+          "labelKey": "param.script",
+          "required": true
+        }
+      ]
+    },
+    {
+      "kind": "power",
+      "category": "system",
+      "labelKey": "action.power",
+      "icon": "power",
+      "params": [
+        {
+          "name": "cmd",
+          "type": "select",
+          "labelKey": "param.powerCmd",
+          "required": true,
+          "default": "lock",
+          "options": [
+            { "value": "lock", "labelKey": "option.power.lock" },
+            { "value": "sleep", "labelKey": "option.power.sleep" },
+            { "value": "restart", "labelKey": "option.power.restart" },
+            { "value": "shutdown", "labelKey": "option.power.shutdown" }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "folder.open",
+      "category": "system",
+      "labelKey": "action.folderOpen",
+      "icon": "folder",
+      "params": [
+        {
+          "name": "pageId",
+          "type": "page-picker",
+          "labelKey": "param.folderPage",
+          "required": true,
+          "allowCreate": true
+        }
+      ]
+    },
+    {
+      "kind": "page.next",
+      "category": "profile",
+      "labelKey": "action.pageNext",
+      "icon": "chevron-right",
+      "params": []
+    },
+    {
+      "kind": "page.prev",
+      "category": "profile",
+      "labelKey": "action.pagePrev",
+      "icon": "chevron-left",
+      "params": []
+    },
+    {
+      "kind": "page.goto",
+      "category": "profile",
+      "labelKey": "action.pageGoto",
+      "icon": "layers",
+      "params": [
+        {
+          "name": "pageId",
+          "type": "page-picker",
+          "labelKey": "param.folderPage",
+          "required": true,
+          "allowCreate": true
+        }
+      ]
+    },
+    {
+      "kind": "profile.switch",
+      "category": "profile",
+      "labelKey": "action.profileSwitch",
+      "icon": "user-check",
+      "params": [
+        {
+          "name": "profileId",
+          "type": "profile-picker",
+          "labelKey": "param.profile",
+          "required": true,
+          "allowAuto": true
+        }
+      ]
+    },
+    {
+      "kind": "profile.next",
+      "category": "profile",
+      "labelKey": "action.profileNext",
+      "icon": "arrow-right",
+      "params": []
+    },
+    {
+      "kind": "profile.prev",
+      "category": "profile",
+      "labelKey": "action.profilePrev",
+      "icon": "arrow-left",
+      "params": []
+    },
+    {
+      "kind": "profile.pin",
+      "category": "profile",
+      "labelKey": "action.profilePin",
+      "icon": "pin",
+      "params": [
+        {
+          "name": "profileId",
+          "type": "profile-picker",
+          "labelKey": "param.profile",
+          "required": true,
+          "allowAuto": true
+        }
+      ]
+    },
+    {
+      "kind": "url",
+      "category": "browser",
+      "labelKey": "action.url",
+      "icon": "globe",
+      "params": [
+        {
+          "name": "url",
+          "type": "text",
+          "labelKey": "param.url",
+          "required": true,
+          "maxLength": 2048,
+          "pattern": "^(https?://)?[^\\s]+\\.[^\\s]+$",
+          "placeholderKey": "placeholder.url"
+        }
+      ]
+    },
+    {
+      "kind": "browser",
+      "category": "browser",
+      "labelKey": "action.browser",
+      "icon": "chrome",
+      "params": [
+        {
+          "name": "cmd",
+          "type": "select",
+          "labelKey": "param.browserCmd",
+          "required": true,
+          "default": "tab.new",
+          "options": [
+            { "value": "tab.new", "labelKey": "option.browser.newTab" },
+            { "value": "tab.close", "labelKey": "option.browser.closeTab" },
+            { "value": "tab.reopen", "labelKey": "option.browser.reopenTab" },
+            { "value": "tab.next", "labelKey": "option.browser.nextTab" },
+            { "value": "tab.prev", "labelKey": "option.browser.prevTab" },
+            { "value": "page.reload", "labelKey": "option.browser.reload" },
+            { "value": "page.hard_reload", "labelKey": "option.browser.hardReload" },
+            { "value": "devtools", "labelKey": "option.browser.devtools" },
+            { "value": "bookmark", "labelKey": "option.browser.bookmark" },
+            { "value": "history", "labelKey": "option.browser.history" },
+            { "value": "downloads", "labelKey": "option.browser.downloads" },
+            { "value": "incognito", "labelKey": "option.browser.incognito" },
+            { "value": "window.new", "labelKey": "option.browser.newWindow" },
+            { "value": "address_bar", "labelKey": "option.browser.addressBar" },
+            { "value": "find", "labelKey": "option.browser.find" },
+            { "value": "zoom.in", "labelKey": "option.browser.zoomIn" },
+            { "value": "zoom.out", "labelKey": "option.browser.zoomOut" },
+            { "value": "zoom.reset", "labelKey": "option.browser.zoomReset" }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "clipboard.copy",
+      "category": "clipboard",
+      "labelKey": "action.clipboardCopy",
+      "icon": "copy",
+      "params": []
+    },
+    {
+      "kind": "clipboard.cut",
+      "category": "clipboard",
+      "labelKey": "action.clipboardCut",
+      "icon": "scissors",
+      "params": []
+    },
+    {
+      "kind": "clipboard.paste",
+      "category": "clipboard",
+      "labelKey": "action.clipboardPaste",
+      "icon": "clipboard-paste",
+      "params": []
+    },
+    {
+      "kind": "clipboard.paste_plain",
+      "category": "clipboard",
+      "labelKey": "action.clipboardPastePlain",
+      "icon": "clipboard-type",
+      "params": [],
+      "helpKey": "help.pastePlain"
+    },
+    {
+      "kind": "clipboard.snippet",
+      "category": "clipboard",
+      "labelKey": "action.clipboardSnippet",
+      "icon": "text-cursor-input",
+      "params": [
+        {
+          "name": "text",
+          "type": "textarea",
+          "labelKey": "param.snippetText",
+          "required": true,
+          "maxLength": 4000,
+          "counter": true,
+          "warnKey": "warn.snippet",
+          "placeholderKey": "placeholder.snippet"
+        },
+        {
+          "name": "restore",
+          "type": "checkbox",
+          "labelKey": "param.snippetRestore",
+          "default": true
+        },
+        {
+          "name": "pressEnter",
+          "type": "checkbox",
+          "labelKey": "param.snippetEnter",
+          "default": false
+        }
+      ],
+      "helpKey": "help.snippet"
+    }
+  ]
+}
