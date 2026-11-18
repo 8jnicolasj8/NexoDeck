@@ -47,24 +47,31 @@ internal sealed class ConfigService
 
     public AppConfig Read()
     {
+        var backup = Path.Combine(Path.GetDirectoryName(_path)!, "config.bak.json");
         try
         {
-            var config = JsonSerializer.Deserialize<AppConfig>(File.ReadAllText(_path), JsonOptions);
-            return config ?? CreateDefault();
-        }
-        catch (JsonException)
-        {
-            var backup = Path.Combine(Path.GetDirectoryName(_path)!, "config.bak.json");
-            if (File.Exists(backup))
+            // A fresh install has no config.json yet: Save(CreateDefault()) in the
+            // constructor calls Read() first, so a missing file must not throw.
+            if (File.Exists(_path))
             {
-                try
-                {
-                    return JsonSerializer.Deserialize<AppConfig>(File.ReadAllText(backup), JsonOptions) ?? CreateDefault();
-                }
-                catch { }
+                var config = JsonSerializer.Deserialize<AppConfig>(File.ReadAllText(_path), JsonOptions);
+                if (config is not null) return config;
             }
-            return CreateDefault();
         }
+        catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
+        {
+            // Fall through to the backup/default path below.
+        }
+
+        if (File.Exists(backup))
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<AppConfig>(File.ReadAllText(backup), JsonOptions) ?? CreateDefault();
+            }
+            catch { }
+        }
+        return CreateDefault();
     }
 
     public void AddDevice(DeviceConfig device)
