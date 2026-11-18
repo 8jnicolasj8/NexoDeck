@@ -19,7 +19,7 @@ export interface Copy {
   };
   steps: { title: string; lead: string; items: { n: string; title: string; body: string }[] };
   features: { title: string; lead: string; soon: string; items: { title: string; body: string; flag?: 'android' | 'multiPc' | 'usb' }[] };
-  gallery: { title: string; lead: string; pending: string };
+  gallery: { title: string; lead: string; items: { title: string; body: string; alt: string }[] };
   privacy: { title: string; lead: string; points: { title: string; body: string }[]; note: string };
   downloads: {
     title: string;
@@ -95,7 +95,23 @@ const rawCopy: Record<Lang, Copy> = {
     gallery: {
       title: 'Mirá cómo se ve',
       lead: 'Capturas de la botonera y del panel, con datos de demostración.',
-      pending: 'Las capturas se actualizan con cada versión publicada.',
+      items: [
+        {
+          title: 'La botonera',
+          body: 'Botones grandes, telemetría arriba y navegación abajo. Todo cabe en una mano.',
+          alt: 'Botonera de NexoDeck en horizontal con botones de audio, captura y control, y telemetría de CPU, RAM, ping y red.',
+        },
+        {
+          title: 'En vertical',
+          body: 'El mismo deck se reacomoda solo cuando girás el teléfono.',
+          alt: 'Botonera de NexoDeck en vertical con una grilla de doce botones y telemetría en la parte superior.',
+        },
+        {
+          title: 'El panel en la PC',
+          body: 'Armá perfiles, botones y vistas previas desde el panel local, sin cuenta y sin nube.',
+          alt: 'Panel de configuración de NexoDeck en la PC con perfiles, grilla de botones y vista previa móvil.',
+        },
+      ],
     },
     privacy: {
       title: 'Privacidad y seguridad',
@@ -251,7 +267,23 @@ const rawCopy: Record<Lang, Copy> = {
     gallery: {
       title: 'See how it looks',
       lead: 'Deck and panel screenshots with demo data.',
-      pending: 'Screenshots are refreshed with every published version.',
+      items: [
+        {
+          title: 'The deck',
+          body: 'Large buttons, telemetry up top and navigation at the bottom. It all fits in one hand.',
+          alt: 'NexoDeck deck in landscape with audio, capture and PC control buttons, plus CPU, RAM, ping and network telemetry.',
+        },
+        {
+          title: 'Portrait',
+          body: 'The same deck rearranges itself when you rotate the phone.',
+          alt: 'NexoDeck deck in portrait with a twelve-button grid and telemetry across the top.',
+        },
+        {
+          title: 'The PC panel',
+          body: 'Build profiles, buttons and live previews from the local panel, with no account and no cloud.',
+          alt: 'NexoDeck configuration panel on the PC with profiles, button grid and phone preview.',
+        },
+      ],
     },
     privacy: {
       title: 'Privacy and security',
