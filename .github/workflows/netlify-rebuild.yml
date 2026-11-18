@@ -3,6 +3,7 @@ name: Rebuild landing on release
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read

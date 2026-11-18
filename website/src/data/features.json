@@ -1,0 +1,7 @@
+{
+  "windows": true,
+  "pwa": true,
+  "android": true,
+  "multiPc": true,
+  "usb": true
+}

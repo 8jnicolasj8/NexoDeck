@@ -26,7 +26,9 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 
 ### Corregido
 - El workflow de Android vuelve a compilar el APK: el plugin de assets se resuelve como CommonJS y `acquireMulticast` declara el tipo de retorno que espera Expo.
-- `installer/build.ps1` publica `SHA256SUMS.txt` para el instalador y el portable; el workflow de Android lo completa con el APK antes de adjuntarlo al release.
+- `installer/build.ps1` publica `SHA256SUMS.txt` para el instalador y el portable; el workflow de Android espera ese archivo, le agrega el APK y publica un único listado combinado.
+- El servidor arranca en una instalación nueva aunque todavía no exista `config.json`; si el archivo falta, cae al respaldo o a la configuración por defecto.
+- El APK sin keystore propio se compila como release firmado con la clave de depuración, para que incluya el bundle y se instale sin Metro.
 
 ### Compatibilidad
 - La PWA y el iPhone siguen funcionando con el protocolo v1 sin cambios.
