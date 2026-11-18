@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NexoDeck panel screenshot wrapper</title>
+    <style>
+      html, body { margin: 0; padding: 0; background: #0a0c0f; overflow: hidden; }
+      iframe { display: block; border: 0; }
+    </style>
+  </head>
+  <body>
+    <iframe id="shot" src="http://127.0.0.1:47802/admin"></iframe>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const width = params.get('w') || 1440;
+      const height = params.get('h') || 900;
+      const frame = document.getElementById('shot');
+      frame.style.width = width + 'px';
+      frame.style.height = height + 'px';
+      document.documentElement.style.width = width + 'px';
+      document.documentElement.style.height = height + 'px';
+      document.body.style.width = width + 'px';
+      document.body.style.height = height + 'px';
+    </script>
+  </body>
+</html>

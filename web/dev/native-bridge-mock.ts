@@ -33,18 +33,34 @@ const HOSTS = [
   },
 ];
 
-const icons = ['volume-2', 'play', 'skip-back', 'skip-forward', 'camera', 'monitor', 'activity', 'lock', 'music', 'headphones', 'terminal', 'mic-off'];
+const demoButtons = [
+  { label: 'Silenciar', icon: 'volume-x', kind: 'mute.toggle', binding: 'demo.state' },
+  { label: 'Play / pausa', icon: 'play', kind: 'media' },
+  { label: 'Anterior', icon: 'skip-back', kind: 'media' },
+  { label: 'Siguiente', icon: 'skip-forward', kind: 'media' },
+  { label: 'Captura', icon: 'camera', kind: 'hotkey' },
+  { label: 'Escritorio', icon: 'monitor', kind: 'hotkey' },
+  { label: 'Tareas', icon: 'activity', kind: 'hotkey' },
+  { label: 'Bloquear PC', icon: 'lock', kind: 'power' },
+  { label: 'Música', icon: 'music', kind: 'launch' },
+  { label: 'Audífonos', icon: 'headphones', kind: 'audio.device' },
+  { label: 'Terminal', icon: 'terminal', kind: 'launch' },
+  { label: 'Micrófono', icon: 'mic', kind: 'mute.toggle', binding: 'demo.state' },
+];
 
 function buildConfig(host: (typeof HOSTS)[number]) {
-  const buttons = Array.from({ length: host.profile.buttons }, (_, index) => ({
-    id: `${host.id}-b${index}`,
-    type: index % 4 === 3 ? 'toggle' : 'action',
-    label: icons[index % icons.length],
-    icon: { kind: 'lucide', value: icons[index % icons.length] },
-    pos: { row: Math.floor(index / host.profile.cols), col: index % host.profile.cols },
-    action: { kind: 'hotkey', params: { keys: ['ctrl', 'a'] } },
-    stateBinding: index % 4 === 3 ? 'demo.state' : undefined,
-  }));
+  const buttons = Array.from({ length: host.profile.buttons }, (_, index) => {
+    const demo = demoButtons[index % demoButtons.length];
+    return {
+      id: `${host.id}-b${index}`,
+      type: demo.binding ? 'toggle' : 'action',
+      label: demo.label,
+      icon: { kind: 'lucide', value: demo.icon },
+      pos: { row: Math.floor(index / host.profile.cols), col: index % host.profile.cols },
+      action: { kind: demo.kind, params: { keys: ['ctrl', 'a'] } },
+      stateBinding: demo.binding,
+    };
+  });
 
   return {
     version: 3,
@@ -59,6 +75,7 @@ function buildConfig(host: (typeof HOSTS)[number]) {
         name: host.profile.name,
         accent: host.profile.accent,
         grid: { cols: host.profile.cols, rows: host.profile.rows },
+        gridPortrait: { cols: host.profile.cols, rows: host.profile.rows },
         pages: [{ id: 'p1', name: 'Principal', buttons }],
         match: { processes: [] },
       },
@@ -84,8 +101,10 @@ const send = (payload: unknown) => {
   window.__nexodeckReceive?.(JSON.stringify(payload));
 };
 
+let activeHostId = HOSTS[0].id;
+
 const emitHosts = () => {
-  send({ k: 'hosts', list: HOSTS, activeId: HOSTS[0].id });
+  send({ k: 'hosts', list: HOSTS, activeId: activeHostId });
 };
 
 // The web client posts here when it runs inside a real WebView.
@@ -122,7 +141,9 @@ window.ReactNativeWebView = {
     }
 
     if (message.k === 'switchHost') {
-      send({ k: 'hostStatus', host: message.host, status: 'connected', transport: 'lan', latencyMs: 6 });
+      activeHostId = message.host;
+      const host = HOSTS.find((item) => item.id === activeHostId);
+      send({ k: 'hostStatus', host: activeHostId, status: 'connected', transport: host?.transport ?? 'lan', latencyMs: host?.latencyMs ?? 6 });
       emitHosts();
       return;
     }
@@ -148,10 +169,11 @@ setInterval(() => {
           m: {
             'cpu.load': 20 + Math.round(Math.random() * 30),
             'cpu.temp': 45 + Math.round(Math.random() * 12),
-            'gpu.temp': host.id === 'pc-oficina' ? 88 : 55 + Math.round(Math.random() * 10),
+            'gpu.temp': 55 + Math.round(Math.random() * 10),
             'ram.used': 40 + Math.round(Math.random() * 20),
             'net.down': Math.round(Math.random() * 900),
             'net.up': Math.round(Math.random() * 200),
+            'ping.app': 8 + Math.round(Math.random() * 10),
           },
         },
       },
