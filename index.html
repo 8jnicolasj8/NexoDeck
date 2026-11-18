@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenDeck — Tu celular, convertido en un Stream Deck</title>
+    <title>NexoDeck — Tu celular, convertido en un Stream Deck</title>
     <meta
       name="description"
       content="Botonera macro, telemetría y portapapeles para Windows desde el celular. 100 % local, por tu Wi-Fi, sin cuentas ni nube. Gratis y open source."
@@ -11,16 +11,16 @@
     <meta name="theme-color" content="#080A0C" />
     <meta name="color-scheme" content="dark" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="OpenDeck — Tu celular, convertido en un Stream Deck" />
+    <meta property="og:title" content="NexoDeck — Tu celular, convertido en un Stream Deck" />
     <meta
       property="og:description"
       content="Botonera macro, telemetría y portapapeles para Windows desde el celular. 100 % local, por tu Wi-Fi, sin cuentas ni nube."
     />
     <!-- Al publicar en Netlify, reemplazá el src por la URL absoluta del sitio. -->
-    <meta property="og:image" content="assets/opendeck-icon.png" />
+    <meta property="og:image" content="assets/nexodeck-icon.png" />
     <meta name="twitter:card" content="summary" />
-    <link rel="icon" href="assets/opendeck-icon.png" />
-    <link rel="apple-touch-icon" href="assets/opendeck-icon.png" />
+    <link rel="icon" href="assets/nexodeck-icon.png" />
+    <link rel="apple-touch-icon" href="assets/nexodeck-icon.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -29,7 +29,7 @@
     <header class="nav" id="nav">
       <div class="wrap nav-inner">
         <a class="brand" href="#top">
-          <img src="assets/opendeck-icon.png" alt="" width="34" height="34" />
+          <img src="assets/nexodeck-icon.png" alt="" width="34" height="34" />
           <span>Open<b>Deck</b></span>
         </a>
         <nav class="nav-links" id="navLinks">
@@ -52,29 +52,32 @@
         <div class="wrap hero-inner">
           <div class="hero-copy">
             <p class="pill" data-reveal>
-              <span class="pill-dot"></span> v0.2.1 · Windows 10 y 11
+              <span class="pill-dot"></span> v0.3.0 · Windows 10 y 11 · App Android
             </p>
             <h1 data-reveal>
               Tu celular, convertido en un <span class="grad">Stream Deck</span>.
             </h1>
             <p class="lead" data-reveal>
-              OpenDeck pone tus atajos, el volumen, el portapapeles y la telemetría de la PC en una
+              NexoDeck pone tus atajos, el volumen, el portapapeles y la telemetría de la PC en una
               botonera táctil. Todo por tu Wi-Fi: sin cuentas, sin nube y sin que nada salga de tu
               red.
             </p>
             <div class="hero-cta" data-reveal>
-              <a class="btn btn-primary" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-Setup-0.2.1.exe">
+              <a class="btn btn-primary" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-Setup-0.3.0.exe">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
                 Descargar instalador <span class="btn-size">66 MB</span>
               </a>
-              <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-0.2.1-portable.zip">
+              <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-0.3.0-portable.zip">
                 Versión portable <span class="btn-size">98 MB</span>
+              </a>
+              <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-Android.apk">
+                App Android <span class="btn-size">APK</span>
               </a>
             </div>
             <ul class="hero-facts" data-reveal>
               <li>Gratis y open source (MIT)</li>
               <li>~9 MB de RAM en reposo</li>
-              <li>Sin instalar nada en el celular</li>
+              <li>App Android o PWA: elegí</li>
             </ul>
           </div>
 
@@ -241,6 +244,39 @@
 
             <article class="card" data-reveal>
               <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 22h8"/><path d="M12 18v4"/><path d="M7 11h2l2 3 2-6 2 3h2"/></svg>
+              </div>
+              <h3>Varias PCs a la vez</h3>
+              <p>
+                La app Android mantiene hasta cinco PCs conectadas y cambia de una a otra con un
+                toque. Cada una muestra su nombre, su color y su propia botonera.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></svg>
+              </div>
+              <h3>Encendé la PC desde el celular</h3>
+              <p>
+                Con Wake-on-LAN activo, la app manda el paquete mágico y la PC arranca aunque esté
+                apagada. Sin nube de por medio: todo sale de tu red local.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12v5a6 6 0 0 1-12 0Z"/><path d="M12 19v3"/></svg>
+              </div>
+              <h3>También por cable (USB)</h3>
+              <p>
+                Si el WiFi está saturado o apagado, la app puede ir por el cable con ADB: sin
+                instalar certificados y con la latencia más baja de todas.
+              </p>
+            </article>
+
+            <article class="card" data-reveal>
+              <div class="card-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               </div>
               <h3>Telemetría en vivo</h3>
@@ -307,7 +343,7 @@
           <ol class="step-list">
             <li data-reveal>
               <span class="step-n">01</span>
-              <h3>Instalá OpenDeck</h3>
+              <h3>Instalá NexoDeck</h3>
               <p>
                 El instalador crea la tarea de arranque sin UAC, abre el firewall en redes privadas y
                 te deja elegir dónde guardar la configuración. ¿Sin instalar nada? Usá el portable.
@@ -367,7 +403,7 @@
             <details data-reveal>
               <summary>¿Necesito internet para usarlo?</summary>
               <p>
-                No. OpenDeck funciona entero dentro de tu red local: si se cae internet, la botonera
+                No. NexoDeck funciona entero dentro de tu red local: si se cae internet, la botonera
                 sigue andando igual.
               </p>
             </details>
@@ -411,21 +447,24 @@
 
       <section class="final" id="descargar">
         <div class="wrap final-inner" data-reveal>
-          <img src="assets/opendeck-icon.png" alt="" width="64" height="64" />
+          <img src="assets/nexodeck-icon.png" alt="" width="64" height="64" />
           <h2>Probalo esta noche</h2>
           <p>
             Se instala en un minuto y no toca nada de tu sistema más que una tarea de arranque y una
             regla de firewall.
           </p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-Setup-0.2.1.exe">
+            <a class="btn btn-primary" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-Setup-0.3.0.exe">
               Descargar instalador <span class="btn-size">66 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/OpenDeck/releases/latest/download/OpenDeck-0.2.1-portable.zip">
+            <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-0.3.0-portable.zip">
               Versión portable <span class="btn-size">98 MB</span>
             </a>
+            <a class="btn btn-ghost" href="https://github.com/8jnicolasj8/NexoDeck/releases/latest/download/NexoDeck-Android.apk">
+              App Android <span class="btn-size">APK</span>
+            </a>
           </div>
-          <small>Windows 10/11 · v0.2.1 · MIT</small>
+          <small>Windows 10/11 · Android 8+ · v0.3.0 · MIT</small>
         </div>
       </section>
     </main>
@@ -434,7 +473,7 @@
       <div class="wrap footer-inner">
         <div class="footer-brand">
           <a class="brand" href="#top">
-            <img src="assets/opendeck-icon.png" alt="" width="30" height="30" />
+            <img src="assets/nexodeck-icon.png" alt="" width="30" height="30" />
             <span>Open<b>Deck</b></span>
           </a>
           <p>Botonera macro y telemetría por LAN para Windows.</p>
@@ -444,24 +483,24 @@
           <a href="#funciones">Funciones</a>
           <a href="#como-funciona">Cómo funciona</a>
           <a href="#descargar">Descargar</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/releases">Todos los releases</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/releases">Todos los releases</a>
         </div>
         <div class="footer-col">
           <h4>Documentación</h4>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/README.md">README</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/docs/ARQUITECTURA.md">Arquitectura</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/docs/PROTOCOLO.md">Protocolo</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/CHANGELOG.md">Changelog</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/README.md">README</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/docs/ARQUITECTURA.md">Arquitectura</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/docs/PROTOCOLO.md">Protocolo</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/CHANGELOG.md">Changelog</a>
         </div>
         <div class="footer-col">
           <h4>Legal</h4>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/LICENSE">Licencia MIT</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/SECURITY.md">Seguridad</a>
-          <a href="https://github.com/8jnicolasj8/OpenDeck/blob/main/THIRD-PARTY-NOTICES.md">Terceros</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/LICENSE">Licencia MIT</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/SECURITY.md">Seguridad</a>
+          <a href="https://github.com/8jnicolasj8/NexoDeck/blob/main/THIRD-PARTY-NOTICES.md">Terceros</a>
         </div>
       </div>
       <div class="wrap footer-bottom">
-        <span>© <span id="year">2026</span> OpenDeck</span>
+        <span>© <span id="year">2026</span> NexoDeck</span>
         <span>Hecho para Windows, manejado desde el celular.</span>
       </div>
     </footer>
