@@ -1,5 +1,5 @@
 #define MyAppName "OpenDeck"
-#define MyAppVersion "0.2.0"
+#define MyAppVersion "0.2.1"
 #define MyAppPublisher "OpenDeck"
 #define MyAppExeName "OpenDeck.Server.exe"
 #define MyPublishDir "..\server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"

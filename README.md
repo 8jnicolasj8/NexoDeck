@@ -16,6 +16,11 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 - **Scripts Seguros (.vbs)**: Ejecución de scripts locales con lista blanca estricta y protección contra path-traversal.
 - **Panel de Configuración Completo**: Editor visual de grilla, creador de perfiles y botones, vinculación de procesos y exportación/importación en una ventana nativa WebView2.
 
+### Novedades en 0.2.1
+- **Botonera navegable**: flechas para cambiar de página y de perfil directo desde el celular, sin abrir el panel.
+- **Perfil temporal**: elegir un perfil en la botonera no lo fija; el auto-switching retoma al cambiar de app.
+- **Landing con descargas**: página de presentación lista para publicar, con enlaces al último release.
+
 ### Novedades en 0.2.0
 - **Editor por selectores**: cada acción se elige y configura con selectores, presets de atajos, grabador de teclas y selectores de app, proceso, dispositivo de audio, script, página y perfil. Ya no se escriben valores técnicos a mano y el estado del botón se deduce solo.
 - **Botones arrastrables**: mové un botón a cualquier celda, intercambiá dos botones o soltalo sobre otra pestaña, con deshacer (`Ctrl+Z`) y soporte de teclado.
@@ -28,13 +33,13 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `OpenDeck-Setup-0.2.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `OpenDeck-Setup-0.2.1.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `OpenDeck-0.2.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `OpenDeck-0.2.1-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
 
 ---
 
@@ -53,7 +58,7 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `OpenDeck-Setup-0.2.0.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `OpenDeck-Setup-0.2.1.exe` en la carpeta `dist/`.
 
 ---
 

@@ -26,6 +26,10 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
 
+    /// <summary>Versión pública del ensamblado; única fuente para el panel y la PWA.</summary>
+    internal static string AppVersion =>
+        typeof(LocalServer).Assembly.GetName().Version is { } v ? $"{v.Major}.{v.Minor}.{v.Build}" : "0.0.0";
+
     private sealed class WindowWrapper : IWin32Window
     {
         private readonly IntPtr _hwnd;
@@ -281,9 +285,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         _app.MapGet("/api/health", () => Results.Json(new
         {
             status = "ok",
-            version = typeof(LocalServer).Assembly.GetName().Version is { } v
-                ? $"{v.Major}.{v.Minor}.{v.Build}"
-                : "0.0.0"
+            version = AppVersion
         }));
         _app.MapPost("/api/admin/show-window", () => { TrayApplicationContext.Current?.ShowWindow(); return Results.Ok(); });
         _app.MapGet("/api/admin/overview", () => Results.Json(new { config = _config.Read(), ip = GetLanAddress(), ports = new[] { _config.Read().Server.HttpPort, _config.Read().Server.HttpsPort, 47802 }, connectedDevices = _sessions.Count, dataDir = _dataDir, running = true }));
@@ -676,7 +678,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                     var initialStates = _audio.GetInitialStates();
                     var lastClipboard = _clipboard.GetHistory().FirstOrDefault()?.Text;
                     var nowPlaying = _nowPlaying.CurrentState;
-                    response = new { v = 1, t = "welcome", id, d = new { config = safeConfig, activeProfileId = defaultProf, pinned = isPinned, states = initialStates, clipboard = lastClipboard, nowPlaying, serverVersion = "0.2.0" } };
+                    response = new { v = 1, t = "welcome", id, d = new { config = safeConfig, activeProfileId = defaultProf, pinned = isPinned, states = initialStates, clipboard = lastClipboard, nowPlaying, serverVersion = AppVersion } };
                 }
                 else if (kind == "ping" && deviceId is not null)
                 {

@@ -3,6 +3,19 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.2.1] - 2026-11-18
+
+### Agregado
+- **Navegación en la botonera**: flechas para cambiar de página y de perfil desde el celular, sin volver al panel (`DeckNav`).
+- **Cambio de perfil sin fijar**: elegir un perfil desde el celular es temporal; el auto-switching retoma al cambiar de app. Disponible por WebSocket (`profile.select`) y como acciones del panel (`profile.switch`, `profile.next`, `profile.prev`).
+- **Acciones de página**: `page.next`, `page.prev` y `page.goto`, para moverte entre páginas con cualquier botón.
+- **Landing pública**: página de presentación con funciones, requisitos, privacidad y descargas directas al último release.
+
+### Cambiado
+- Proyecto, instalador, paquete portable y panel suben a **0.2.1**.
+- El paquete portable toma la versión del proyecto al empaquetarse, así el `.zip`, el instalador y el panel no se desincronizan.
+- El mensaje de bienvenida por WebSocket informa la versión real del servidor en lugar de un valor fijo.
+
 ## [0.2.0] - 2026-11-17
 
 ### Agregado
