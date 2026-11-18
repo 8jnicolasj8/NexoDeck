@@ -29,14 +29,15 @@ class NexoDeckNetModule : Module() {
     }
 
     AsyncFunction("acquireMulticast") {
-      val context = appContext.reactContext ?: return@AsyncFunction
-      if (multicastLock != null) return@AsyncFunction
+      val context = appContext.reactContext
+      if (context == null || multicastLock != null) return@AsyncFunction null
       val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as? WifiManager
-        ?: return@AsyncFunction
+      if (wifi == null) return@AsyncFunction null
       val lock = wifi.createMulticastLock("nexodeck-mdns")
       lock.setReferenceCounted(false)
       lock.acquire()
       multicastLock = lock
+      null
     }
 
     AsyncFunction("releaseMulticast") {
