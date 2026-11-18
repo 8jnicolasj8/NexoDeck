@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# Sin esto el token del workflow no puede crear el release en los tags.
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
