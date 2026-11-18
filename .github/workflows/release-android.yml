@@ -78,9 +78,11 @@ jobs:
               -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
             echo "APK_PATH=app/build/outputs/apk/release/app-release.apk" >> "$GITHUB_ENV"
           else
-            # Sin keystore no hay APK firmado instalable: se publica el build de depuración.
-            ./gradlew assembleDebug
-            echo "APK_PATH=app/build/outputs/apk/debug/app-debug.apk" >> "$GITHUB_ENV"
+            # Sin keystore propio, Expo firma el release con la clave de
+            # depuración. Se usa release igual: el APK incluye el bundle JS y
+            # se instala solo, mientras que un build debug necesita Metro.
+            ./gradlew assembleRelease
+            echo "APK_PATH=app/build/outputs/apk/release/app-release.apk" >> "$GITHUB_ENV"
           fi
 
       - name: Name the APK
