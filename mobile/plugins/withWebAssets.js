@@ -1,8 +1,8 @@
-import { ConfigPlugin, withDangerousMod } from 'expo/config-plugins';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'fs';
-import { join } from 'path';
+const { withDangerousMod } = require('expo/config-plugins');
+const { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } = require('fs');
+const { join } = require('path');
 
-const copyDirectory = (source: string, target: string) => {
+const copyDirectory = (source, target) => {
   mkdirSync(target, { recursive: true });
   for (const entry of readdirSync(source)) {
     const from = join(source, entry);
@@ -15,8 +15,11 @@ const copyDirectory = (source: string, target: string) => {
 /**
  * Copies web/dist-native into android/app/src/main/assets/web so the WebView
  * can load file:///android_asset/web/index.html without any network access.
+ *
+ * This is a plain CommonJS config plugin because Expo resolves plugins with
+ * Node's require(), which does not load TypeScript files (not even on CI).
  */
-const withWebAssets: ConfigPlugin = (config) =>
+const withWebAssets = (config) =>
   withDangerousMod(config, [
     'android',
     async (modConfig) => {
@@ -33,4 +36,4 @@ const withWebAssets: ConfigPlugin = (config) =>
     },
   ]);
 
-export default withWebAssets;
+module.exports = withWebAssets;

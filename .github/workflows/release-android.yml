@@ -48,7 +48,7 @@ jobs:
         working-directory: web
 
       - name: Install mobile dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
         working-directory: mobile
 
       - name: Typecheck and test protocol vectors

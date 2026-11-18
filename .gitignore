@@ -60,3 +60,7 @@ NEXODECK_PENDIENTES_PROMPT.md
 
 # --- Astro generado ---
 website/.astro/
+
+# --- Expo local ---
+.expo/
+**/.expo/
