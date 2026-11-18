@@ -24,6 +24,10 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 - Proyecto, instalador, PWA, app y landing suben a **0.3.0**. El instalador agrega la regla de firewall UDP 5353 para mDNS.
 - La landing muestra la app Android, Wake-on-LAN, multi-PC y la conexión USB.
 
+### Corregido
+- El workflow de Android vuelve a compilar el APK: el plugin de assets se resuelve como CommonJS y `acquireMulticast` declara el tipo de retorno que espera Expo.
+- `installer/build.ps1` publica `SHA256SUMS.txt` para el instalador y el portable; el workflow de Android lo completa con el APK antes de adjuntarlo al release.
+
 ### Compatibilidad
 - La PWA y el iPhone siguen funcionando con el protocolo v1 sin cambios.
 - `/admin` sigue accesible solo desde `127.0.0.1:47802`.

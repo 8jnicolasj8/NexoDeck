@@ -50,7 +50,7 @@ NexoDeck-Android.apk
 SHA256SUMS.txt
 ```
 
-(`installer/build.ps1` ya genera las copias estables; el workflow de Android publica el APK y el `SHA256SUMS.txt`.)
+(`installer/build.ps1` genera las copias estables y su `SHA256SUMS.txt`; el workflow de Android agrega el APK y fusiona ambos listados antes de adjuntarlos al release.)
 
 ## Verificación local
 

@@ -77,6 +77,26 @@ if ($isccPath) {
     Write-Warning "Inno Setup compiler (ISCC.exe) not found. Installer generation skipped."
 }
 
+# 5. Checksums for the release assets
+Write-Host "`n5. Writing SHA256SUMS.txt..." -ForegroundColor Yellow
+$checksumNames = @(
+    "NexoDeck-$appVersion-portable.zip",
+    "NexoDeck-Portable.zip",
+    "NexoDeck-Setup-$appVersion.exe",
+    "NexoDeck-Setup.exe"
+)
+$checksumLines = @()
+foreach ($name in $checksumNames) {
+    $file = Join-Path $distDir $name
+    if (-not (Test-Path $file)) { continue }
+    $hash = (Get-FileHash -Path $file -Algorithm SHA256).Hash.ToLowerInvariant()
+    $checksumLines += "$hash  $name"
+}
+if ($checksumLines.Count -eq 0) { throw "No se generaron artefactos para calcular el SHA-256." }
+$checksumFile = Join-Path $distDir "SHA256SUMS.txt"
+$checksumLines | Set-Content -Path $checksumFile -Encoding ascii
+Write-Host "  -> Checksums written to: $checksumFile" -ForegroundColor Green
+
 Write-Host "`n=============================================" -ForegroundColor Green
 Write-Host " BUILD & PACKAGING COMPLETE!" -ForegroundColor Green
 Write-Host " Artifacts in: $distDir" -ForegroundColor Green

@@ -89,7 +89,7 @@ jobs:
           mkdir -p artifacts
           cp "mobile/android/$APK_PATH" "artifacts/NexoDeck-Android-${VERSION}.apk"
           cp "artifacts/NexoDeck-Android-${VERSION}.apk" artifacts/NexoDeck-Android.apk
-          cd artifacts && sha256sum *.apk > SHA256SUMS.txt
+          cd artifacts && sha256sum *.apk > SHA256SUMS-android.txt
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -97,8 +97,33 @@ jobs:
           name: nexodeck-android
           path: artifacts/*
 
+      # El release de Windows lo crea ci.yml en paralelo. Esperamos su
+      # SHA256SUMS.txt para publicar un único archivo con los cuatro assets.
+      - name: Merge SHA-256 checksums
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p release-sums
+          for attempt in $(seq 1 20); do
+            if gh release download "$GITHUB_REF_NAME" --pattern SHA256SUMS.txt --dir release-sums --clobber 2>/dev/null; then
+              break
+            fi
+            sleep 15
+          done
+
+          cat artifacts/SHA256SUMS-android.txt > artifacts/SHA256SUMS.txt
+          if [ -f release-sums/SHA256SUMS.txt ]; then
+            cat release-sums/SHA256SUMS.txt >> artifacts/SHA256SUMS.txt
+          fi
+          sort -u -k2 artifacts/SHA256SUMS.txt -o artifacts/SHA256SUMS.txt
+          rm artifacts/SHA256SUMS-android.txt
+          cat artifacts/SHA256SUMS.txt
+
       - name: Attach to GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/*
+          files: |
+            artifacts/*.apk
+            artifacts/SHA256SUMS.txt
