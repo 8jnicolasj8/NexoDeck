@@ -1,0 +1,18 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+import { copy } from '../../i18n';
+
+const g = copy.en.guides.smartscreen;
+---
+
+<GuideLayout
+  lang="en"
+  path="/en/smartscreen/"
+  altPath="/guia-smartscreen/"
+  title={g.title}
+  lead={g.lead}
+  steps={g.steps}
+  back={g.back}
+  hashTitle={g.hashTitle}
+  hashBody={g.hashBody}
+/>

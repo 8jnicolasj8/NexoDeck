@@ -1,0 +1,46 @@
+---
+import { brand } from '../lib/brand';
+import { copy, type Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = copy[lang];
+const home = lang === 'es' ? '/' : '/en/';
+const guide = lang === 'es' ? '/guia-iphone/' : '/en/iphone-guide/';
+const smart = lang === 'es' ? '/guia-smartscreen/' : '/en/smartscreen/';
+---
+
+<footer class="mt-24 border-t border-line bg-panel/40">
+  <div class="mx-auto max-w-6xl px-5 py-12">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <img src="/logo-mark.png" alt="" width="26" height="26" />
+          <span class="font-semibold">{brand.name}</span>
+        </div>
+        <p class="mt-3 max-w-sm text-sm text-muted">{t.footer.made}</p>
+        <p class="mt-4 max-w-md text-xs leading-relaxed text-muted/80">{t.footer.trademark}</p>
+      </div>
+      <nav aria-label={t.footer.guides} class="text-sm">
+        <h2 class="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{t.footer.guides}</h2>
+        <ul class="space-y-2">
+          <li><a class="text-muted hover:text-ink" href={guide}>{t.footer.iphoneGuide}</a></li>
+          <li><a class="text-muted hover:text-ink" href={smart}>{t.footer.smartScreen}</a></li>
+          <li><a class="text-muted hover:text-ink" href={`${home}#preguntas`}>{t.nav.faq}</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Open source" class="text-sm">
+        <h2 class="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Open source</h2>
+        <ul class="space-y-2">
+          <li><a class="text-muted hover:text-ink" href={brand.repo} rel="noopener">GitHub</a></li>
+          <li><a class="text-muted hover:text-ink" href={`${brand.repo}/blob/main/LICENSE`} rel="noopener">{t.footer.license}</a></li>
+          <li><a class="text-muted hover:text-ink" href={`${brand.repo}/blob/main/SECURITY.md`} rel="noopener">{t.footer.security}</a></li>
+          <li><a class="text-muted hover:text-ink" href={`${brand.repo}/issues`} rel="noopener">Issues</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="mt-10 flex flex-col gap-2 border-t border-line/70 pt-6 text-xs text-muted/70 sm:flex-row sm:items-center sm:justify-between">
+      <span>© {new Date().getFullYear()} {brand.name}</span>
+      <span class="font-mono">{t.hero.terminal}</span>
+    </div>
+  </div>
+</footer>

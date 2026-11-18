@@ -1,0 +1,189 @@
+---
+import { brand, flags } from '../lib/brand';
+import { copy, type Lang } from '../i18n';
+import DownloadCards from './DownloadCards.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = copy[lang];
+const home = lang === 'es' ? '/' : '/en/';
+const guide = lang === 'es' ? '/guia-iphone/' : '/en/iphone-guide/';
+const isOn = (flag?: 'android' | 'multiPc' | 'usb') => (flag ? flags[flag] : true);
+---
+
+<section class="relative overflow-hidden border-b border-line/60">
+  <div class="pointer-events-none absolute inset-0 grid-noise" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl gap-12 px-5 pb-16 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pb-24 lg:pt-20">
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-accent">{t.hero.eyebrow}</p>
+      <h1 class="mt-5 max-w-xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-[3.4rem]">
+        {t.hero.title}
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-muted">{t.hero.lead}</p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href={`${home}#descargas`} class="glow rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90">
+          {t.hero.primary}
+        </a>
+        {flags.android ? (
+          <a href={`${home}#descargas`} class="rounded-xl border border-line px-5 py-3 text-sm font-semibold transition-colors hover:border-muted/60">
+            {t.hero.secondary}
+          </a>
+        ) : (
+          <span class="cursor-not-allowed rounded-xl border border-line px-5 py-3 text-sm font-semibold text-muted/60">
+            {t.hero.secondary} · {t.hero.soon}
+          </span>
+        )}
+        <a href={guide} class="text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline">
+          {t.hero.iphone}
+        </a>
+      </div>
+
+      <p class="mt-8 font-mono text-xs text-muted">
+        <span class="text-accent">$</span> {t.hero.terminal}
+      </p>
+    </div>
+
+    <div class="relative mx-auto w-full max-w-[560px]" aria-hidden="true">
+      <div class="absolute -inset-6 -z-10 rounded-[3rem] bg-accent/10 blur-3xl"></div>
+      <div class="rounded-[2rem] border border-line bg-panel p-3 shadow-2xl">
+        <div class="overflow-hidden rounded-[1.4rem] border border-line/80 bg-bg p-4">
+          <div class="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-muted">
+            <span>{brand.name}</span>
+            <span class="flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-accent"></span>LAN</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div class:list={[
+                'flex aspect-square items-center justify-center rounded-xl border',
+                i === 2 || i === 7 ? 'border-accent/70 bg-accent/15' : 'border-line bg-panel/80',
+              ]}>
+                <span class:list={['h-1.5 w-1.5 rounded-full', i === 2 || i === 7 ? 'bg-accent' : 'bg-line']}></span>
+              </div>
+            ))}
+          </div>
+          <div class="mt-4 grid grid-cols-4 gap-2">
+            {[62, 38, 84, 51].map((value) => (
+              <div class="rounded-lg border border-line bg-panel/60 px-2 py-2">
+                <div class="h-1 rounded-full bg-line">
+                  <div class="h-1 rounded-full bg-accent/80" style={`width:${value}%`}></div>
+                </div>
+                <span class="mt-1.5 block font-mono text-[9px] text-muted">{value}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
+  <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.steps.title}</h2>
+  <p class="mt-3 max-w-2xl text-muted">{t.steps.lead}</p>
+  <ol class="mt-10 grid gap-4 md:grid-cols-3">
+    {t.steps.items.map((step) => (
+      <li class="card p-6">
+        <span class="font-mono text-xs text-accent">{step.n}</span>
+        <h3 class="mt-3 text-lg font-semibold">{step.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted">{step.body}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section id="funciones" class="scroll-mt-20 border-y border-line/60 bg-panel/30">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.features.title}</h2>
+    <p class="mt-3 max-w-2xl text-muted">{t.features.lead}</p>
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {t.features.items.map((feature) => {
+        const on = isOn(feature.flag);
+        return (
+          <li class:list={['card p-5', !on && 'opacity-70']}>
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="font-semibold leading-snug">{feature.title}</h3>
+              {!on && (
+                <span class="shrink-0 rounded-full border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted">
+                  {t.features.soon}
+                </span>
+              )}
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-muted">{feature.body}</p>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-5 py-20">
+  <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.gallery.title}</h2>
+  <p class="mt-3 max-w-2xl text-muted">{t.gallery.lead}</p>
+  <div class="mt-10 grid gap-4 md:grid-cols-3">
+    {['deck', 'panel', 'perfiles'].map((item, index) => (
+      <div class="card flex flex-col justify-between gap-10 p-5">
+        <span class="font-mono text-xs text-accent">0{index + 1}</span>
+        <div>
+          <h3 class="text-lg font-semibold capitalize">{item}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">{t.gallery.pending}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section id="privacidad" class="scroll-mt-20 border-y border-line/60 bg-panel/30">
+  <div class="mx-auto max-w-6xl px-5 py-20">
+    <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.privacy.title}</h2>
+    <p class="mt-4 max-w-3xl text-lg text-ink">{t.privacy.lead}</p>
+    <div class="mt-10 grid gap-4 md:grid-cols-3">
+      {t.privacy.points.map((point) => (
+        <article class="card p-5">
+          <h3 class="font-semibold">{point.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">{point.body}</p>
+        </article>
+      ))}
+    </div>
+    <p class="mt-6 max-w-3xl border-l-2 border-accent/50 pl-4 text-sm leading-relaxed text-muted">{t.privacy.note}</p>
+  </div>
+</section>
+
+<DownloadCards lang={lang} />
+
+<section class="mx-auto max-w-6xl px-5 py-8">
+  <h2 class="text-2xl font-semibold tracking-tight">{t.requirements.title}</h2>
+  <ul class="mt-5 grid gap-3 md:grid-cols-3">
+    {t.requirements.items.map((item) => (
+      <li class="card px-4 py-3 text-sm text-muted">{item}</li>
+    ))}
+  </ul>
+</section>
+
+<section id="preguntas" class="mx-auto max-w-4xl scroll-mt-20 px-5 py-20">
+  <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.faq.title}</h2>
+  <div class="mt-8 divide-y divide-line rounded-2xl border border-line">
+    {t.faq.items.map((item) => (
+      <details class="group px-5 py-4">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
+          {item.q}
+          <span class="font-mono text-accent transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <p class="mt-3 text-sm leading-relaxed text-muted">{item.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<section class="mx-auto max-w-6xl px-5 pb-8">
+  <div class="card flex flex-col items-start justify-between gap-5 p-6 sm:flex-row sm:items-center">
+    <div>
+      <h2 class="text-xl font-semibold">{t.openSource.title}</h2>
+      <p class="mt-2 max-w-2xl text-sm text-muted">{t.openSource.body}</p>
+    </div>
+    <div class="flex shrink-0 flex-wrap gap-2">
+      <a href={brand.repo} rel="noopener" class="rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-black hover:opacity-90">{t.openSource.cta}</a>
+      <a href={`${brand.repo}/blob/main/CONTRIBUTING.md`} rel="noopener" class="rounded-lg border border-line px-4 py-2.5 text-sm font-semibold hover:border-muted/60">{t.openSource.contribute}</a>
+      <a href={`${brand.repo}/blob/main/LICENSE`} rel="noopener" class="rounded-lg border border-line px-4 py-2.5 text-sm font-semibold hover:border-muted/60">{t.openSource.license}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,127 @@
+---
+import { assetNames, flags } from '../lib/brand';
+import { assetUrl, formatBytes, formatDate, getRelease } from '../lib/release';
+import { copy, type Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = copy[lang];
+const release = await getRelease();
+
+const availability: Record<string, boolean> = {
+  installer: flags.windows,
+  portable: flags.windows,
+  apk: flags.android,
+  pwa: flags.pwa,
+};
+
+const hrefs: Record<string, string> = {
+  installer: assetUrl(release, assetNames.installer),
+  portable: assetUrl(release, assetNames.portable),
+  apk: assetUrl(release, assetNames.apk),
+  pwa: lang === 'es' ? '/guia-iphone/' : '/en/iphone-guide/',
+};
+
+const info = (key: string) => {
+  const name = key === 'installer' ? assetNames.installer : key === 'portable' ? assetNames.portable : key === 'apk' ? assetNames.apk : '';
+  return name ? release?.assets[name] : undefined;
+};
+
+const cards = t.downloads.cards.map((card) => ({
+  ...card,
+  href: hrefs[card.key],
+  available: availability[card.key],
+  asset: info(card.key),
+}));
+---
+
+<section id="descargas" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">{t.downloads.title}</h2>
+      <p class="mt-3 max-w-2xl text-muted">{t.downloads.lead}</p>
+    </div>
+    {release && (
+      <a href={release.notesUrl} rel="noopener" class="font-mono text-xs text-muted underline-offset-4 hover:text-accent hover:underline">
+        {t.downloads.version} {release.version} · {t.downloads.notes}
+      </a>
+    )}
+  </div>
+
+  {!release && <p class="mt-6 rounded-lg border border-line bg-panel px-4 py-3 text-sm text-muted">{t.downloads.noRelease}</p>}
+
+  <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    {cards.map((card) => (
+      <article class="card flex flex-col p-5">
+        <div class="flex items-start justify-between gap-3">
+          <h3 class="font-semibold">{card.title}</h3>
+          {!card.available && (
+            <span class="rounded-full border border-line px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">
+              {t.downloads.soon}
+            </span>
+          )}
+        </div>
+        <p class="mt-1.5 text-sm text-muted">{card.body}</p>
+
+        {card.asset && (
+          <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1 font-mono text-[11px] text-muted">
+            <div class="flex justify-between gap-2"><dt>{t.downloads.size}</dt><dd class="text-ink/80">{formatBytes(card.asset.size)}</dd></div>
+            {release?.publishedAt && (
+              <div class="flex justify-between gap-2"><dt>{t.downloads.date}</dt><dd class="text-ink/80">{formatDate(release.publishedAt, lang)}</dd></div>
+            )}
+          </dl>
+        )}
+
+        {card.asset?.hash && (
+          <div class="mt-3 flex items-center gap-2">
+            <code class="min-w-0 flex-1 truncate rounded-md border border-line bg-bg px-2 py-1.5 font-mono text-[10px] text-muted" title={card.asset.hash}>
+              {card.asset.hash.slice(0, 20)}…
+            </code>
+            <button
+              type="button"
+              data-copy={card.asset.hash}
+              data-copied={t.downloads.copied}
+              class="shrink-0 rounded-md border border-line px-2.5 py-1.5 text-[11px] text-muted transition-colors hover:border-accent/60 hover:text-accent"
+            >
+              {t.downloads.copy}
+            </button>
+          </div>
+        )}
+
+        {card.available ? (
+          <a
+            href={card.href}
+            rel="noopener"
+            class:list={[
+              'mt-5 inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90',
+              card.key === 'pwa' ? 'border border-line text-ink' : 'bg-accent text-black',
+            ]}
+          >
+            {card.cta}
+          </a>
+        ) : (
+          <span class="mt-5 inline-flex cursor-not-allowed items-center justify-center rounded-lg border border-line px-4 py-2.5 text-sm font-semibold text-muted/60">
+            {t.downloads.soon}
+          </span>
+        )}
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const value = button.dataset.copy || '';
+      const label = button.textContent;
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = button.dataset.copied || 'Copied';
+        setTimeout(() => {
+          button.textContent = label;
+        }, 1500);
+      } catch {
+        window.prompt('SHA-256', value);
+      }
+    });
+  });
+</script>

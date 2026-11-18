@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NexoDeck · loop-hero</title>
+    <link rel="stylesheet" href="assets/base.css" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      #root {
+        width: 1920px;
+        height: 1080px;
+      }
+      .center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 18px;
+        padding: 120px;
+        opacity: 0.55;
+      }
+      .cell {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(15, 20, 26, 0.55);
+      }
+      .cell.on {
+        border-color: rgba(0, 255, 156, 0.5);
+        background: rgba(0, 255, 156, 0.1);
+      }
+      .glow {
+        position: absolute;
+        width: 900px;
+        height: 900px;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(0, 255, 156, 0.14), transparent 65%);
+        filter: blur(10px);
+      }
+      .logo {
+        width: 340px;
+        height: 340px;
+        position: relative;
+      }
+      .wordmark {
+        position: relative;
+        font-size: 54px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .wordmark em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .term {
+        position: relative;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 18px;
+        letter-spacing: 0.18em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="loop"
+      data-start="0"
+      data-duration="9"
+      data-width="1920"
+      data-height="1080"
+      data-fps="30"
+    >
+      <div class="grid" id="grid">
+        <div class="cell on"></div><div class="cell"></div><div class="cell"></div><div class="cell on"></div>
+        <div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell on"></div><div class="cell"></div>
+        <div class="cell on"></div><div class="cell"></div><div class="cell"></div><div class="cell on"></div>
+        <div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+        <div class="cell"></div><div class="cell"></div><div class="cell on"></div><div class="cell"></div>
+        <div class="cell on"></div><div class="cell"></div><div class="cell"></div><div class="cell on"></div>
+        <div class="cell"></div><div class="cell on"></div><div class="cell"></div><div class="cell"></div>
+      </div>
+      <div class="center">
+        <div class="glow" id="glow"></div>
+        <img class="logo" src="assets/logo-mark.png" alt="" />
+        <div class="wordmark">Nexo<em>Deck</em></div>
+        <div class="term">link established</div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // Seamless: every tween starts and ends on the same values.
+      tl.fromTo('#glow', { opacity: 0.55, scale: 0.96 }, { opacity: 1, scale: 1.04, duration: 4.5, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 0)
+        .fromTo('.logo', { y: 6 }, { y: -6, duration: 4.5, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 0)
+        .fromTo('.cell.on', { opacity: 0.45 }, { opacity: 1, duration: 1.5, stagger: { each: 0.18, yoyo: true, repeat: 1 }, ease: 'sine.inOut' }, 0)
+        .fromTo('#grid', { scale: 1 }, { scale: 1.02, duration: 4.5, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 0);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['loop'] = tl;
+    </script>
+  </body>
+</html>

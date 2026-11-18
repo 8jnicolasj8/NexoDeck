@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nexodeck-app.netlify.app/sitemap-index.xml

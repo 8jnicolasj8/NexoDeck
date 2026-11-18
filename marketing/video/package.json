@@ -1,0 +1,15 @@
+{
+  "name": "nexodeck-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "npx --yes hyperframes@0.8.222 preview",
+    "check": "npx --yes hyperframes@0.8.222 check",
+    "render:promo": "npx --yes hyperframes@0.8.222 render -c index.html -o out/promo-hero.mp4",
+    "render:tiktok": "npx --yes hyperframes@0.8.222 render -c tiktok-main.html -o out/tiktok-main.mp4",
+    "render:loop": "npx --yes hyperframes@0.8.222 render -c loop-hero.html -o out/loop-hero.mp4"
+  },
+  "dependencies": {
+    "gsap": "3.13.0"
+  }
+}

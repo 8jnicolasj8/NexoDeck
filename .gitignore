@@ -20,6 +20,12 @@ landing/video/
 *.mp4
 *.webm
 
+# --- proyecto de video de marketing ---
+marketing/video/node_modules/
+marketing/video/.hyperframes/
+marketing/video/.qa/
+marketing/footage/*.mp4
+
 # --- documentos usados como prompt ---
 NEXODECK_v0.2_PROMPT.md
 NEXODECK_BLUEPRINT.md
@@ -50,3 +56,7 @@ web/dist-native/
 *.jks
 NEXODECK_v0.3_PROMPT.md
 NEXODECK_LANZAMIENTO_PROMPT.md
+NEXODECK_PENDIENTES_PROMPT.md
+
+# --- Astro generado ---
+website/.astro/

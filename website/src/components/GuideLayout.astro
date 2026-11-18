@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { copy, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  path: string;
+  altPath: string;
+  title: string;
+  lead: string;
+  steps: string[];
+  back: string;
+  note?: string;
+  hashTitle?: string;
+  hashBody?: string;
+  hash?: string;
+}
+
+const { lang, path, altPath, title, lead, steps, back, note, hashTitle, hashBody, hash } = Astro.props;
+const t = copy[lang];
+const home = lang === 'es' ? '/' : '/en/';
+---
+
+<Layout lang={lang} path={path} altPath={altPath} title={`${title} — NexoDeck`} description={lead}>
+  <article class="mx-auto max-w-3xl px-5 py-16">
+    <a href={home} class="font-mono text-xs text-muted hover:text-accent">← {back}</a>
+    <h1 class="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>
+    <p class="mt-4 text-lg leading-relaxed text-muted">{lead}</p>
+
+    <ol class="mt-10 space-y-4">
+      {steps.map((step, index) => (
+        <li class="card flex gap-4 p-5">
+          <span class="mt-0.5 font-mono text-xs text-accent">{String(index + 1).padStart(2, '0')}</span>
+          <p class="text-sm leading-relaxed text-muted">{step}</p>
+        </li>
+      ))}
+    </ol>
+
+    {note && <p class="mt-6 border-l-2 border-accent-alt/60 pl-4 text-sm leading-relaxed text-muted">{note}</p>}
+
+    {hashTitle && (
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold">{hashTitle}</h2>
+        <p class="mt-2 text-sm text-muted">{hashBody}</p>
+        <pre class="mt-4 overflow-x-auto rounded-xl border border-line bg-panel p-4 font-mono text-xs text-ink"><code>{hash || 'Get-FileHash .\\NexoDeck-Setup.exe -Algorithm SHA256'}</code></pre>
+      </section>
+    )}
+
+    <a href={`${home}#descargas`} class="mt-10 inline-flex rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-black hover:opacity-90">
+      {t.hero.primary}
+    </a>
+  </article>
+</Layout>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NexoDeck · tiktok-main (animático)</title>
+    <link rel="stylesheet" href="assets/base.css" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      #root {
+        width: 1080px;
+        height: 1920px;
+      }
+      .scene {
+        padding: 150px 120px 380px 90px;
+      }
+      .caption {
+        font-size: 84px;
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        text-align: left;
+      }
+      .caption em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .sub {
+        margin-top: 26px;
+        font-size: 34px;
+        color: var(--muted);
+      }
+      .clipbox {
+        width: 100%;
+        height: 720px;
+        margin-top: 46px;
+      }
+      .logo {
+        width: 300px;
+        height: 300px;
+      }
+      .safe {
+        position: absolute;
+        inset: 150px 120px 380px 90px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 20px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="tiktok"
+      data-start="0"
+      data-duration="25"
+      data-width="1080"
+      data-height="1920"
+      data-fps="30"
+    >
+      <section class="scene" id="t1">
+        <div class="safe">
+          <span class="badge"><span class="dot"></span>100% local</span>
+          <h1 class="caption" style="margin-top: 28px">Tu celu ya es un <em>Stream Deck</em>.</h1>
+          <div class="clipbox">
+            <span class="tag">grabación pendiente</span>
+            <span class="file">01-deck-horizontal.mp4</span>
+            <span class="hint">Encendido + pulso de luz</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="t2">
+        <div class="safe">
+          <h2 class="caption">¿Todavía te acordás de <em>los atajos</em>?</h2>
+          <div class="clipbox" style="height: 560px">
+            <span class="tag">grabación pendiente</span>
+            <span class="file">02-autoswitch.mp4</span>
+            <span class="hint">Alt+Tab caótico en la PC</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="t3">
+        <div class="safe">
+          <h2 class="caption">Cambia sola según <em>la app que usás</em>.</h2>
+          <div class="clipbox" style="height: 620px">
+            <span class="tag">grabación pendiente</span>
+            <span class="file">02-autoswitch.mp4</span>
+            <span class="hint">Pantalla dividida sincronizada</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="t4">
+        <div class="safe">
+          <h2 class="caption">CPU, GPU, RAM y volumen <em>en vivo</em>.</h2>
+          <div class="clipbox" style="height: 620px">
+            <span class="tag">grabación pendiente</span>
+            <span class="file">03-slider-volumen.mp4</span>
+            <span class="hint">Medidores + slider + Now Playing</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="t5">
+        <div class="safe">
+          <h2 class="caption">Textos rápidos.<br />Botones <em>a tu gusto</em>.</h2>
+          <div class="clipbox" style="height: 600px">
+            <span class="tag">grabación pendiente</span>
+            <span class="file">04-portapapeles.mp4</span>
+            <span class="hint">Snippet + panel con arrastrar</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="scene" id="t6">
+        <div class="safe" style="align-items: center; text-align: center">
+          <img class="logo" src="assets/logo-mark.png" alt="" />
+          <h2 class="caption" style="margin-top: 40px; text-align: center">Gratis · Open source<br /><em>100 % local</em></h2>
+          <p class="mono" style="margin-top: 34px; font-size: 30px; color: var(--accent)">link en la bio</p>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      ['t1', 't2', 't3', 't4', 't5', 't6'].forEach((id) => {
+        document.getElementById(id).style.opacity = id === 't1' ? 1 : 0;
+      });
+
+      const tl = gsap.timeline({ paused: true });
+
+      tl.from('#t1 .badge', { y: 16, opacity: 0, duration: 0.35 }, 0.1)
+        .from('#t1 .caption', { y: 30, opacity: 0, duration: 0.5 }, 0.2)
+        .from('#t1 .clipbox', { opacity: 0, scale: 0.97, duration: 0.5 }, 0.5)
+        .to('#t1', { opacity: 0, duration: 0.25 }, 1.9);
+
+      tl.set('#t2', { opacity: 1 }, 2)
+        .from('#t2 .caption', { y: 24, opacity: 0, duration: 0.45 }, 2.1)
+        .from('#t2 .clipbox', { opacity: 0, duration: 0.4 }, 2.4)
+        .to('#t2', { opacity: 0, duration: 0.25 }, 4.8);
+
+      tl.set('#t3', { opacity: 1 }, 5)
+        .from('#t3 .caption', { y: 24, opacity: 0, duration: 0.45 }, 5.1)
+        .from('#t3 .clipbox', { opacity: 0, duration: 0.45 }, 5.4)
+        .to('#t3', { opacity: 0, duration: 0.25 }, 10.8);
+
+      tl.set('#t4', { opacity: 1 }, 11)
+        .from('#t4 .caption', { y: 24, opacity: 0, duration: 0.45 }, 11.1)
+        .from('#t4 .clipbox', { opacity: 0, duration: 0.45 }, 11.4)
+        .to('#t4', { opacity: 0, duration: 0.25 }, 14.8);
+
+      tl.set('#t5', { opacity: 1 }, 15)
+        .from('#t5 .caption', { y: 24, opacity: 0, duration: 0.45 }, 15.1)
+        .from('#t5 .clipbox', { opacity: 0, duration: 0.45 }, 15.4)
+        .to('#t5', { opacity: 0, duration: 0.25 }, 18.8);
+
+      tl.set('#t6', { opacity: 1 }, 19)
+        .from('#t6 .logo', { scale: 0.9, opacity: 0, duration: 0.6 }, 19.1)
+        .from('#t6 .caption', { y: 26, opacity: 0, duration: 0.55 }, 19.4)
+        .from('#t6 .mono', { y: 16, opacity: 0, duration: 0.4 }, 19.8)
+        .to({}, { duration: 5 }, 20);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines['tiktok'] = tl;
+    </script>
+  </body>
+</html>
