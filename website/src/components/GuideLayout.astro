@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { brand } from '../lib/brand';
 import { copy, type Lang } from '../i18n';
 
 interface Props {
@@ -21,7 +22,7 @@ const t = copy[lang];
 const home = lang === 'es' ? '/' : '/en/';
 ---
 
-<Layout lang={lang} path={path} altPath={altPath} title={`${title} — NexoDeck`} description={lead}>
+<Layout lang={lang} path={path} altPath={altPath} title={`${title} — ${brand.name}`} description={lead}>
   <article class="mx-auto max-w-3xl px-5 py-16">
     <a href={home} class="font-mono text-xs text-muted hover:text-accent">← {back}</a>
     <h1 class="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h1>

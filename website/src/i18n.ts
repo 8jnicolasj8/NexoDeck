@@ -1,3 +1,5 @@
+import { brand } from './lib/brand';
+
 export type Lang = 'es' | 'en';
 
 export interface Copy {
@@ -45,7 +47,7 @@ export interface Copy {
   notFound: { title: string; lead: string; back: string };
 }
 
-export const copy: Record<Lang, Copy> = {
+const rawCopy: Record<Lang, Copy> = {
   es: {
     htmlLang: 'es-AR',
     title: 'NexoDeck — Usá tu celular como botonera para la PC',
@@ -359,3 +361,17 @@ export const copy: Record<Lang, Copy> = {
     notFound: { title: 'We could not find that page', lead: 'The link may have changed.', back: 'Back to home' },
   },
 };
+
+/** Replaces the literal brand name with the value from brand.json, recursively. */
+function withBrand<T>(value: T, name: string): T {
+  if (typeof value === 'string') return value.replaceAll('NexoDeck', name) as unknown as T;
+  if (Array.isArray(value)) return value.map((item) => withBrand(item, name)) as unknown as T;
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, withBrand(item, name)]),
+    ) as T;
+  }
+  return value;
+}
+
+export const copy: Record<Lang, Copy> = withBrand(rawCopy, brand.name);

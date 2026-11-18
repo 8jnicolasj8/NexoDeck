@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { copy } from '../i18n';
+import { brand } from '../lib/brand';
 
 const t = copy.es.thanks;
 ---
 
-<Layout lang="es" path="/gracias/" altPath="/en/thanks/" title={`${t.title} — NexoDeck`} noindex>
+<Layout lang="es" path="/gracias/" altPath="/en/thanks/" title={`${t.title} — ${brand.name}`} noindex>
   <article class="mx-auto max-w-2xl px-5 py-20">
     <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">descarga iniciada</p>
     <h1 class="mt-4 text-3xl font-semibold tracking-tight">{t.title}</h1>

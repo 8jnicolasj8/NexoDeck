@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { copy } from '../i18n';
+import { brand } from '../lib/brand';
 
 const t = copy.es.notFound;
 ---
 
-<Layout lang="es" path="/404.html" altPath="/en/" title={`404 — NexoDeck`} noindex>
+<Layout lang="es" path="/404.html" altPath="/en/" title={`404 — ${brand.name}`} noindex>
   <section class="mx-auto flex max-w-2xl flex-col items-start px-5 py-24">
     <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">404</p>
     <h1 class="mt-4 text-3xl font-semibold tracking-tight">{t.title}</h1>
