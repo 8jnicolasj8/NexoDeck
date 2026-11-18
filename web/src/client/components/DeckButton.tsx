@@ -41,6 +41,8 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (disabled) return;
+    // Ignore taps right after changing PC so nothing runs on the wrong machine.
+    if (!useDeckStore.getState().canAcceptInput()) return;
 
     if (isReordering) {
       onClickInReorder?.();

@@ -1,0 +1,7 @@
+{
+  "name": "nexodeck-net",
+  "version": "1.0.0",
+  "description": "Wake-on-LAN, multicast lock and local subnet helpers for NexoDeck",
+  "main": "index.ts",
+  "private": true
+}

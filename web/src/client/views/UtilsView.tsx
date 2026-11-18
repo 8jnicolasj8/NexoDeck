@@ -19,6 +19,11 @@ import {
   Check,
 } from 'lucide-react';
 
+const activePcName = () => {
+  const state = useDeckStore.getState();
+  return state.hosts[state.activeHostId]?.pcName || 'la PC';
+};
+
 export const UtilsView: React.FC = () => {
   const {
     triggerHaptic,
@@ -292,7 +297,7 @@ export const UtilsView: React.FC = () => {
 
           <button
             onClick={() => {
-              if (window.confirm('¿Reiniciar la PC? (Se inicia cuenta regresiva de 5 s)')) {
+              if (window.confirm(`¿Reiniciar ${activePcName()}? (Se inicia cuenta regresiva de 5 s)`)) {
                 handleSystemAction('restart');
               }
             }}
@@ -304,7 +309,7 @@ export const UtilsView: React.FC = () => {
 
           <button
             onClick={() => {
-              if (window.confirm('¿Apagar la PC? (Se inicia cuenta regresiva de 5 s)')) {
+              if (window.confirm(`¿Apagar ${activePcName()}? (Se inicia cuenta regresiva de 5 s)`)) {
                 handleSystemAction('shutdown');
               }
             }}

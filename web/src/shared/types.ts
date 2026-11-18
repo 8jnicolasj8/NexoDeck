@@ -100,8 +100,17 @@ export interface AlertConfig {
   cooldownSec?: number;
 }
 
+export interface HostIdentity {
+  serverId: string;
+  pcName?: string;
+  pcColor?: string;
+  pcIcon?: string;
+}
+
 export interface AppConfig {
   version: number;
+  revision?: number;
+  host?: HostIdentity;
   server: ServerConfig;
   devices: DeviceConfig[];
   defaultProfileId: string;

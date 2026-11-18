@@ -3,6 +3,31 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.3.0] - 2026-11-18
+
+### Agregado
+- **App Android nativa** (`mobile/`, Expo + Kotlin): shell con WebView que empaqueta el mismo cliente web, protocolo v2 firmado y conexión directa por `ws://` sin instalar certificados.
+- **Varias PCs**: hasta cinco conexiones simultáneas y una activa. Chip de PC en la barra superior, hoja "Mis PCs", swipe para cambiar, caché por PC y alertas de PCs en segundo plano.
+- **Conexión por USB**: `adb reverse` desde el panel (opt-in), con instalación del APK y emparejamiento por cable. ADB solo se descarga si el usuario lo pide.
+- **Descubrimiento automático**: `/api/ident`, responder mDNS `_nexodeck._tcp` y barrido de subred bajo demanda para encontrar la PC cuando cambia la IP.
+- **Wake-on-LAN**: la app enciende la PC apagada con un magic packet desde Android; el panel muestra la MAC, permite probar el paquete y documenta los requisitos de BIOS/Windows.
+- **Esta PC**: `serverId` estable, nombre, color e ícono editables, con botón para regenerar la identidad.
+- **Emparejamiento con dos pestañas** en el panel: "Android (app)" (QR v2 + enlace copiable) e "iPhone / navegador" (QR v1).
+- **Vectores compartidos** `docs/protocol-v2-vectors.json` verificados por C# (`--verify-v2`) y por Jest.
+- **Documentación**: `docs/ANDROID.md`, `docs/PRUEBAS.md`, `docs/IDEAS.md` y protocolo v2 en `docs/PROTOCOLO.md`.
+- **Workflow** `release-android.yml` para compilar y firmar el APK en cada tag.
+
+### Cambiado
+- `config.json` sube a versión 3 (identidad de la PC, `revision`, dispositivos v2 con clave protegida por DPAPI). La migración es automática.
+- El cliente web pasa a una capa de transporte (`BrowserTransport` / `NativeTransport`) y el store indexa el estado por `serverId`.
+- Los diálogos de apagado/reinicio incluyen el nombre de la PC y los toques se ignoran durante 250 ms al cambiar de PC.
+- Proyecto, instalador, PWA, app y landing suben a **0.3.0**. El instalador agrega la regla de firewall UDP 5353 para mDNS.
+- La landing muestra la app Android, Wake-on-LAN, multi-PC y la conexión USB.
+
+### Compatibilidad
+- La PWA y el iPhone siguen funcionando con el protocolo v1 sin cambios.
+- `/admin` sigue accesible solo desde `127.0.0.1:47802`.
+
 ## [0.2.1] - 2026-11-18
 
 ### Agregado
@@ -48,4 +73,4 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 - **M6**: Portapapeles bidireccional PC ↔ Celular con historial en memoria, widget Now Playing (GSMTC), acciones seguras de energía (apagar con confirmación) y ejecución de scripts `.vbs` con lista blanca.
 - **M7**: Panel de configuración integral en WebView2 con editor visual de grillas, modal de edición de botones, vinculación de procesos y exportación/importación de `config.json`.
 - **M8**: Alertas hápticas de temperatura (>85°C), animación de arranque tipo terminal, atenuación automática por inactividad, modo OLED, modo reordenar botones desde el celular y soporte PWA.
-- **M9**: Script de instalación Inno Setup 6 (`installer/OpenDeck.iss`), empaquetador automático (`installer/build.ps1`), distribución portable `.zip` y documentación completa.
+- **M9**: Script de instalación Inno Setup 6 (`installer/NexoDeck.iss`), empaquetador automático (`installer/build.ps1`), distribución portable `.zip` y documentación completa.

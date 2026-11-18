@@ -1,7 +1,7 @@
 <#
-  OpenDeck - RAM measurement tool (Milestone E0/E5).
+  NexoDeck - RAM measurement tool (Milestone E0/E5).
 
-  Reports the private working set ("Working Set - Private") of opendeck.server.exe
+  Reports the private working set ("Working Set - Private") of nexodeck.server.exe
   and every msedgewebview2.exe owned by it, in three scenarios:
 
     A  Panel window open.
@@ -14,7 +14,7 @@
   Examples:
     .\tools\measure-ram.ps1 -Scenario All
     .\tools\measure-ram.ps1 -Scenario B -Samples 5 -IntervalMs 2000
-    .\tools\measure-ram.ps1 -Scenario All -ExePath .\server\src\OpenDeck.Server\bin\Release\...\OpenDeck.Server.exe
+    .\tools\measure-ram.ps1 -Scenario All -ExePath .\server\src\NexoDeck.Server\bin\Release\...\NexoDeck.Server.exe
 #>
 [CmdletBinding()]
 param(
@@ -34,12 +34,12 @@ $repoRoot = (Get-Item (Join-Path $PSScriptRoot '..')).FullName
 if (-not $ExePath) {
     # Prefer the self-contained publish: the debug build needs the .NET 8 runtime installed.
     $candidates = @(
-        (Join-Path $repoRoot 'server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\OpenDeck.Server.exe'),
-        (Join-Path $repoRoot 'server\src\OpenDeck.Server\bin\Debug\net8.0-windows10.0.19041.0\OpenDeck.Server.exe')
+        (Join-Path $repoRoot 'server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe'),
+        (Join-Path $repoRoot 'server\src\NexoDeck.Server\bin\Debug\net8.0-windows10.0.19041.0\NexoDeck.Server.exe')
     )
     $ExePath = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
 }
-if (-not $ExePath -or -not (Test-Path $ExePath)) { throw "OpenDeck.Server.exe not found. Build it or pass -ExePath." }
+if (-not $ExePath -or -not (Test-Path $ExePath)) { throw "NexoDeck.Server.exe not found. Build it or pass -ExePath." }
 $ExePath = (Resolve-Path $ExePath).Path
 if (-not $DataDir) { $DataDir = Join-Path $repoRoot '.measure-data' }
 $DataDir = [System.IO.Path]::GetFullPath($DataDir)
@@ -47,8 +47,8 @@ $DataDir = [System.IO.Path]::GetFullPath($DataDir)
 $exeName = [System.IO.Path]::GetFileNameWithoutExtension($ExePath).ToLowerInvariant()
 
 # --- Win32 helpers -----------------------------------------------------------
-if (-not ('OpenDeck.Measure.Native' -as [type])) {
-    Add-Type -Namespace OpenDeck.Measure -Name Native -MemberDefinition @'
+if (-not ('NexoDeck.Measure.Native' -as [type])) {
+    Add-Type -Namespace NexoDeck.Measure -Name Native -MemberDefinition @'
 [System.Runtime.InteropServices.DllImport("user32.dll")]
 public static extern bool PostMessage(System.IntPtr hWnd, uint Msg, System.IntPtr wParam, System.IntPtr lParam);
 [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -116,7 +116,7 @@ function Wait-Health([int]$TimeoutSec = 45) {
             if ($r.status -eq 'ok') { return $r }
         } catch { Start-Sleep -Milliseconds 400 }
     }
-    throw 'OpenDeck server did not become healthy on port 47802.'
+    throw 'NexoDeck server did not become healthy on port 47802.'
 }
 
 function Close-MainWindow($Process) {
@@ -129,7 +129,7 @@ function Close-MainWindow($Process) {
         }
     }
     if ($hwnd -eq [IntPtr]::Zero) { throw 'Main window handle not found.' }
-    [void][OpenDeck.Measure.Native]::PostMessage($hwnd, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) # WM_CLOSE
+    [void][NexoDeck.Measure.Native]::PostMessage($hwnd, 0x0010, [IntPtr]::Zero, [IntPtr]::Zero) # WM_CLOSE
     Start-Sleep -Seconds 2
 }
 
@@ -179,9 +179,9 @@ function Measure-Scenario([string]$Name, [int]$RootPid) {
 
 # --- Main --------------------------------------------------------------------
 $running = Get-Process -Name $exeName -ErrorAction SilentlyContinue
-if ($running) { throw "OpenDeck is already running (PID $($running[0].Id)). Close it before measuring." }
+if ($running) { throw "NexoDeck is already running (PID $($running[0].Id)). Close it before measuring." }
 
-Write-Host "OpenDeck RAM measurement" -ForegroundColor Cyan
+Write-Host "NexoDeck RAM measurement" -ForegroundColor Cyan
 Write-Host "  exe      : $ExePath"
 Write-Host "  data dir : $DataDir"
 Write-Host "  samples  : $Samples x $IntervalMs ms"
@@ -225,7 +225,7 @@ try {
     Write-Host ''
     Write-Host "### $title" -ForegroundColor Green
     Write-Host ''
-    Write-Host '| Escenario | opendeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |'
+    Write-Host '| Escenario | nexodeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |'
     Write-Host '|---|---:|---:|---:|---:|'
     foreach ($r in $results) {
         Write-Host ("| {0} | {1} | {2} | {3} | {4} |" -f $r.Scenario, $r.ServerMb, $r.EdgeCount, $r.EdgeMb, $r.TotalMb)
@@ -234,7 +234,7 @@ try {
 finally {
     if ($ws) { try { $ws.Dispose() } catch { } }
     if ($proc -and -not $proc.HasExited) {
-        Write-Host "`nStopping OpenDeck (PID $($proc.Id))..."
+        Write-Host "`nStopping NexoDeck (PID $($proc.Id))..."
         try { $proc.CloseMainWindow() | Out-Null } catch { }
         Start-Sleep -Seconds 2
         if (-not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }

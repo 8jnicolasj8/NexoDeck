@@ -1,4 +1,4 @@
-name: OpenDeck CI & Release
+name: NexoDeck CI & Release
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           npm --prefix web run build
 
       - name: Build .NET Server Solution
-        run: dotnet build server/src/OpenDeck.Server/OpenDeck.Server.csproj -c Release
+        run: dotnet build server/src/NexoDeck.Server/NexoDeck.Server.csproj -c Release
 
       - name: Run Build & Packaging Script
         shell: powershell
@@ -50,7 +50,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: OpenDeck-Release-Binaries
+          name: NexoDeck-Release-Binaries
           path: dist/*
 
       - name: Create GitHub Release (On Tag)

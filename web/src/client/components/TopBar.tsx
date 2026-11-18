@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDeckStore } from '../store/useDeckStore';
 import { deckSocket } from '../ws/deckSocket';
 import { ActiveTab } from '../../shared/types';
 import { Lock, Unlock, LayoutGrid, Wrench, Layers, Settings } from 'lucide-react';
+import { PcChip } from './PcChip';
 
 interface TopBarProps {
   isLandscape: boolean;
@@ -17,9 +18,21 @@ export const TopBar: React.FC<TopBarProps> = ({ isLandscape }) => {
     ping,
     activeTab,
     setActiveTab,
+    hostOrder,
+    activeHostId,
+    nativeMode,
   } = useDeckStore();
 
   const profile = getActiveProfile();
+  const touchStartX = useRef<number | null>(null);
+
+  const cycleHost = (direction: 1 | -1) => {
+    if (!nativeMode || hostOrder.length < 2) return;
+    const index = hostOrder.indexOf(activeHostId);
+    if (index < 0) return;
+    const next = (index + direction + hostOrder.length) % hostOrder.length;
+    deckSocket.switchHost(hostOrder[next]);
+  };
 
   const handleTogglePin = () => {
     deckSocket.pinProfile(pinned ? null : activeProfileId);
@@ -41,9 +54,21 @@ export const TopBar: React.FC<TopBarProps> = ({ isLandscape }) => {
   };
 
   return (
-    <header className="h-10 min-h-[40px] max-h-10 px-3 flex items-center justify-between border-b border-border bg-surface select-none z-20 text-xs">
-      {/* Left: Profile Chip */}
-      <div className="flex items-center gap-1.5">
+    <header
+      className="h-10 min-h-[40px] max-h-10 px-3 flex items-center justify-between border-b border-border bg-surface select-none z-20 text-xs"
+      onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }}
+      onTouchEnd={(event) => {
+        const start = touchStartX.current;
+        touchStartX.current = null;
+        if (start === null) return;
+        const delta = (event.changedTouches[0]?.clientX ?? start) - start;
+        if (Math.abs(delta) < 60) return;
+        cycleHost(delta < 0 ? 1 : -1);
+      }}
+    >
+      {/* Left: PC Chip (native) + Profile Chip */}
+      <div className="flex items-center gap-1.5 min-w-0">
+        <PcChip />
         <button
           onClick={handleTogglePin}
           className="flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-border bg-surface-2 hover:border-accent transition-colors"

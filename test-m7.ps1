@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$exePath = "D:\Archivos\Proyectos_personales\OpenDeck\server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\OpenDeck.Server.exe"
-$dataDir = "D:\Archivos\Proyectos_personales\OpenDeck\.verify-data"
+$exePath = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
+$dataDir = "D:\Archivos\Proyectos_personales\NexoDeck\.verify-data"
 
-Write-Host "Starting OpenDeck.Server in background with data-dir $dataDir..."
+Write-Host "Starting NexoDeck.Server in background with data-dir $dataDir..."
 $proc = Start-Process -FilePath $exePath -ArgumentList "--background --dev --data-dir `"$dataDir`"" -PassThru
 
 try {
@@ -12,7 +12,7 @@ try {
     # 1. Test Admin HTML page
     Write-Host "`n1. Testing GET /admin (Admin UI HTML)..."
     $adminHtml = Invoke-RestMethod -Uri "http://127.0.0.1:47802/admin" -Method Get
-    if ($adminHtml -notmatch "OpenDeck") { throw "Admin HTML did not contain 'OpenDeck'" }
+    if ($adminHtml -notmatch "NexoDeck") { throw "Admin HTML did not contain 'NexoDeck'" }
     Write-Host "  -> Admin HTML retrieved OK ($($adminHtml.Length) bytes)"
 
     # 2. Test Overview endpoint
@@ -188,7 +188,7 @@ try {
 }
 finally {
     if ($proc -and -not $proc.HasExited) {
-        Write-Host "Stopping OpenDeck.Server (PID $($proc.Id))..."
+        Write-Host "Stopping NexoDeck.Server (PID $($proc.Id))..."
         $proc.Kill()
         $proc.WaitForExit()
         Write-Host "Stopped."

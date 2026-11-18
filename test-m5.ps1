@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$exePath = "D:\Archivos\Proyectos_personales\OpenDeck\server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\OpenDeck.Server.exe"
-$dataDir = "D:\Archivos\Proyectos_personales\OpenDeck\.verify-data"
+$exePath = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
+$dataDir = "D:\Archivos\Proyectos_personales\NexoDeck\.verify-data"
 
-Write-Host "Starting OpenDeck.Server in background with data-dir $dataDir..."
+Write-Host "Starting NexoDeck.Server in background with data-dir $dataDir..."
 $proc = Start-Process -FilePath $exePath -ArgumentList "--background --dev --data-dir `"$dataDir`"" -PassThru
 
 try {
@@ -143,7 +143,7 @@ try {
 }
 finally {
     if ($proc -and -not $proc.HasExited) {
-        Write-Host "Stopping OpenDeck.Server process (PID: $($proc.Id))..."
+        Write-Host "Stopping NexoDeck.Server process (PID: $($proc.Id))..."
         Stop-Process -Id $proc.Id -Force
     }
 }

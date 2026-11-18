@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDeckStore } from '../store/useDeckStore';
 import { deckSocket } from '../ws/deckSocket';
-import { Wifi, Vibrate, Sun, Maximize, Trash2, Check } from 'lucide-react';
+import { Wifi, Vibrate, Sun, Maximize, Trash2, Check, Monitor, Plus, Usb } from 'lucide-react';
 
 export const SettingsView: React.FC = () => {
   const {
@@ -12,38 +12,45 @@ export const SettingsView: React.FC = () => {
     hapticLevel,
     setHapticLevel,
     triggerHaptic,
+    nativeMode,
+    hosts,
+    hostOrder,
+    activeHostId,
   } = useDeckStore();
 
   const [customHost, setCustomHost] = useState(
-    localStorage.getItem('opendeck_host') || window.location.host
+    localStorage.getItem('nexodeck_host') || window.location.host
   );
   const [hostSaved, setHostSaved] = useState(false);
   const [dimTimeout, setDimTimeout] = useState(
-    localStorage.getItem('opendeck_dim_timeout') || '3'
+    localStorage.getItem('nexodeck_dim_timeout') || '3'
   );
   const [bootAnimEnabled, setBootAnimEnabled] = useState(
-    localStorage.getItem('opendeck_boot_anim') !== 'false'
+    localStorage.getItem('nexodeck_boot_anim') !== 'false'
   );
   const [vibrateAlerts, setVibrateAlerts] = useState(
-    localStorage.getItem('opendeck_vibrate_alerts') !== 'false'
+    localStorage.getItem('nexodeck_vibrate_alerts') !== 'false'
+  );
+  const [preferUsb, setPreferUsb] = useState(
+    localStorage.getItem('nexodeck_prefer_usb') !== 'false'
   );
 
   const handleSetDimTimeout = (val: string) => {
-    localStorage.setItem('opendeck_dim_timeout', val);
+    localStorage.setItem('nexodeck_dim_timeout', val);
     setDimTimeout(val);
     triggerHaptic();
   };
 
   const handleToggleBootAnim = () => {
     const next = !bootAnimEnabled;
-    localStorage.setItem('opendeck_boot_anim', String(next));
+    localStorage.setItem('nexodeck_boot_anim', String(next));
     setBootAnimEnabled(next);
     triggerHaptic();
   };
 
   const handleToggleVibrateAlerts = () => {
     const next = !vibrateAlerts;
-    localStorage.setItem('opendeck_vibrate_alerts', String(next));
+    localStorage.setItem('nexodeck_vibrate_alerts', String(next));
     setVibrateAlerts(next);
     triggerHaptic();
   };
@@ -52,7 +59,7 @@ export const SettingsView: React.FC = () => {
   const [wakeLockSentinel, setWakeLockSentinel] = useState<any>(null);
 
   const handleSaveHost = () => {
-    localStorage.setItem('opendeck_host', customHost.trim());
+    localStorage.setItem('nexodeck_host', customHost.trim());
     setHostSaved(true);
     setTimeout(() => setHostSaved(false), 2000);
     deckSocket.connect();
@@ -60,8 +67,8 @@ export const SettingsView: React.FC = () => {
 
   const handleUnpair = () => {
     if (window.confirm('¿Desvincular este celular de la PC? Vas a tener que volver a escanear el QR.')) {
-      localStorage.removeItem('opendeck_token');
-      localStorage.removeItem('opendeck_host');
+      localStorage.removeItem('nexodeck_token');
+      localStorage.removeItem('nexodeck_host');
       window.location.reload();
     }
   };
@@ -104,6 +111,52 @@ export const SettingsView: React.FC = () => {
   return (
     <div className="w-full h-full overflow-y-auto p-4 flex flex-col gap-5 max-w-xl mx-auto select-none">
       <h2 className="text-lg font-bold text-text">Ajustes</h2>
+
+      {nativeMode && (
+        <section className="bg-surface border border-border rounded-xl p-4 flex flex-col gap-3">
+          <h3 className="text-sm font-semibold text-text flex items-center gap-2">
+            <Monitor size={16} className="text-accent" />
+            Mis PCs
+          </h3>
+          <div className="flex flex-col gap-1.5">
+            {hostOrder.map((id) => {
+              const host = hosts[id];
+              return (
+                <button
+                  key={id}
+                  onClick={() => deckSocket.switchHost(id)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-left text-xs ${
+                    id === activeHostId ? 'border-accent bg-surface-2' : 'border-border bg-surface-2/40'
+                  }`}
+                >
+                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: host.pcColor }} />
+                  <span className="flex-1 truncate">{host.pcName}</span>
+                  <span className="text-[10px] text-muted">{host.transport === 'usb' ? 'USB' : 'WiFi'}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => deckSocket.openAddHost()}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border border-accent/40 bg-accent/10 text-accent text-xs font-semibold"
+            >
+              <Plus size={14} /> Agregar PC
+            </button>
+            <label className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-border bg-surface-2 text-[11px] text-muted">
+              <input
+                type="checkbox"
+                checked={preferUsb}
+                onChange={(event) => {
+                  localStorage.setItem('nexodeck_prefer_usb', String(event.target.checked));
+                  setPreferUsb(event.target.checked);
+                }}
+              />
+              <Usb size={12} /> Preferir USB
+            </label>
+          </div>
+        </section>
+      )}
 
       {/* 1. Conexión */}
       <section className="bg-surface border border-border rounded-xl p-4 flex flex-col gap-3">

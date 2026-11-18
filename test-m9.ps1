@@ -1,17 +1,17 @@
 $ErrorActionPreference = "Stop"
 
-# OpenDeck v0.2.1 regression checks:
+# NexoDeck v0.3.0 regression checks:
 #   1. Grid rules shared by the panel and GridService (Node self-check).
 #   2. Action schema registry completeness.
 #   3. v0.1 -> v0.2 config migration without losing any button.
 #   4. App catalog and icon extraction (IShellItemImageFactory) served by hash.
 
 $repoRoot = (Get-Item $PSScriptRoot).FullName
-$exePath = Join-Path $repoRoot "server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\OpenDeck.Server.exe"
+$exePath = Join-Path $repoRoot "server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
 if (-not (Test-Path $exePath)) { throw "Published exe not found. Run installer/build.ps1 first." }
 
-$running = Get-Process -Name "OpenDeck.Server" -ErrorAction SilentlyContinue
-if ($running) { throw "OpenDeck is already running. Close it before running this test." }
+$running = Get-Process -Name "NexoDeck.Server" -ErrorAction SilentlyContinue
+if ($running) { throw "NexoDeck is already running. Close it before running this test." }
 
 Write-Host "`n1. Grid rules self-check..."
 node (Join-Path $repoRoot "tools\grid-rules-check.js")
@@ -66,7 +66,7 @@ try {
     }
     if (-not $health) { throw "Server did not become healthy on port 47802." }
     Write-Host "  -> health OK, version $($health.version)"
-    if ($health.version -ne "0.2.1") { throw "Expected version 0.2.1, got '$($health.version)'" }
+    if ($health.version -ne "0.3.0") { throw "Expected version 0.3.0, got '$($health.version)'" }
 
     Write-Host "`n2. Action schema registry..."
     $schemas = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/action-schemas"
@@ -119,7 +119,7 @@ try {
     if ($png.Headers["Cache-Control"] -notlike "*immutable*") { throw "Icon cache headers are missing." }
     Write-Host "  -> extracted $($icon.icon) ($($png.RawContentLength) bytes, immutable cache)"
 
-    Write-Host "`nAll v0.2.1 checks passed." -ForegroundColor Green
+    Write-Host "`nAll v0.3.0 checks passed." -ForegroundColor Green
 }
 finally {
     if ($proc -and -not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }

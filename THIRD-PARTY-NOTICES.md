@@ -1,6 +1,6 @@
 # Third-Party Software Notices and Licenses
 
-OpenDeck uses the following open source libraries and components:
+NexoDeck uses the following open source libraries and components:
 
 ---
 

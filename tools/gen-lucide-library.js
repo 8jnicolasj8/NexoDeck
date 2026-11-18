@@ -23,7 +23,7 @@ for (const f of fs.readdirSync(dir)) {
 }
 wanted.sort((a,b)=>a[0].localeCompare(b[0]));
 const out = `/* Lucide icon paths (v0.454.0, ISC) for the panel icon library. Generated subset. */\nwindow.LUCIDE_LIBRARY = ${JSON.stringify(Object.fromEntries(wanted))};\n`;
-fs.writeFileSync(path.join('server','src','OpenDeck.Server','wwwroot','lucideLibrary.js'), out);
+fs.writeFileSync(path.join('server','src','NexoDeck.Server','wwwroot','lucideLibrary.js'), out);
 console.log('icons:', wanted.length, 'bytes:', out.length);
 const missing = [...names].filter(n => !wanted.some(([k])=>k===n));
 console.log('missing:', missing.join(' '));

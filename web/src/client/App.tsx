@@ -6,6 +6,8 @@ import { BottomNav } from './components/BottomNav';
 import { OfflineBanner } from './components/OfflineBanner';
 import { BootAnimation } from './components/BootAnimation';
 import { InactivityDimmer } from './components/InactivityDimmer';
+import { HostsSheet } from './components/HostsSheet';
+import { HostAlertBanner, SwitchToast } from './components/HostOverlays';
 import { DeckView } from './views/DeckView';
 import { UtilsView } from './views/UtilsView';
 import { ProfilesView } from './views/ProfilesView';
@@ -17,8 +19,8 @@ export const App: React.FC = () => {
   );
   const [showBoot, setShowBoot] = useState(() => {
     return (
-      localStorage.getItem('opendeck_boot_anim') !== 'false' &&
-      !sessionStorage.getItem('opendeck_booted')
+      localStorage.getItem('nexodeck_boot_anim') !== 'false' &&
+      !sessionStorage.getItem('nexodeck_booted')
     );
   });
 
@@ -26,7 +28,7 @@ export const App: React.FC = () => {
   const profile = getActiveProfile();
 
   const handleBootComplete = () => {
-    sessionStorage.setItem('opendeck_booted', 'true');
+    sessionStorage.setItem('nexodeck_booted', 'true');
     setShowBoot(false);
   };
 
@@ -77,6 +79,10 @@ export const App: React.FC = () => {
 
       {/* Top Bar (40px) */}
       <TopBar isLandscape={isLandscape} />
+
+      <HostAlertBanner />
+      <SwitchToast />
+      <HostsSheet />
 
       {/* Offline banner notification if disconnected */}
       <OfflineBanner />

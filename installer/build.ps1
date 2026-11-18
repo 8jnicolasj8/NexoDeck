@@ -7,12 +7,12 @@ $distDir = Join-Path $repoRoot "dist"
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
 # La versión sale del csproj para que el zip, el instalador y el panel no se desincronicen.
-$versionMatch = Select-String -Path (Join-Path $repoRoot "server\src\OpenDeck.Server\OpenDeck.Server.csproj") -Pattern '<Version>([^<]+)</Version>'
+$versionMatch = Select-String -Path (Join-Path $repoRoot "server\src\NexoDeck.Server\NexoDeck.Server.csproj") -Pattern '<Version>([^<]+)</Version>'
 if (-not $versionMatch) { throw "No se pudo leer <Version> del csproj." }
 $appVersion = $versionMatch.Matches[0].Groups[1].Value
 
 Write-Host "=============================================" -ForegroundColor Cyan
-Write-Host " OpenDeck Build & Package Script" -ForegroundColor Cyan
+Write-Host " NexoDeck Build & Package Script" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 
 # 1. Build Web PWA Frontend
@@ -22,24 +22,26 @@ if ($LASTEXITCODE -ne 0) { throw "Web build failed." }
 
 # 2. Publish .NET Desktop Server
 Write-Host "`n2. Publishing .NET Server (Release win-x64, self-contained)..." -ForegroundColor Yellow
-dotnet publish server/src/OpenDeck.Server/OpenDeck.Server.csproj -c Release -r win-x64 --self-contained true
+dotnet publish server/src/NexoDeck.Server/NexoDeck.Server.csproj -c Release -r win-x64 --self-contained true
 if ($LASTEXITCODE -ne 0) { throw "Dotnet publish failed." }
 
-$publishDir = Join-Path $repoRoot "server\src\OpenDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
+$publishDir = Join-Path $repoRoot "server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
 
 # 3. Create Portable Zip
 Write-Host "`n3. Creating Portable Package..." -ForegroundColor Yellow
-$portableDir = Join-Path $repoRoot "dist\OpenDeck-portable"
+$portableDir = Join-Path $repoRoot "dist\NexoDeck-portable"
 if (Test-Path $portableDir) { Remove-Item -Recurse -Force $portableDir }
 New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
 
 Copy-Item -Path "$publishDir\*" -Destination $portableDir -Recurse
 New-Item -ItemType File -Force -Path (Join-Path $portableDir "portable.flag") | Out-Null
 
-$portableZip = Join-Path $distDir "OpenDeck-$appVersion-portable.zip"
+$portableZip = Join-Path $distDir "NexoDeck-$appVersion-portable.zip"
 if (Test-Path $portableZip) { Remove-Item -Force $portableZip }
 Compress-Archive -Path "$portableDir\*" -DestinationPath $portableZip -CompressionLevel Optimal
 Remove-Item -Recurse -Force $portableDir
+# Stable name for the landing page: one URL that always points to the latest build.
+Copy-Item -Path $portableZip -Destination (Join-Path $distDir "NexoDeck-Portable.zip") -Force
 Write-Host "  -> Portable ZIP created: $portableZip" -ForegroundColor Green
 
 # 4. Compile Installer with Inno Setup
@@ -66,9 +68,10 @@ foreach ($candidate in $isccCandidates) {
 
 if ($isccPath) {
     Write-Host "  -> Found Inno Setup Compiler at: $isccPath"
-    $issFile = Join-Path $repoRoot "installer\OpenDeck.iss"
+    $issFile = Join-Path $repoRoot "installer\NexoDeck.iss"
     & $isccPath $issFile
     if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
+    Copy-Item -Path (Join-Path $distDir "NexoDeck-Setup-$appVersion.exe") -Destination (Join-Path $distDir "NexoDeck-Setup.exe") -Force
     Write-Host "  -> Installer generated successfully in: $distDir" -ForegroundColor Green
 } else {
     Write-Warning "Inno Setup compiler (ISCC.exe) not found. Installer generation skipped."

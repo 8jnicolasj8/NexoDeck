@@ -9,7 +9,7 @@ export const BootAnimation: React.FC<BootAnimationProps> = ({ onComplete }) => {
 
   useEffect(() => {
     const sequence = [
-      '> OPENDECK INITIALIZING...',
+      '> NEXODECK INITIALIZING...',
       '> LOCAL NETWORK CHANNELS: OK',
       '> ZERO CLOUD DEPENDENCIES: VERIFIED',
       '> LINK ESTABLISHED.'
@@ -42,7 +42,7 @@ export const BootAnimation: React.FC<BootAnimationProps> = ({ onComplete }) => {
     >
       <div className="max-w-md w-full flex flex-col gap-2">
         <div className="text-xs text-muted mb-2 tracking-widest uppercase">
-          OpenDeck · Secuencia de arranque
+          NexoDeck · Secuencia de arranque
         </div>
         {lines.map((l, i) => (
           <div key={i} className="text-accent text-sm md:text-base font-bold tracking-tight">

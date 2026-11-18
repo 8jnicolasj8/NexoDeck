@@ -1,6 +1,6 @@
 # Política de Seguridad / Security Policy
 
-OpenDeck interactúa directamente con el sistema operativo Windows para enviar pulsaciones de teclas, ejecutar scripts y monitorear hardware. Por esta razón, la seguridad y la protección de la máquina local son prioridades absolutas.
+NexoDeck interactúa directamente con el sistema operativo Windows para enviar pulsaciones de teclas, ejecutar scripts y monitorear hardware. Por esta razón, la seguridad y la protección de la máquina local son prioridades absolutas.
 
 ## 🛡️ Principios de diseño de seguridad
 
@@ -18,7 +18,7 @@ OpenDeck interactúa directamente con el sistema operativo Windows para enviar p
 
 ## 🚨 Reportar una vulnerabilidad
 
-Si descubrís una vulnerabilidad de seguridad en OpenDeck:
+Si descubrís una vulnerabilidad de seguridad en NexoDeck:
 
 1. **No abras un issue público** en GitHub.
 2. Enviá un reporte detallado con los pasos de reproducción y el impacto a través de un aviso de seguridad privado en GitHub (Security Advisory) o por correo electrónico a los mantenedores del repositorio.

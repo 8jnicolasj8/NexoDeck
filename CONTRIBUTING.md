@@ -1,6 +1,6 @@
 # Guía de Contribución / Contributing Guidelines
 
-¡Gracias por tu interés en contribuir a OpenDeck!
+¡Gracias por tu interés en contribuir a NexoDeck!
 
 ## 📌 Principios del Proyecto
 
@@ -15,7 +15,7 @@
 1. Clonar el repositorio.
 2. Compilar el backend:
    ```powershell
-   dotnet build server/src/OpenDeck.Server/OpenDeck.Server.csproj
+   dotnet build server/src/NexoDeck.Server/NexoDeck.Server.csproj
    ```
 3. Compilar el frontend web:
    ```powershell

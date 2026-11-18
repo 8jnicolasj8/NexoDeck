@@ -23,7 +23,7 @@ logs formatean fechas y números en español. El servidor idle quedó en 8,8 MB,
 ganancia potencial no justificaba el riesgo de cambiar textos y ordenamientos.
 
 ### M5: `System.GC.ConserveMemory=3`
-Se eligió el valor bajo del rango sugerido (3–5). OpenDeck prioriza la latencia de
+Se eligió el valor bajo del rango sugerido (3–5). NexoDeck prioriza la latencia de
 actions (< 50 ms) sobre el último megabyte: valores más agresivos ceden CPU al GC.
 
 ### M5: E4 acotado a lo que aporta
@@ -81,6 +81,22 @@ control se libera `CoreWebView2` y el entorno nativo se cierra con él; el
 
 ### M9: Instalador y Empaquetado
 
-- Script Inno Setup 6 (`installer/OpenDeck.iss`) para instalación desatendida con creación de reglas de firewall y tarea programada de inicio con privilegios elevados (`schtasks /rl highest`).
+- Script Inno Setup 6 (`installer/NexoDeck.iss`) para instalación desatendida con creación de reglas de firewall y tarea programada de inicio con privilegios elevados (`schtasks /rl highest`).
 - Versión portable con detección de `portable.flag`.
 - Script de automatización integral `installer/build.ps1` que compila frontend, publica backend y genera el instalador y zip portable.
+
+---
+
+## v0.3.0
+
+- **App Android con Expo + WebView**: se reutiliza el cliente web dentro del APK en lugar de reescribir la UI en React Native. Todo lo nuevo del cliente aparece automáticamente en la app.
+- **Red en la capa nativa**: el WebView no abre sockets; el bridge JSON es la única vía. Así el APK controla reconexión, USB y Wake-on-LAN.
+- **`ws://` con mensajes firmados**: no se instala ninguna CA en el celular. Se acepta que el contenido no viaje cifrado y se documenta la limitación en README/SECURITY.
+- **`applicationId` en un solo lugar**: `mobile/app.config.ts` exporta `APPLICATION_ID`.
+- **mDNS sin dependencia**: se implementó un responder mínimo de `_nexodeck._tcp.local` en lugar de sumar una librería, para no crecer el instalador ni arriesgar incompatibilidades.
+- **USB con ADB opt-in**: ADB nunca se redistribuye; se descarga solo si el usuario toca el botón, desde `dl.google.com`.
+- **Wake-on-LAN desde la app** (pedido explícito del usuario, aunque el documento lo dejaba fuera de alcance): el magic packet lo envía el celular por UDP a los broadcasts locales, porque el servidor está apagado cuando hace falta. Requiere la MAC, que se entrega en el QR de emparejamiento.
+- **Límite de 5 conexiones simultáneas**: la app conecta las primeras cinco PCs emparejadas; las demás quedan offline hasta que se las active.
+- **Vectores compartidos**: en vez de un proyecto xUnit nuevo, la verificación C# vive en `--verify-v2` y se ejecuta con el mismo JSON que usa Jest.
+- **USB Modo B (tethering) queda para 0.3.1**: el Modo A por ADB cubre el caso principal y no requiere activar el anclaje cada vez. El modo B necesita reglas de firewall por subred del adaptador RNDIS y pruebas en hardware variado.
+- **El APK no se compiló en este entorno**: no hay Android SDK ni JDK 17 acá. El código, el workflow y la documentación quedan listos; el primer APK firmado sale del workflow `release-android` o de `docs/ANDROID.md`.

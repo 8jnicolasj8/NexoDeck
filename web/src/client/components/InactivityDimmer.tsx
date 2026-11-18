@@ -12,7 +12,7 @@ export const InactivityDimmer: React.FC = () => {
       timerRef.current = null;
     }
 
-    const setting = localStorage.getItem('opendeck_dim_timeout') || '3';
+    const setting = localStorage.getItem('nexodeck_dim_timeout') || '3';
     if (setting === 'never') return;
 
     const minutes = parseInt(setting, 10) || 3;
@@ -62,7 +62,7 @@ export const InactivityDimmer: React.FC = () => {
     >
       <div className="text-center p-4">
         <span className="text-xs text-muted/70 font-mono tracking-widest uppercase">
-          OpenDeck · Pantalla atenuada
+          NexoDeck · Pantalla atenuada
         </span>
         <p className="text-[11px] text-muted/50 mt-1">
           Tocá en cualquier lugar para despertar

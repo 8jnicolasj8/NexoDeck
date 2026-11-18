@@ -1,8 +1,8 @@
-# OpenDeck 🎛️
+# NexoDeck 🎛️
 
 Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cualquier celular o tablet en un Stream Deck personal con cero dependencias en la nube y privacidad absoluta.
 
-![OpenDeck](Teclado%20macro%20OpenDeck%20neón.png)
+![NexoDeck](NexoDeck-logo.png)
 
 ## ✨ Características principales
 
@@ -15,6 +15,13 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 - **Portapapeles Bidireccional**: Envía y recibe texto entre el celular y la PC al instante con historial de los últimos 10 elementos en memoria.
 - **Scripts Seguros (.vbs)**: Ejecución de scripts locales con lista blanca estricta y protección contra path-traversal.
 - **Panel de Configuración Completo**: Editor visual de grilla, creador de perfiles y botones, vinculación de procesos y exportación/importación en una ventana nativa WebView2.
+
+### Novedades en 0.3.0
+- **App Android**: el APK empaqueta el mismo cliente web y conecta por `ws://` firmado, sin instalar ninguna CA. La PWA y el iPhone siguen funcionando igual.
+- **Varias PCs**: hasta cinco conexiones a la vez, una activa, con chip de PC, hoja "Mis PCs" y alertas de las PCs que no estás mirando.
+- **Encendé la PC apagada**: Wake-on-LAN desde el celular (la PC necesita WoL activo en la BIOS y en el adaptador).
+- **Por cable (USB)**: si el WiFi falla, la app va por ADB con `adb reverse`, y el panel instala el APK y empareja con un clic.
+- **Encuentra la PC sola**: `/api/ident` + mDNS + barrido de subred cuando cambia la IP.
 
 ### Novedades en 0.2.1
 - **Botonera navegable**: flechas para cambiar de página y de perfil directo desde el celular, sin abrir el panel.
@@ -33,13 +40,16 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `OpenDeck-Setup-0.2.1.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `NexoDeck-Setup-0.3.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `OpenDeck-0.2.1-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `NexoDeck-0.3.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+
+### Opción 3: App Android
+Descargá `NexoDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
 
 ---
 
@@ -58,17 +68,25 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `OpenDeck-Setup-0.2.1.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `NexoDeck-Setup-0.3.0.exe` en la carpeta `dist/`.
+
+Para la app Android hace falta además JDK 17 y el Android SDK:
+```bash
+npm --prefix web run build:native
+cd mobile && npm ci && npx expo prebuild --platform android
+cd android && ./gradlew assembleRelease
+```
 
 ---
 
 ## 📂 Estructura del Proyecto
 
 ```
-OpenDeck/
+NexoDeck/
 ├── server/              # Backend .NET 8 (Kestrel, WASAPI, WebView2, Tray)
-│   └── src/OpenDeck.Server/
+│   └── src/NexoDeck.Server/
 ├── web/                 # Frontend Móvil PWA (React, TypeScript, Vite, Tailwind)
+├── mobile/              # App Android (Expo + módulo Kotlin nexodeck-net)
 ├── installer/           # Script Inno Setup 6 y build.ps1
 ├── dist/                # Binarios de distribución e instaladores
 ├── docs/                # Documentación técnica y arquitectura

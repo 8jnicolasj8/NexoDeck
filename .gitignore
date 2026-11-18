@@ -6,14 +6,14 @@ obj/
 node_modules/
 dist/
 
-# --- datos y logs locales de OpenDeck ---
+# --- datos y logs locales de NexoDeck ---
 data/
 logs/
 *.log
 .verify-*/
 .verify-publish/
 .measure-data/
-server/src/OpenDeck.Server/wwwroot/logs/
+server/src/NexoDeck.Server/wwwroot/logs/
 
 # --- proyecto de video (no va al repo) ---
 landing/video/
@@ -21,8 +21,8 @@ landing/video/
 *.webm
 
 # --- documentos usados como prompt ---
-OPENDECK_v0.2_PROMPT.md
-OPENDECK_BLUEPRINT.md
+NEXODECK_v0.2_PROMPT.md
+NEXODECK_BLUEPRINT.md
 
 # --- herramientas y scratch local ---
 .freebuff/
@@ -40,3 +40,13 @@ Thumbs.db
 
 # --- salidas sueltas de verificación ---
 .verify-server.*
+
+# --- app Android (solo fuentes; nativo generado por prebuild) ---
+mobile/android/
+mobile/ios/
+mobile/dist-native/
+web/dist-native/
+*.keystore
+*.jks
+NEXODECK_v0.3_PROMPT.md
+NEXODECK_LANZAMIENTO_PROMPT.md

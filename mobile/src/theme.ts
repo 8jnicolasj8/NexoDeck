@@ -1,0 +1,31 @@
+export const colors = {
+  bg: '#0A0C0F',
+  surface: '#11151A',
+  surface2: '#171C23',
+  border: '#242C35',
+  text: '#E6EDF3',
+  muted: '#7B8794',
+  accent: '#00FF9C',
+  danger: '#FF3B4E',
+  warn: '#FFB020',
+};
+
+export const strings = {
+  hostsTitle: 'Mis PCs',
+  hostsSubtitle: 'Tocá una PC para controlarla',
+  addHost: 'Agregar PC',
+  manage: 'Administrar',
+  connected: 'Conectada',
+  offline: 'Apagada',
+  reconnecting: 'Reconectando…',
+  unverified: 'No verificada',
+  wake: 'Encender',
+  searching: 'Buscando PCs…',
+  scanQr: 'Escanear QR',
+  pasteLink: 'Pegar enlace',
+  discover: 'Buscar en la red',
+  pairHint: 'Mostrá el QR en esa PC (Emparejar → Android) y escanealo.',
+  confirmPair: '¿Emparejar con',
+  noHosts: 'Todavía no agregaste ninguna PC.',
+  demoOnly: 'Requiere la app instalada en el celular.',
+};

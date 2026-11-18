@@ -1,7 +1,7 @@
 // Self-check for wwwroot/gridRules.js (panel) which must stay aligned with Services/GridService.cs.
 // Run with: node tools/grid-rules-check.js
 const assert = require('assert');
-const G = require('../server/src/OpenDeck.Server/wwwroot/gridRules.js');
+const G = require('../server/src/NexoDeck.Server/wwwroot/gridRules.js');
 
 const mk = (id, row, col, rowSpan, colSpan) => ({ id, pos: { row, col, rowSpan, colSpan } });
 

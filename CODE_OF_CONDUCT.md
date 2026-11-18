@@ -2,7 +2,7 @@
 
 ## Nuestro compromiso
 
-Nos comprometemos a brindar un entorno inclusivo, respetuoso y libre de acoso para todas las personas que contribuyan o participen en la comunidad de OpenDeck, independientemente de su nivel de experiencia, género, identidad u orientación sexual, apariencia física, origen o religión.
+Nos comprometemos a brindar un entorno inclusivo, respetuoso y libre de acoso para todas las personas que contribuyan o participen en la comunidad de NexoDeck, independientemente de su nivel de experiencia, género, identidad u orientación sexual, apariencia física, origen o religión.
 
 ## Estándares esperados
 
