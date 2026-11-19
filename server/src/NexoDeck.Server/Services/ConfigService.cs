@@ -50,9 +50,9 @@ internal sealed class ConfigService
     public static readonly string[] OptionalProfileIds = ["spotify", "gamer"];
 
     /// <summary>
-    /// Maintains the built-in profiles. Spotify is restored on every save because
-    /// its layout is fixed; Gamer is only seeded once, then the user owns it.
-    /// Both disappear when their id is listed in <see cref="AppConfig.DisabledProfiles"/>.
+    /// Seeds the built-in profiles on first run and keeps them in sync with
+    /// <see cref="AppConfig.DisabledProfiles"/>. Once a profile exists the user
+    /// owns it: its pages, buttons and positions are never overwritten here.
     /// </summary>
     public static AppConfig WithBuiltIns(AppConfig config)
     {
@@ -69,22 +69,10 @@ internal sealed class ConfigService
                 changed = true;
             }
         }
-        else
+        else if (spotifyIndex < 0)
         {
-            var spotify = SpotifyProfile();
-            if (spotifyIndex >= 0)
-            {
-                if (JsonSerializer.Serialize(profiles[spotifyIndex], JsonOptions) != JsonSerializer.Serialize(spotify, JsonOptions))
-                {
-                    profiles[spotifyIndex] = spotify;
-                    changed = true;
-                }
-            }
-            else
-            {
-                profiles.Insert(InsertAfter(profiles, config.DefaultProfileId), spotify);
-                changed = true;
-            }
+            profiles.Insert(InsertAfter(profiles, config.DefaultProfileId), SpotifyProfile());
+            changed = true;
         }
 
         var gamerIndex = profiles.FindIndex(profile => profile.Id == "gamer");
@@ -154,8 +142,7 @@ internal sealed class ConfigService
                 new("sp_volup", "action", "Subir volumen", new("lucide", "volume-2"), new(0, 4), new("media", new() { ["cmd"] = "volup" }))
             ])
         ],
-        Match: new MatchConfig(["spotify.exe"]),
-        Locked: true
+        Match: new MatchConfig(["spotify.exe"])
     );
 
     public AppConfig Read()
@@ -307,7 +294,6 @@ internal sealed class ConfigService
             }
 
             var normalized = config with { DisabledProfiles = disabled.Distinct(StringComparer.Ordinal).ToList() };
-            // The Spotify deck is read-only: any edit coming from a client is discarded here.
             Write(WithBuiltIns(normalized) with { Revision = revision });
         }
         finally { _gate.Release(); }
@@ -499,8 +485,7 @@ internal sealed record ProfileConfig(
     GridConfig Grid,
     List<PageConfig> Pages,
     MatchConfig? Match = null,
-    GridConfig? GridPortrait = null,
-    bool Locked = false
+    GridConfig? GridPortrait = null
 );
 
 internal sealed record TelemetrySlot(string Id, string Widget, string Primary, string? Secondary = null);

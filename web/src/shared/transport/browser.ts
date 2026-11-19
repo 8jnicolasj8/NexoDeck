@@ -82,7 +82,7 @@ export class BrowserTransport implements Transport {
           d: {
             token: token || '',
             deviceName: navigator.userAgent.includes('Android') ? 'Celular Android' : 'Cliente Web',
-            clientVersion: '1.0.0',
+            clientVersion: '1.0.1',
           },
         });
       };

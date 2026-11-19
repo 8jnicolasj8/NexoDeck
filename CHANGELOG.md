@@ -3,6 +3,16 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.1] - 2026-11-19
+
+### Corregido
+- Guardar la configuración ya no devuelve los botones de Spotify a su posición original. El servidor solo siembra los perfiles de fábrica cuando faltan; si existen, respeta los cambios del usuario.
+- Los botones de Spotify se pueden mover, editar y eliminar como los de cualquier otro perfil. Se quitó la marca de perfil bloqueado y el candado del panel de perfiles.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.0.1**. El APK sube a `versionCode` 1001.
+- Se agregó una prueba de regresión que mueve y elimina botones de Spotify y Gamer, guarda y verifica que los cambios sigan ahí.
+
 ## [1.0.0] - 2026-11-19
 
 ### Agregado

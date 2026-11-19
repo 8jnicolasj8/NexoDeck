@@ -1,10 +1,11 @@
 $ErrorActionPreference = "Stop"
 
-# NexoDeck v1.0.0 regression checks:
+# NexoDeck v1.0.1 regression checks:
 #   1. Grid rules shared by the panel and GridService (Node self-check).
 #   2. Action schema registry completeness.
 #   3. v0.1 -> v0.3 config migration without losing any button.
 #   4. App catalog and icon extraction (IShellItemImageFactory) served by hash.
+#   5. Spotify/Gamer edits (positions and deleted buttons) survive a save.
 
 $repoRoot = (Get-Item $PSScriptRoot).FullName
 $exePath = Join-Path $repoRoot "server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
@@ -66,7 +67,7 @@ try {
     }
     if (-not $health) { throw "Server did not become healthy on port 47802." }
     Write-Host "  -> health OK, version $($health.version)"
-    if ($health.version -ne "1.0.0") { throw "Expected version 1.0.0, got '$($health.version)'" }
+    if ($health.version -ne "1.0.1") { throw "Expected version 1.0.1, got '$($health.version)'" }
 
     Write-Host "`n2. Action schema registry..."
     $schemas = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/action-schemas"
@@ -119,7 +120,43 @@ try {
     if ($png.Headers["Cache-Control"] -notlike "*immutable*") { throw "Icon cache headers are missing." }
     Write-Host "  -> extracted $($icon.icon) ($($png.RawContentLength) bytes, immutable cache)"
 
-    Write-Host "`nAll v1.0.0 checks passed." -ForegroundColor Green
+    Write-Host "`n5. Built-in profiles are editable..."
+    $cfg = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/config"
+    $spotify = $cfg.profiles | Where-Object { $_.id -eq "spotify" }
+    $gamer = $cfg.profiles | Where-Object { $_.id -eq "gamer" }
+    if (-not $spotify -or -not $gamer) { throw "Spotify or Gamer profile is missing." }
+
+    $spPrev = $spotify.pages[0].buttons | Where-Object { $_.id -eq "sp_prev" }
+    $spNext = $spotify.pages[0].buttons | Where-Object { $_.id -eq "sp_next" }
+    if (-not $spPrev -or -not $spNext) { throw "Spotify default buttons are missing." }
+    $spPrev.pos.col = 2
+    $spNext.pos.col = 0
+    $spotify.pages[0].buttons = @($spotify.pages[0].buttons | Where-Object { $_.id -ne "sp_volup" })
+
+    $gmBar = $gamer.pages[0].buttons | Where-Object { $_.id -eq "gm_bar" }
+    $gmTab = $gamer.pages[0].buttons | Where-Object { $_.id -eq "gm_tab" }
+    if (-not $gmBar -or -not $gmTab) { throw "Gamer default buttons are missing." }
+    $gmBar.pos.col = 3
+    $gmTab.pos.col = 0
+
+    $saved = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/config" -Method Post -ContentType "application/json; charset=utf-8" -Body ($cfg | ConvertTo-Json -Depth 20)
+    if (-not $saved.ok) { throw "The edited configuration was rejected." }
+
+    $after = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/config"
+    $spotifyAfter = $after.profiles | Where-Object { $_.id -eq "spotify" }
+    $gamerAfter = $after.profiles | Where-Object { $_.id -eq "gamer" }
+    $spPrevAfter = $spotifyAfter.pages[0].buttons | Where-Object { $_.id -eq "sp_prev" }
+    $spNextAfter = $spotifyAfter.pages[0].buttons | Where-Object { $_.id -eq "sp_next" }
+    $gmBarAfter = $gamerAfter.pages[0].buttons | Where-Object { $_.id -eq "gm_bar" }
+    $gmTabAfter = $gamerAfter.pages[0].buttons | Where-Object { $_.id -eq "gm_tab" }
+
+    if ($spotifyAfter.pages[0].buttons.Count -ne 4) { throw "Deleted Spotify buttons came back after saving." }
+    if ($spPrevAfter.pos.col -ne 2 -or $spNextAfter.pos.col -ne 0) { throw "Spotify button positions were reset after saving." }
+    if ($gmBarAfter.pos.col -ne 3 -or $gmTabAfter.pos.col -ne 0) { throw "Gamer button positions were reset after saving." }
+    if ($spotifyAfter.PSObject.Properties.Name -contains "locked") { throw "Spotify is still marked as a locked profile." }
+    Write-Host "  -> Spotify kept 4/5 buttons in the new order, Gamer kept its new order"
+
+    Write-Host "`nAll v1.0.1 checks passed." -ForegroundColor Green
 }
 finally {
     if ($proc -and -not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }

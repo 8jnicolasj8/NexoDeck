@@ -65,15 +65,14 @@ export const ProfilesView: React.FC = () => {
                 <div className="min-w-0">
                   <h4 className="text-sm font-semibold text-text flex items-center gap-1.5">
                     {p.name}
-                    {p.locked && <Lock size={12} className="text-muted" />}
                   </h4>
                   <p className="text-[11px] text-muted font-mono truncate">
-                    {p.locked
-                      ? 'Perfil fijo · se activa al usar Spotify'
-                      : p.match?.processes?.length
+                    {p.match?.processes?.length
                       ? p.match.processes.join(', ')
                       : p.id === 'gamer'
                       ? 'Juegos · detección automática'
+                      : p.id === 'spotify'
+                      ? 'Spotify · se activa al abrirlo'
                       : 'Perfil general'}
                   </p>
                 </div>

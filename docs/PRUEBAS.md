@@ -1,4 +1,4 @@
-# Pruebas manuales — v0.3.0
+# Pruebas manuales — v1.0.1
 
 Estas pruebas requieren hardware real (una PC Windows y al menos un Android).
 Marcar cada una al validar un release.
