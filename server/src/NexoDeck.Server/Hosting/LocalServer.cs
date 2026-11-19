@@ -63,6 +63,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
     private readonly AudioService _audio;
     private readonly IconService _iconService;
     private readonly AppCatalogService _apps;
+    private readonly GameDetector _gameDetector;
     private readonly ProfileResolver _profileResolver;
     private readonly ForegroundWatcher _foregroundWatcher;
     private readonly ScriptService _scripts;
@@ -92,7 +93,8 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         _audio = new AudioService();
         _iconService = new IconService(dataDir);
         _apps = new AppCatalogService();
-        _profileResolver = new ProfileResolver(_config);
+        _gameDetector = new GameDetector();
+        _profileResolver = new ProfileResolver(_config, _gameDetector);
         _foregroundWatcher = new ForegroundWatcher();
         _scripts = new ScriptService(dataDir, _config);
         _power = new PowerService();
@@ -115,6 +117,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
 
         _profileResolver.ProfileChanged += (profileId, process, pinned) =>
         {
+            AppLog.Info($"Perfil activo: {profileId} ({process}, fijado: {pinned})");
             var payload = JsonSerializer.SerializeToUtf8Bytes(new
             {
                 v = 1,
@@ -126,7 +129,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
 
         _foregroundWatcher.ForegroundChanged += (procName, fullPath) =>
         {
-            _profileResolver.Resolve(procName);
+            _profileResolver.Resolve(procName, fullPath);
             if (!string.IsNullOrEmpty(fullPath))
             {
                 _ = Task.Run(() => _iconService.GetOrExtractIcon(fullPath));
@@ -865,6 +868,13 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                     var profileId = data.TryGetProperty("profileId", out var p) && p.ValueKind == JsonValueKind.String ? p.GetString() : null;
                     _profileResolver.SelectProfile(profileId);
                 }
+                else if (kind == "profile.builtIn" && deviceId is not null)
+                {
+                    var data = json.RootElement.GetProperty("d");
+                    var profileId = data.TryGetProperty("profileId", out var p) && p.ValueKind == JsonValueKind.String ? p.GetString() : null;
+                    var enabled = data.TryGetProperty("enabled", out var en) && en.ValueKind == JsonValueKind.True;
+                    SetBuiltInProfile(profileId, enabled);
+                }
                 else if (kind == "clipboard.send" && deviceId is not null)
                 {
                     var data = json.RootElement.GetProperty("d");
@@ -1187,6 +1197,15 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                 return null;
             }
 
+            case "profile.builtIn":
+            {
+                if (!hasData) return null;
+                var profileId = ReadString(data, "profileId");
+                var enabled = data.TryGetProperty("enabled", out var enabledElement) && enabledElement.ValueKind == JsonValueKind.True;
+                SetBuiltInProfile(profileId, enabled);
+                return null;
+            }
+
             case "clipboard.send":
             {
                 if (!hasData) return null;
@@ -1252,6 +1271,35 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
             default:
                 return new { v = 2, t = "error", id, d = new { code = "unsupported_message", message = "Mensaje no disponible todavía." } };
         }
+    }
+
+    /// <summary>Adds or removes one of the optional built-in profiles (Spotify, Gamer).</summary>
+    private void SetBuiltInProfile(string? profileId, bool enabled)
+    {
+        if (string.IsNullOrWhiteSpace(profileId)) return;
+        if (!ConfigService.OptionalProfileIds.Contains(profileId)) return;
+
+        var config = _config.Read();
+        var disabled = (config.DisabledProfiles ?? []).Where(id => id != profileId).ToList();
+        if (!enabled) disabled.Add(profileId);
+
+        _config.Save(config with
+        {
+            Profiles = enabled ? config.Profiles : config.Profiles.Where(profile => profile.Id != profileId).ToList(),
+            DisabledProfiles = disabled
+        });
+        BroadcastConfig();
+    }
+
+    private void BroadcastConfig()
+    {
+        var config = _config.Read();
+        Broadcast(JsonSerializer.SerializeToUtf8Bytes(new
+        {
+            v = 1,
+            t = "config.updated",
+            d = new { config = config with { Devices = [] }, configRevision = config.Revision }
+        }, ConfigService.JsonOptions));
     }
 
     private bool IsPowerAction(string buttonId)
@@ -1376,8 +1424,8 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
             var cmd = buttonId["quick_power_".Length..];
             if (cmd == "lock") _power.Lock();
             else if (cmd == "sleep") _power.Sleep();
-            else if (cmd == "shutdown") _power.Shutdown(true);
-            else if (cmd == "restart") _power.Restart(true);
+            else if (cmd == "shutdown") return _power.Shutdown(true);
+            else if (cmd == "restart") return _power.Restart(true);
             else if (cmd == "cancel") _power.CancelShutdown();
             return null;
         }
@@ -1533,8 +1581,8 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                     var confirmed = prms.TryGetValue("confirmed", out var conf) && (conf is true || conf?.ToString()?.Equals("true", StringComparison.OrdinalIgnoreCase) == true);
                     if (cmd == "lock") _power.Lock();
                     else if (cmd == "sleep") _power.Sleep();
-                    else if (cmd == "shutdown") _power.Shutdown(confirmed);
-                    else if (cmd == "restart") _power.Restart(confirmed);
+                    else if (cmd == "shutdown") return _power.Shutdown(confirmed);
+                    else if (cmd == "restart") return _power.Restart(confirmed);
                     else if (cmd == "cancel") _power.CancelShutdown();
                     break;
                 }

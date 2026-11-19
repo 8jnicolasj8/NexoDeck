@@ -119,6 +119,8 @@ export interface AppConfig {
   telemetry: TelemetryConfig;
   alerts: AlertConfig[];
   scripts: { id: string; name: string; file: string }[];
+  /** Optional built-in profiles the user removed ("spotify", "gamer"). */
+  disabledProfiles?: string[];
 }
 
 export type ConnectionState = 'connected' | 'reconnecting' | 'offline';

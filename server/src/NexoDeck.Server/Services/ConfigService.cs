@@ -34,9 +34,10 @@ internal sealed class ConfigService
             if (current is not null)
             {
                 var migrated = Migrate(current);
-                if (!ReferenceEquals(migrated, current))
+                var normalized = WithBuiltIns(migrated);
+                if (!ReferenceEquals(normalized, current))
                 {
-                    Write(migrated);
+                    Write(normalized);
                 }
             }
         }
@@ -44,6 +45,118 @@ internal sealed class ConfigService
     }
 
     public AppConfig Migrate(AppConfig config) => ConfigMigrator.Migrate(config, _schemas);
+
+    /// <summary>Profiles that ship with the app but can be removed by the user.</summary>
+    public static readonly string[] OptionalProfileIds = ["spotify", "gamer"];
+
+    /// <summary>
+    /// Maintains the built-in profiles. Spotify is restored on every save because
+    /// its layout is fixed; Gamer is only seeded once, then the user owns it.
+    /// Both disappear when their id is listed in <see cref="AppConfig.DisabledProfiles"/>.
+    /// </summary>
+    public static AppConfig WithBuiltIns(AppConfig config)
+    {
+        var disabled = config.DisabledProfiles ?? [];
+        var profiles = config.Profiles.ToList();
+        var changed = false;
+
+        var spotifyIndex = profiles.FindIndex(profile => profile.Id == "spotify");
+        if (disabled.Contains("spotify"))
+        {
+            if (spotifyIndex >= 0)
+            {
+                profiles.RemoveAt(spotifyIndex);
+                changed = true;
+            }
+        }
+        else
+        {
+            var spotify = SpotifyProfile();
+            if (spotifyIndex >= 0)
+            {
+                if (JsonSerializer.Serialize(profiles[spotifyIndex], JsonOptions) != JsonSerializer.Serialize(spotify, JsonOptions))
+                {
+                    profiles[spotifyIndex] = spotify;
+                    changed = true;
+                }
+            }
+            else
+            {
+                profiles.Insert(InsertAfter(profiles, config.DefaultProfileId), spotify);
+                changed = true;
+            }
+        }
+
+        var gamerIndex = profiles.FindIndex(profile => profile.Id == "gamer");
+        if (disabled.Contains("gamer"))
+        {
+            if (gamerIndex >= 0)
+            {
+                profiles.RemoveAt(gamerIndex);
+                changed = true;
+            }
+        }
+        else if (gamerIndex < 0)
+        {
+            profiles.Insert(InsertAfter(profiles, profiles.Any(profile => profile.Id == "spotify") ? "spotify" : config.DefaultProfileId), GamerProfile());
+            changed = true;
+        }
+
+        return changed ? config with { Profiles = profiles } : config;
+    }
+
+    private static int InsertAfter(List<ProfileConfig> profiles, string id)
+    {
+        var index = profiles.FindIndex(profile => profile.Id == id);
+        return index < 0 ? profiles.Count : index + 1;
+    }
+
+    /// <summary>Editable default deck for games: the user can change every button or delete it.</summary>
+    public static ProfileConfig GamerProfile() => new(
+        Id: "gamer",
+        Name: "Gamer",
+        Accent: "#FF4655",
+        Grid: new GridConfig(4, 3),
+        GridPortrait: new GridConfig(3, 4),
+        Pages: [
+            new PageConfig("p_gm", "En juego", [
+                new("gm_bar", "action", "Game Bar", new("lucide", "gamepad-2"), new(0, 0), new("hotkey", new() { ["keys"] = new[] { "win", "g" } })),
+                new("gm_shot", "action", "Captura", new("lucide", "camera"), new(0, 1), new("hotkey", new() { ["keys"] = new[] { "win", "alt", "prtscn" } })),
+                new("gm_rec", "action", "Grabar clip", new("lucide", "circle-dot"), new(0, 2), new("hotkey", new() { ["keys"] = new[] { "win", "alt", "r" } })),
+                new("gm_tab", "action", "Alt+Tab", new("lucide", "app-window"), new(0, 3), new("hotkey", new() { ["keys"] = new[] { "alt", "tab" } })),
+
+                new("gm_mic", "toggle", "Micrófono", new("lucide", "mic-off"), new(1, 0), new("mute.toggle", new() { ["target"] = "mic" }), "mic.muted"),
+                new("gm_discord", "action", "Discord mute", new("lucide", "headphones"), new(1, 1), new("hotkey", new() { ["keys"] = new[] { "ctrl", "shift", "m" } })),
+                new("gm_volup", "action", "Volumen +", new("lucide", "volume-2"), new(1, 2), new("media", new() { ["cmd"] = "volup" })),
+                new("gm_voldown", "action", "Volumen -", new("lucide", "volume-1"), new(1, 3), new("media", new() { ["cmd"] = "voldown" })),
+
+                new("gm_esc", "action", "Esc", new("lucide", "undo-2"), new(2, 0), new("hotkey", new() { ["keys"] = new[] { "esc" } })),
+                new("gm_win", "action", "Windows", new("lucide", "square"), new(2, 1), new("hotkey", new() { ["keys"] = new[] { "win" } })),
+                new("gm_desk", "action", "Escritorio", new("lucide", "monitor"), new(2, 2), new("hotkey", new() { ["keys"] = new[] { "win", "d" } })),
+                new("gm_full", "action", "Pantalla completa", new("lucide", "maximize"), new(2, 3), new("hotkey", new() { ["keys"] = new[] { "f11" } }))
+            ])
+        ],
+        Match: new MatchConfig([])
+    );
+
+    public static ProfileConfig SpotifyProfile() => new(
+        Id: "spotify",
+        Name: "Spotify",
+        Accent: "#1DB954",
+        Grid: new GridConfig(5, 1),
+        GridPortrait: new GridConfig(5, 1),
+        Pages: [
+            new PageConfig("p_sp", "Reproductor", [
+                new("sp_prev", "action", "Anterior", new("lucide", "skip-back"), new(0, 0), new("media", new() { ["cmd"] = "prev" })),
+                new("sp_play", "action", "Play / pausa", new("lucide", "play"), new(0, 1), new("media", new() { ["cmd"] = "playpause" })),
+                new("sp_next", "action", "Siguiente", new("lucide", "skip-forward"), new(0, 2), new("media", new() { ["cmd"] = "next" })),
+                new("sp_voldown", "action", "Bajar volumen", new("lucide", "volume-1"), new(0, 3), new("media", new() { ["cmd"] = "voldown" })),
+                new("sp_volup", "action", "Subir volumen", new("lucide", "volume-2"), new(0, 4), new("media", new() { ["cmd"] = "volup" }))
+            ])
+        ],
+        Match: new MatchConfig(["spotify.exe"]),
+        Locked: true
+    );
 
     public AppConfig Read()
     {
@@ -182,7 +295,20 @@ internal sealed class ConfigService
             // configRevision lets a phone skip reloads it does not need.
             var current = Read();
             var revision = Math.Max(current.Revision, config.Revision) + 1;
-            Write(config with { Revision = revision });
+
+            // A built-in profile that was present and is gone now was removed on purpose.
+            var disabled = (config.DisabledProfiles ?? []).ToList();
+            var before = current.Profiles.Select(profile => profile.Id).ToHashSet();
+            var after = config.Profiles.Select(profile => profile.Id).ToHashSet();
+            foreach (var id in OptionalProfileIds)
+            {
+                if (before.Contains(id) && !after.Contains(id)) disabled.Add(id);
+                else if (after.Contains(id)) disabled.Remove(id);
+            }
+
+            var normalized = config with { DisabledProfiles = disabled.Distinct(StringComparer.Ordinal).ToList() };
+            // The Spotify deck is read-only: any edit coming from a client is discarded here.
+            Write(WithBuiltIns(normalized) with { Revision = revision });
         }
         finally { _gate.Release(); }
     }
@@ -239,6 +365,8 @@ internal sealed class ConfigService
                         ])
                     ]
                 ),
+                SpotifyProfile(),
+                GamerProfile(),
                 new ProfileConfig(
                     Id: "vscode",
                     Name: "VS Code",
@@ -370,7 +498,9 @@ internal sealed record ProfileConfig(
     string Accent,
     GridConfig Grid,
     List<PageConfig> Pages,
-    MatchConfig? Match = null
+    MatchConfig? Match = null,
+    GridConfig? GridPortrait = null,
+    bool Locked = false
 );
 
 internal sealed record TelemetrySlot(string Id, string Widget, string Primary, string? Secondary = null);
@@ -472,4 +602,6 @@ internal sealed record AppConfig
     ));
     public List<AlertConfig> Alerts { get; init; } = [];
     public List<ScriptConfig> Scripts { get; init; } = [];
+    /// <summary>Ids of the optional built-in profiles the user chose to remove.</summary>
+    public List<string> DisabledProfiles { get; init; } = [];
 }

@@ -3,6 +3,7 @@ namespace NexoDeck.Server.Services;
 internal sealed class ProfileResolver
 {
     private readonly ConfigService _config;
+    private readonly GameDetector _games;
     private readonly object _lock = new();
 
     public event Action<string, string, bool>? ProfileChanged;
@@ -12,13 +13,14 @@ internal sealed class ProfileResolver
     public string ActiveProcess { get; private set; } = "";
     public bool IsPinned => PinnedProfileId is not null;
 
-    public ProfileResolver(ConfigService config)
+    public ProfileResolver(ConfigService config, GameDetector? games = null)
     {
         _config = config;
+        _games = games ?? new GameDetector();
         ActiveProfileId = _config.Read().DefaultProfileId;
     }
 
-    public string Resolve(string processName)
+    public string Resolve(string processName, string? fullPath = null)
     {
         lock (_lock)
         {
@@ -36,6 +38,9 @@ internal sealed class ProfileResolver
                 p.Match?.Processes is not null &&
                 p.Match.Processes.Any(m => string.Equals(Path.GetFileName(m), normalizedProcess, StringComparison.OrdinalIgnoreCase))
             );
+
+            // No explicit match: the Gamer profile catches anything that looks like a game.
+            targetProfile ??= cfg.Profiles.FirstOrDefault(p => p.Id == "gamer" && _games.IsGame(normalizedProcess, fullPath));
 
             var nextProfileId = targetProfile?.Id ?? cfg.DefaultProfileId;
             if (string.IsNullOrEmpty(nextProfileId))

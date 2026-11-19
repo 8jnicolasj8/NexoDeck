@@ -172,6 +172,12 @@ class DeckClient {
     this.send({ v: 1, t: 'profile.select', d: { profileId } });
   }
 
+  /** Adds or removes an optional built-in profile (Spotify, Gamer). */
+  public setBuiltInProfile(profileId: string, enabled: boolean): void {
+    useDeckStore.getState().triggerHaptic();
+    this.send({ v: 1, t: 'profile.builtIn', d: { profileId, enabled } });
+  }
+
   public pinProfile(profileId: string | null): void {
     useDeckStore.getState().triggerHaptic();
     this.send({ v: 1, t: 'profile.pin', d: { profileId } });
