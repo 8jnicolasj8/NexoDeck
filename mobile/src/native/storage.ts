@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
-import { randomBytes } from '@noble/hashes/utils';
 import { toBase64Url } from './base64';
+import { randomBytes } from './random';
 import { SavedHost } from './types';
 
 const HOSTS_KEY = 'nexodeck.hosts.v1';

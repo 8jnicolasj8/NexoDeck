@@ -3,6 +3,14 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.2] - 2026-11-19
+
+### Corregido
+- **Emparejamiento Android**: el celular ya puede generar el nonce de seguridad. `@noble/hashes` usaba `crypto.getRandomValues`, que no existe en Hermes; ahora los bytes aleatorios vienen de `expo-crypto` (el generador del sistema). El error `crypto.getRandomValues must be defined` aparecía al escanear el QR o pegar el enlace.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.0.2**. El APK sube a `versionCode` 1002.
+
 ## [1.0.1] - 2026-11-19
 
 ### Corregido

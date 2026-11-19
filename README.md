@@ -16,6 +16,9 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 - **Scripts Seguros (.vbs)**: Ejecución de scripts locales con lista blanca estricta y protección contra path-traversal.
 - **Panel de Configuración Completo**: Editor visual de grilla, creador de perfiles y botones, vinculación de procesos y exportación/importación en una ventana nativa WebView2.
 
+### Novedades en 1.0.2
+- **Emparejamiento Android arreglado**: escanear el QR o pegar el enlace ya no falla con `crypto.getRandomValues must be defined`. La app usa el generador aleatorio seguro del sistema.
+
 ### Novedades en 1.0.1
 - **Perfiles de fábrica editables**: Spotify y Gamer conservan los botones, el orden y los cambios que hagas en el panel. Antes, guardar cualquier configuración devolvía los botones de Spotify a su posición original.
 - **Spotify sin candado**: el perfil sigue mostrando la canción y la carátula, pero ahora podés mover, cambiar o eliminar sus botones como en cualquier otro perfil.
@@ -50,13 +53,13 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `NexoDeck-Setup-1.0.1.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `NexoDeck-Setup-1.0.2.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `NexoDeck-1.0.1-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `NexoDeck-1.0.2-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
 
 ### Opción 3: App Android
 Descargá `NexoDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
@@ -78,7 +81,7 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `NexoDeck-Setup-1.0.1.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `NexoDeck-Setup-1.0.2.exe` en la carpeta `dist/`.
 
 Para la app Android hace falta además JDK 17 y el Android SDK:
 ```bash

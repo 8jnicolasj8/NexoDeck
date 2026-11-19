@@ -1,6 +1,6 @@
 #define MyAppName "NexoDeck"
 #ifndef MyAppVersion
-  #define MyAppVersion "1.0.1"
+  #define MyAppVersion "1.0.2"
 #endif
 #define MyAppPublisher "NexoDeck"
 #define MyAppExeName "NexoDeck.Server.exe"

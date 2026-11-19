@@ -127,7 +127,7 @@ window.ReactNativeWebView = {
               activeProfileId: host.profile.id,
               pinned: false,
               states: { 'demo.state': true },
-              serverVersion: '1.0.1-demo',
+              serverVersion: '1.0.2-demo',
               serverId: host.id,
               pcName: host.name,
               pcColor: host.color,

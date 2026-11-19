@@ -184,7 +184,7 @@ limit de 120 req/min por IP:
   "pcName": "PC-Escritorio",
   "pcColor": "#00FF9C",
   "pcIcon": "monitor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "protocol": [1, 2],
   "addresses": ["192.168.1.20"],
   "httpPort": 47801,

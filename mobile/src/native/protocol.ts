@@ -1,8 +1,9 @@
 import { hkdf } from '@noble/hashes/hkdf';
 import { hmac } from '@noble/hashes/hmac';
 import { sha256 } from '@noble/hashes/sha256';
-import { randomBytes, utf8ToBytes } from '@noble/hashes/utils';
+import { utf8ToBytes } from '@noble/hashes/utils';
 import { fromBase64Url, toBase64Url } from './base64';
+import { randomBytes } from './random';
 
 export interface PairLink {
   protocol: 2;

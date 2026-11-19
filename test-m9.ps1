@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-# NexoDeck v1.0.1 regression checks:
+# NexoDeck v1.0.2 regression checks:
 #   1. Grid rules shared by the panel and GridService (Node self-check).
 #   2. Action schema registry completeness.
 #   3. v0.1 -> v0.3 config migration without losing any button.
@@ -67,7 +67,7 @@ try {
     }
     if (-not $health) { throw "Server did not become healthy on port 47802." }
     Write-Host "  -> health OK, version $($health.version)"
-    if ($health.version -ne "1.0.1") { throw "Expected version 1.0.1, got '$($health.version)'" }
+    if ($health.version -ne "1.0.2") { throw "Expected version 1.0.2, got '$($health.version)'" }
 
     Write-Host "`n2. Action schema registry..."
     $schemas = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/action-schemas"
@@ -156,7 +156,7 @@ try {
     if ($spotifyAfter.PSObject.Properties.Name -contains "locked") { throw "Spotify is still marked as a locked profile." }
     Write-Host "  -> Spotify kept 4/5 buttons in the new order, Gamer kept its new order"
 
-    Write-Host "`nAll v1.0.1 checks passed." -ForegroundColor Green
+    Write-Host "`nAll v1.0.2 checks passed." -ForegroundColor Green
 }
 finally {
     if ($proc -and -not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }
