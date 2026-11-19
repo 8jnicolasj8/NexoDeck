@@ -76,6 +76,7 @@ export interface ProfileConfig {
   match?: {
     processes: string[];
   };
+  locked?: boolean;
 }
 
 export interface ServerConfig {

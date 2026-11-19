@@ -145,6 +145,10 @@ class DeckClient {
           localStorage.removeItem('nexodeck_token');
           store.setHostConnection(hostId, 'unverified');
         }
+        if (msg.d?.code === 'action_failed' && msg.d?.message) {
+          // Power and device actions fail silently otherwise.
+          window.alert(msg.d.message);
+        }
         break;
       }
     }

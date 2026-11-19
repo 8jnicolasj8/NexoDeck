@@ -50,9 +50,14 @@ export const ProfilesView: React.FC = () => {
                   style={{ backgroundColor: p.accent }}
                 />
                 <div>
-                  <h4 className="text-sm font-semibold text-text">{p.name}</h4>
+                  <h4 className="text-sm font-semibold text-text flex items-center gap-1.5">
+                    {p.name}
+                    {p.locked && <Lock size={12} className="text-muted" />}
+                  </h4>
                   <p className="text-[11px] text-muted font-mono">
-                    {p.match?.processes?.length
+                    {p.locked
+                      ? 'Perfil fijo · se activa al usar Spotify'
+                      : p.match?.processes?.length
                       ? p.match.processes.join(', ')
                       : 'Perfil general'}
                   </p>

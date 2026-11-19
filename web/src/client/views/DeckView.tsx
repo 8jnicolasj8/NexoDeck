@@ -3,14 +3,21 @@ import { useDeckStore } from '../store/useDeckStore';
 import { TelemetrySlot } from '../components/TelemetrySlot';
 import { ButtonGrid } from '../components/ButtonGrid';
 import { DeckNav } from '../components/DeckNav';
+import { SpotifyDeck } from '../components/SpotifyDeck';
 
 interface DeckViewProps {
   isLandscape: boolean;
 }
 
 export const DeckView: React.FC<DeckViewProps> = ({ isLandscape }) => {
-  const { config, connectionState } = useDeckStore();
+  const { config, connectionState, getActiveProfile } = useDeckStore();
   const isOffline = connectionState === 'offline';
+  const profile = getActiveProfile();
+
+  // The built-in Spotify profile has its own layout: song on top, deck below.
+  if (profile?.id === 'spotify') {
+    return <SpotifyDeck isLandscape={isLandscape} />;
+  }
 
   // Default slots fallback if not configured
   const leftSlots = config?.telemetry?.slots?.left || [
