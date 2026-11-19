@@ -3,6 +3,24 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.0] - 2026-11-19
+
+### Agregado
+- **Perfil Gamer**: se activa solo cuando la app en primer plano parece un juego. Revisa la biblioteca detectada (Steam, Epic, `D:\Games`, etc.) o la pantalla completa de Direct3D, y excluye navegadores, launchers y reproductores.
+- **Perfil Spotify fijo**: muestra la canción actual con carátula y una botonera compacta; el servidor lo restaura en cada guardado para que no se desconfigure.
+- **Perfiles opcionales**: Spotify y Gamer se pueden quitar y volver a agregar desde Perfiles, y la elección se recuerda.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.0.0**. El APK sube a `versionCode` 1000.
+- `installer/build.ps1` borra de `dist/` los instaladores y zips de versiones anteriores y le pasa la versión al compilador de Inno Setup, para que el `.exe`, el `.zip` y el panel no se desincronicen.
+
+### Corregido
+- Apagar y reiniciar ya no fallan en silencio: usan la ruta completa de `shutdown.exe`, reintentan por shell y devuelven el error al celular.
+
+### Compatibilidad
+- El instalador conserva la carpeta de datos existente (`config.json`, certificados, dispositivos y perfiles) si no se borró a mano. No hace falta volver a emparejar el celular.
+- La PWA y el iPhone siguen funcionando con el protocolo v1 sin cambios.
+
 ## [0.3.0] - 2026-11-18
 
 ### Agregado

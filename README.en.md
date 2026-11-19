@@ -20,6 +20,12 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 
 ## 🚀 Installation & Usage
 
+### What's new in 1.0.0
+- **Gamer profile**: activates by itself when the foreground app looks like a game, using the detected library (Steam, Epic, `D:\Games`, etc.) or Direct3D fullscreen. Browsers, launchers and media players are excluded.
+- **Read-only Spotify profile**: shows the current track with cover art and a compact deck that cannot be broken from the panel.
+- **Power actions report errors**: shutdown and restart use the full `shutdown.exe` path, retry through the shell and send the error back to the phone instead of failing silently.
+- **Optional profiles**: Spotify and Gamer can be removed and added back from Profiles.
+
 ### What's new in 0.3.0
 - **Android app**: the APK bundles the same web client and connects over signed `ws://`, with no certificate to install. The PWA and iPhone keep working over v1.
 - **Multiple PCs**: up to five live connections with one active PC, a PC chip, a "My PCs" sheet and background alerts.
@@ -28,13 +34,13 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 - **Self discovery**: `/api/ident`, mDNS and on-demand subnet scanning when the PC IP changes.
 
 ### Option 1: Official Installer (Recommended)
-Download `NexoDeck-Setup-0.3.0.exe` from the Releases section or build it using the package script.
+Download `NexoDeck-Setup-1.0.0.exe` from the Releases section or build it using the package script.
 - Sets up an elevated scheduled task to run on Windows startup without UAC prompts.
 - Configures Windows Firewall rules for private networks automatically.
 - Allows choosing your custom data directory.
 
 ### Option 2: Portable Version
-Download and extract `NexoDeck-0.3.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
+Download and extract `NexoDeck-1.0.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
 
 ### Option 3: Android App
 Download `NexoDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).

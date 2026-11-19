@@ -1,6 +1,6 @@
 {
   "name": "nexodeck-mobile",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
     "android": "expo run:android",
     "prebuild": "expo prebuild --platform android",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@noble/hashes": "1.8.0",
@@ -40,6 +41,8 @@
   },
   "jest": {
     "preset": "jest-expo",
-    "testMatch": ["**/__tests__/**/*.test.ts"]
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ]
   }
 }

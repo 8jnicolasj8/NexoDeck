@@ -51,6 +51,7 @@ Thumbs.db
 mobile/android/
 mobile/ios/
 mobile/dist-native/
+mobile/modules/*/android/build/
 web/dist-native/
 *.keystore
 *.jks

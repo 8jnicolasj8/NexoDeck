@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'NexoDeck',
   slug: 'nexodeck',
-  version: '0.3.0',
+  version: '1.0.0',
   orientation: 'default',
   scheme: 'nexodeck',
   userInterfaceStyle: 'dark',
@@ -22,7 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: APPLICATION_ID,
-    versionCode: 300,
+    versionCode: 1000,
     softwareKeyboardLayoutMode: 'pan',
     adaptiveIcon: {
       foregroundImage: './assets/icon.png',

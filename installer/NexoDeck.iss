@@ -1,5 +1,7 @@
 #define MyAppName "NexoDeck"
-#define MyAppVersion "0.3.0"
+#ifndef MyAppVersion
+  #define MyAppVersion "1.0.0"
+#endif
 #define MyAppPublisher "NexoDeck"
 #define MyAppExeName "NexoDeck.Server.exe"
 #define MyPublishDir "..\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"

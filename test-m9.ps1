@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-# NexoDeck v0.3.0 regression checks:
+# NexoDeck v1.0.0 regression checks:
 #   1. Grid rules shared by the panel and GridService (Node self-check).
 #   2. Action schema registry completeness.
-#   3. v0.1 -> v0.2 config migration without losing any button.
+#   3. v0.1 -> v0.3 config migration without losing any button.
 #   4. App catalog and icon extraction (IShellItemImageFactory) served by hash.
 
 $repoRoot = (Get-Item $PSScriptRoot).FullName
@@ -66,7 +66,7 @@ try {
     }
     if (-not $health) { throw "Server did not become healthy on port 47802." }
     Write-Host "  -> health OK, version $($health.version)"
-    if ($health.version -ne "0.3.0") { throw "Expected version 0.3.0, got '$($health.version)'" }
+    if ($health.version -ne "1.0.0") { throw "Expected version 1.0.0, got '$($health.version)'" }
 
     Write-Host "`n2. Action schema registry..."
     $schemas = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/action-schemas"
@@ -81,9 +81,9 @@ try {
     }
     Write-Host "  -> $($kinds.Count) kinds, all documented kinds present"
 
-    Write-Host "`n3. v0.1 -> v0.2 config migration..."
+    Write-Host "`n3. v0.1 -> v0.3 config migration..."
     $cfg = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/config"
-    if ($cfg.version -ne 2) { throw "Expected config version 2, got $($cfg.version)" }
+    if ($cfg.version -ne 3) { throw "Expected config version 3, got $($cfg.version)" }
     $buttons = $cfg.profiles[0].pages[0].buttons
     if ($buttons.Count -ne 5) { throw "Expected 5 migrated buttons, got $($buttons.Count)" }
 
@@ -119,7 +119,7 @@ try {
     if ($png.Headers["Cache-Control"] -notlike "*immutable*") { throw "Icon cache headers are missing." }
     Write-Host "  -> extracted $($icon.icon) ($($png.RawContentLength) bytes, immutable cache)"
 
-    Write-Host "`nAll v0.3.0 checks passed." -ForegroundColor Green
+    Write-Host "`nAll v1.0.0 checks passed." -ForegroundColor Green
 }
 finally {
     if ($proc -and -not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }
