@@ -3,6 +3,12 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.1.1] - 2026-11-20
+
+### Corregido
+- **Íconos de las apps en el celular**: la app Android carga su HTML desde `file:///android_asset`, así que las rutas relativas `/icons/...` apuntaban al paquete local y los íconos no aparecían. El servidor ahora manda los íconos embebidos como data URL a los clientes nativos, mientras la PWA sigue usando los archivos con caché.
+- **Configuración sin base64**: si un cliente devuelve íconos embebidos al reordenar, se revierten a su archivo `/icons/...` antes de guardar.
+
 ## [1.1.0] - 2026-11-20
 
 ### Agregado

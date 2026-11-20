@@ -533,13 +533,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                 _config.Save(prepared.Config);
                 var saved = _config.Read();
                 var safeConfig = saved with { Devices = [] };
-                var payload = JsonSerializer.SerializeToUtf8Bytes(new
-                {
-                    v = 1,
-                    t = "config.updated",
-                    d = new { config = safeConfig, configRevision = saved.Revision }
-                }, ConfigService.JsonOptions);
-                Broadcast(payload);
+                BroadcastConfig(saved);
                 return Results.Json(new { ok = true, warnings = prepared.Warnings, configRevision = saved.Revision });
             }
             catch (Exception ex)
@@ -988,19 +982,12 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                                 var newButtons = JsonSerializer.Deserialize<List<ButtonConfig>>(btnsElement.GetRawText(), ConfigService.JsonOptions);
                                 if (newButtons is not null)
                                 {
+                                    newButtons = newButtons.Select(NormalizeIncomingIcon).ToList();
                                     var updatedPages = prof.Pages.Select(pgItem => pgItem.Id == pageId ? pgItem with { Buttons = newButtons } : pgItem).ToList();
                                     var updatedProfiles = cfg.Profiles.Select(pItem => pItem.Id == profId ? pItem with { Pages = updatedPages } : pItem).ToList();
                                     var updatedConfig = cfg with { Profiles = updatedProfiles };
                                     _config.Save(updatedConfig);
-                                    var savedConfig = _config.Read();
-                                    var safeConfig = savedConfig with { Devices = [] };
-                                    var payload = JsonSerializer.SerializeToUtf8Bytes(new
-                                    {
-                                        v = 1,
-                                        t = "config.updated",
-                                        d = new { config = safeConfig, configRevision = savedConfig.Revision }
-                                    }, ConfigService.JsonOptions);
-                                    Broadcast(payload);
+                                    BroadcastConfig(_config.Read());
                                     response = new { v = 1, t = "layout.reordered", id, d = new { ok = true } };
                                 }
                             }
@@ -1024,9 +1011,12 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
             _sessions.TryRemove(deviceId, out _);
     }
 
-    private object BuildWelcomePayload()
+    private object BuildWelcomePayload(bool inlineIcons = false)
     {
         var cfg = _config.Read();
+        // La app Android sirve su HTML desde file:///android_asset: las rutas
+        // /icons/... apuntarían al paquete local, así que ahí van embebidas.
+        if (inlineIcons) cfg = InlineIcons(cfg);
         var host = _identity.Ensure();
         return new
         {
@@ -1079,7 +1069,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
 
             if (session is null) return;
 
-            var welcome = JsonSerializer.Serialize(new { v = 2, t = "welcome", id = (string?)null, d = BuildWelcomePayload() }, ConfigService.JsonOptions);
+            var welcome = JsonSerializer.Serialize(new { v = 2, t = "welcome", id = (string?)null, d = BuildWelcomePayload(inlineIcons: true) }, ConfigService.JsonOptions);
             await SendSessionAsync(session, welcome, context.RequestAborted);
             _config.UpdateDevice(session.DeviceId, device => device with { LastSeen = DateTimeOffset.UtcNow, Transport = "lan" });
             if (_sessions.TryRemove(session.DeviceId, out var previous)) { try { previous.Socket.Abort(); } catch { } }
@@ -1112,7 +1102,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                     }
                     if (kind == "resync")
                     {
-                        var resync = JsonSerializer.Serialize(new { v = 2, t = "welcome", id = (string?)null, d = BuildWelcomePayload() }, ConfigService.JsonOptions);
+                        var resync = JsonSerializer.Serialize(new { v = 2, t = "welcome", id = (string?)null, d = BuildWelcomePayload(inlineIcons: true) }, ConfigService.JsonOptions);
                         await SendSessionAsync(session, resync, context.RequestAborted);
                         continue;
                     }
@@ -1313,15 +1303,11 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                 if (profile is null || page is null) return null;
                 var buttons = JsonSerializer.Deserialize<List<ButtonConfig>>(buttonsElement.GetRawText(), ConfigService.JsonOptions);
                 if (buttons is null) return null;
+                buttons = buttons.Select(NormalizeIncomingIcon).ToList();
                 var pages = profile.Pages.Select(item => item.Id == pageId ? item with { Buttons = buttons } : item).ToList();
                 var profiles = cfg.Profiles.Select(item => item.Id == profileId ? item with { Pages = pages } : item).ToList();
                 _config.Save(cfg with { Profiles = profiles });
-                Broadcast(JsonSerializer.SerializeToUtf8Bytes(new
-                {
-                    v = 1,
-                    t = "config.updated",
-                    d = new { config = _config.Read() with { Devices = [] }, configRevision = _config.Read().Revision }
-                }, ConfigService.JsonOptions));
+                BroadcastConfig();
                 return new { v = 2, t = "layout.reordered", id, d = new { ok = true } };
             }
 
@@ -1348,15 +1334,83 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         BroadcastConfig();
     }
 
-    private void BroadcastConfig()
+    /// <summary>
+    /// Difunde la configuración completa. Los clientes nativos (v2) reciben los
+    /// íconos embebidos como data URL; la PWA sigue usando /icons/... y su caché.
+    /// </summary>
+    private void BroadcastConfig(AppConfig? updated = null)
     {
-        var config = _config.Read();
-        Broadcast(JsonSerializer.SerializeToUtf8Bytes(new
+        var config = updated ?? _config.Read();
+        var safe = config with { Devices = [] };
+        var plain = Encoding.UTF8.GetString(JsonSerializer.SerializeToUtf8Bytes(new
         {
             v = 1,
             t = "config.updated",
-            d = new { config = config with { Devices = [] }, configRevision = config.Revision }
+            d = new { config = safe, configRevision = config.Revision }
         }, ConfigService.JsonOptions));
+
+        string? withIcons = null;
+        foreach (var session in _sessions.Values)
+        {
+            if (!session.IsV2)
+            {
+                SendSession(session, plain);
+                continue;
+            }
+
+            withIcons ??= Encoding.UTF8.GetString(JsonSerializer.SerializeToUtf8Bytes(new
+            {
+                v = 1,
+                t = "config.updated",
+                d = new { config = InlineIcons(safe), configRevision = config.Revision }
+            }, ConfigService.JsonOptions));
+            SendSession(session, withIcons);
+        }
+    }
+
+    /// <summary>Copia la configuración reemplazando los íconos por data URLs.</summary>
+    private AppConfig InlineIcons(AppConfig config) => config with
+    {
+        Profiles = config.Profiles.Select(profile => profile with
+        {
+            Pages = profile.Pages.Select(page => page with
+            {
+                Buttons = page.Buttons.Select(button => button.Icon is null
+                    ? button
+                    : button with { Icon = InlineIcon(button.Icon) }).ToList()
+            }).ToList()
+        }).ToList()
+    };
+
+    /// <summary>
+    /// Los clientes nativos reciben los íconos embebidos y podrían devolverlos
+    /// al reordenar: acá se revierten a /icons/... antes de persistirlos.
+    /// </summary>
+    private ButtonConfig NormalizeIncomingIcon(ButtonConfig button)
+    {
+        if (button.Icon is null) return button;
+        var normalized = _iconService.NormalizeIconValue(button.Icon.Value);
+        if (normalized is not null)
+        {
+            return normalized == button.Icon.Value ? button : button with { Icon = button.Icon with { Value = normalized } };
+        }
+
+        return button.Icon.Kind is "exe" or "image"
+            ? button with { Icon = new IconConfig("lucide", _schemas.SuggestedIcon(button.Action?.Kind ?? "") ?? "circle") }
+            : button;
+    }
+
+    private IconConfig InlineIcon(IconConfig icon)
+    {
+        if (icon.Kind is not ("exe" or "image")) return icon;
+        var value = icon.Value;
+        if (string.IsNullOrWhiteSpace(value)) return icon;
+        if (value.StartsWith("data:", StringComparison.OrdinalIgnoreCase)) return icon;
+        if (value.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            value.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) return icon;
+
+        var dataUrl = _iconService.GetDataUrl(value);
+        return dataUrl is null ? icon : icon with { Value = dataUrl };
     }
 
     private bool IsPowerAction(string buttonId)

@@ -1,6 +1,6 @@
 #define MyAppName "VexaDeck"
 #ifndef MyAppVersion
-  #define MyAppVersion "1.1.0"
+  #define MyAppVersion "1.1.1"
 #endif
 #define MyAppPublisher "VexaDeck"
 #define MyAppExeName "VexaDeck.Server.exe"

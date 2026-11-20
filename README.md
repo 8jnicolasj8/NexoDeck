@@ -28,13 +28,13 @@ El historial completo de versiones está en [`CHANGELOG.md`](CHANGELOG.md).
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `VexaDeck-Setup-1.1.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `VexaDeck-Setup-1.1.1.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `VexaDeck-1.1.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `VexaDeck-1.1.1-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
 
 ### Opción 3: App Android
 Descargá `VexaDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
@@ -56,7 +56,7 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `VexaDeck-Setup-1.1.0.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `VexaDeck-Setup-1.1.1.exe` en la carpeta `dist/`.
 
 Para la app Android hace falta además JDK 17 y el Android SDK:
 ```bash

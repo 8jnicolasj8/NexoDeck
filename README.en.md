@@ -28,13 +28,13 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 The full version history is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ### Option 1: Official Installer (Recommended)
-Download `VexaDeck-Setup-1.1.0.exe` from the Releases section or build it using the package script.
+Download `VexaDeck-Setup-1.1.1.exe` from the Releases section or build it using the package script.
 - Sets up an elevated scheduled task to run on Windows startup without UAC prompts.
 - Configures Windows Firewall rules for private networks automatically.
 - Allows choosing your custom data directory.
 
 ### Option 2: Portable Version
-Download and extract `VexaDeck-1.1.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
+Download and extract `VexaDeck-1.1.1-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
 
 ### Option 3: Android App
 Download `VexaDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).

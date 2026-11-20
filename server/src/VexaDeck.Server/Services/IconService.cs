@@ -23,6 +23,8 @@ internal sealed class IconService
     private readonly string _indexPath;
     private readonly object _lock = new();
     private readonly Dictionary<string, IconIndexEntry> _index;
+    private readonly object _dataUrlLock = new();
+    private readonly Dictionary<string, string> _dataUrlCache = new(StringComparer.OrdinalIgnoreCase);
 
     public IconService(string dataDir)
     {
@@ -45,6 +47,74 @@ internal sealed class IconService
         if (!sanitized.Contains('.')) sanitized += ".png";
         var path = Path.Combine(_iconsDir, sanitized);
         return File.Exists(path) ? path : null;
+    }
+
+    /// <summary>
+    /// Devuelve el ícono embebido como data URL. La app Android carga la web
+    /// desde file:///android_asset, así que una ruta relativa como /icons/x.png
+    /// apunta al paquete local y no a la PC: embebido se ve siempre igual.
+    /// </summary>
+    public string? GetDataUrl(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return null;
+        var name = Path.GetFileName(value);
+        if (string.IsNullOrEmpty(name) || name.Length > 80) return null;
+        if (!name.All(c => char.IsAsciiLetterOrDigit(c) || c is '.' or '-' or '_')) return null;
+
+        lock (_dataUrlLock)
+        {
+            if (_dataUrlCache.TryGetValue(name, out var cached)) return cached;
+        }
+
+        var path = Path.Combine(_iconsDir, name);
+        if (!File.Exists(path)) return null;
+
+        try
+        {
+            var bytes = File.ReadAllBytes(path);
+            if (bytes.Length == 0 || bytes.Length > 512 * 1024) return null;
+            var mime = Path.GetExtension(name).Equals(".svg", StringComparison.OrdinalIgnoreCase)
+                ? "image/svg+xml"
+                : "image/png";
+            var dataUrl = $"data:{mime};base64,{Convert.ToBase64String(bytes)}";
+
+            lock (_dataUrlLock)
+            {
+                // Un techo chico alcanza: sólo viven los íconos de la botonera.
+                if (_dataUrlCache.Count > 256) _dataUrlCache.Clear();
+                _dataUrlCache[name] = dataUrl;
+            }
+            return dataUrl;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            AppLog.Warn($"No se pudo embeber el ícono {name}: {ex.Message}");
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Convierte un <c>data:</c> URL de vuelta a su archivo en disco. Los íconos
+    /// se guardan con el SHA-256 de sus bytes como nombre, así que la reversión
+    /// es exacta y un cliente nunca puede inflar config.json con base64.
+    /// </summary>
+    public string? NormalizeIconValue(string? value)
+    {
+        if (value is null) return null;
+        if (!value.StartsWith("data:", StringComparison.OrdinalIgnoreCase)) return value;
+
+        var comma = value.IndexOf(',');
+        if (comma < 0) return null;
+        try
+        {
+            var bytes = Convert.FromBase64String(value[(comma + 1)..]);
+            if (bytes.Length == 0) return null;
+            var hash = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+            if (File.Exists(Path.Combine(_iconsDir, $"{hash}.png"))) return $"/icons/{hash}.png";
+            if (File.Exists(Path.Combine(_iconsDir, $"{hash}.svg"))) return $"/icons/{hash}.svg";
+        }
+        catch (FormatException) { return null; }
+        return null;
     }
 
     /// <summary>Legacy helper used by the process list.</summary>
