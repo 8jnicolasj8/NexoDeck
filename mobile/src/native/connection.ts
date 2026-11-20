@@ -19,18 +19,20 @@ const SOCKET_OPEN = 1;
 interface Link {
   hostId: string;
   socket: WebSocket | null;
-  channel: SignedChannel | null;
+  outbound: SignedChannel | null;
   status: HostStatus;
   transport: TransportKind;
   latencyMs: number;
   reconnectDelay: number;
   reconnectTimer: ReturnType<typeof setTimeout> | null;
   pingTimer: ReturnType<typeof setInterval> | null;
+  connecting: boolean;
 }
 
 interface Session {
   socket: WebSocket;
-  channel: SignedChannel;
+  inbound: SignedChannel;
+  outbound: SignedChannel;
   welcome: any;
 }
 
@@ -118,8 +120,10 @@ export class ConnectionManager {
     if (!host) return;
     await this.ensureDeviceId();
     const link = this.ensureLink(hostId);
+    if (link.connecting) return;
     if (link.socket && link.status === 'connected') return;
 
+    link.connecting = true;
     link.status = 'reconnecting';
     this.emitStatus(link);
 
@@ -127,6 +131,11 @@ export class ConnectionManager {
       const endpoint = await this.chooseEndpoint(host);
       if (!endpoint) throw new Error('no endpoint');
       const session = await this.openSession(host, endpoint.address, endpoint.transport);
+      // The host may have been forgotten while the handshake was running.
+      if (this.links.get(hostId) !== link || !this.hosts.has(hostId)) {
+        try { session.socket.close(); } catch { }
+        return;
+      }
       host.lastAddress = endpoint.address;
       await saveHosts(this.getHosts());
       this.attach(host, session, endpoint.transport);
@@ -137,6 +146,8 @@ export class ConnectionManager {
       link.status = reason === 'unverified' ? 'unverified' : 'offline';
       this.emitStatus(link);
       this.scheduleReconnect(hostId);
+    } finally {
+      link.connecting = false;
     }
   }
 
@@ -216,7 +227,7 @@ export class ConnectionManager {
     if (!link?.socket || link.socket.readyState !== SOCKET_OPEN) return;
     try {
       const payload = JSON.stringify(message);
-      link.socket.send(link.channel ? link.channel.wrap(payload) : payload);
+      link.socket.send(link.outbound ? link.outbound.wrap(payload) : payload);
     } catch {
       // A failed send is handled by the socket close event.
     }
@@ -230,7 +241,7 @@ export class ConnectionManager {
   /** Called when connectivity changes: reconnect everything immediately. */
   handleNetworkChange(): void {
     for (const link of this.links.values()) {
-      if (link.status === 'connected') continue;
+      if (link.connecting || (link.socket && link.status === 'connected')) continue;
       if (link.reconnectTimer) clearTimeout(link.reconnectTimer);
       link.reconnectTimer = null;
       link.reconnectDelay = 500;
@@ -242,11 +253,15 @@ export class ConnectionManager {
   shutdown(): void {
     for (const link of this.links.values()) {
       if (link.reconnectTimer) clearTimeout(link.reconnectTimer);
+      if (link.pingTimer) clearInterval(link.pingTimer);
       link.reconnectTimer = null;
-      try { link.socket?.close(); } catch { }
+      link.pingTimer = null;
+      // Detach first so the close event does not schedule a reconnect.
+      const socket = link.socket;
       link.socket = null;
-      link.channel = null;
+      link.outbound = null;
       link.status = 'offline';
+      try { socket?.close(); } catch { }
     }
   }
 
@@ -258,13 +273,14 @@ export class ConnectionManager {
     const link: Link = {
       hostId,
       socket: null,
-      channel: null,
+      outbound: null,
       status: 'offline',
       transport: 'lan',
       latencyMs: 0,
       reconnectDelay: 500,
       reconnectTimer: null,
       pingTimer: null,
+      connecting: false,
     };
     this.links.set(hostId, link);
     return link;
@@ -272,19 +288,21 @@ export class ConnectionManager {
 
   private attach(host: SavedHost, session: Session, transport: TransportKind): void {
     const link = this.ensureLink(host.id);
+    const previous = link.socket;
     if (link.pingTimer) clearInterval(link.pingTimer);
     if (link.reconnectTimer) clearTimeout(link.reconnectTimer);
     link.reconnectTimer = null;
     link.socket = session.socket;
-    link.channel = session.channel;
+    link.outbound = session.outbound;
     link.transport = transport;
     link.status = 'connected';
     link.reconnectDelay = 500;
 
     session.socket.onmessage = (event: any) => {
+      if (link.socket !== session.socket) return;
       let envelope: unknown;
       try { envelope = JSON.parse(String(event.data)); } catch { return; }
-      const payload = session.channel.unwrap(envelope);
+      const payload = session.inbound.unwrap(envelope);
       if (payload === null) {
         // Any bad MAC, repeated or skipped counter closes the connection.
         link.status = 'unverified';
@@ -302,6 +320,14 @@ export class ConnectionManager {
     };
 
     session.socket.onclose = () => {
+      // A replaced socket must not mark the current link offline.
+      if (link.socket !== session.socket) return;
+      if (link.pingTimer) {
+        clearInterval(link.pingTimer);
+        link.pingTimer = null;
+      }
+      link.socket = null;
+      link.outbound = null;
       link.status = 'offline';
       this.emitStatus(link);
       this.scheduleReconnect(host.id);
@@ -310,6 +336,10 @@ export class ConnectionManager {
     link.pingTimer = setInterval(() => {
       this.send(host.id, { v: 2, t: 'ping', d: { ts: Date.now() } });
     }, 2000);
+
+    if (previous && previous !== session.socket) {
+      try { previous.close(); } catch { }
+    }
 
     // The welcome consumed during the handshake must reach the WebView too.
     for (const listener of this.messageListeners) listener(host.id, { t: 'welcome', d: session.welcome });
@@ -336,11 +366,12 @@ export class ConnectionManager {
     if (!link) return;
     if (link.reconnectTimer) clearTimeout(link.reconnectTimer);
     if (link.pingTimer) clearInterval(link.pingTimer);
-    try { link.socket?.close(); } catch { }
+    const socket = link.socket;
     link.socket = null;
-    link.channel = null;
+    link.outbound = null;
     link.status = 'offline';
     this.links.delete(hostId);
+    try { socket?.close(); } catch { }
   }
 
   private async chooseEndpoint(host: SavedHost): Promise<{ address: string; transport: TransportKind } | null> {
@@ -379,7 +410,8 @@ export class ConnectionManager {
       let nonceC = randomNonce();
       let nonceS = '';
       let deviceKey: Uint8Array | null = null;
-      let channel: SignedChannel | null = null;
+      let inbound: SignedChannel | null = null;
+      let outbound: SignedChannel | null = null;
       let stage: 'pair' | 'hello' | 'welcome' = secret ? 'pair' : 'hello';
       let settled = false;
 
@@ -438,7 +470,10 @@ export class ConnectionManager {
           deviceKey = deviceKey ?? (await loadDeviceKey(host.id));
           if (!deviceKey) return finish(new Error('missing key'));
           nonceS = message.d.nonceS;
-          channel = new SignedChannel(deriveSessionKey(deviceKey, host.id, nonceS, nonceC), 's2c');
+          const sessionKey = deriveSessionKey(deviceKey, host.id, nonceS, nonceC);
+          // The server signs s2c and expects c2s: one channel per direction.
+          inbound = new SignedChannel(sessionKey, 's2c');
+          outbound = new SignedChannel(sessionKey, 'c2s');
           socket.send(JSON.stringify({
             v: 2,
             t: 'auth',
@@ -449,12 +484,12 @@ export class ConnectionManager {
         }
 
         if (stage === 'welcome') {
-          const payload = channel?.unwrap(message) ?? null;
+          const payload = inbound?.unwrap(message) ?? null;
           if (!payload) return finish(new Error('unverified'));
           let welcome: any;
           try { welcome = JSON.parse(payload); } catch { return finish(new Error('bad welcome')); }
           if (welcome.t !== 'welcome') return finish(new Error('bad welcome'));
-          finish(undefined, { socket, channel: channel!, welcome: welcome.d });
+          finish(undefined, { socket, inbound: inbound!, outbound: outbound!, welcome: welcome.d });
         }
       };
     });

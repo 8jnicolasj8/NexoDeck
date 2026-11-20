@@ -20,6 +20,9 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 
 ## 🚀 Installation & Usage
 
+### What's new in 1.0.3
+- **Stable Android connection**: the app signed messages with the wrong direction and the server closed the socket immediately, causing constant connect/disconnect cycles. Each direction now uses its own signature and duplicate connections are avoided.
+
 ### What's new in 1.0.2
 - **Android pairing fixed**: scanning the QR code or pasting the link no longer fails with `crypto.getRandomValues must be defined`. The app now uses the system's secure random generator.
 
@@ -41,13 +44,13 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 - **Self discovery**: `/api/ident`, mDNS and on-demand subnet scanning when the PC IP changes.
 
 ### Option 1: Official Installer (Recommended)
-Download `NexoDeck-Setup-1.0.2.exe` from the Releases section or build it using the package script.
+Download `NexoDeck-Setup-1.0.3.exe` from the Releases section or build it using the package script.
 - Sets up an elevated scheduled task to run on Windows startup without UAC prompts.
 - Configures Windows Firewall rules for private networks automatically.
 - Allows choosing your custom data directory.
 
 ### Option 2: Portable Version
-Download and extract `NexoDeck-1.0.2-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
+Download and extract `NexoDeck-1.0.3-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
 
 ### Option 3: Android App
 Download `NexoDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).

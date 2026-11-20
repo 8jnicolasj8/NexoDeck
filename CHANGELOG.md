@@ -3,6 +3,15 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.3] - 2026-11-19
+
+### Corregido
+- **Conexión Android inestable**: la app firmaba cada mensaje saliente con la dirección `s2c` en vez de `c2s`, así que el servidor lo rechazaba y cerraba el socket apenas se conectaba. La app entraba en un ciclo de conectar/desconectar y no dejaba usar la botonera. Ahora usa un canal firmado por dirección.
+- **Conexiones duplicadas**: se bloquean los intentos simultáneos y una conexión reemplazada ya no marca la nueva como caída. Al pasar a segundo plano se cancelan también los pings pendientes.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.0.3**. El APK sube a `versionCode` 1003.
+
 ## [1.0.2] - 2026-11-19
 
 ### Corregido

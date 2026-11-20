@@ -49,4 +49,23 @@ describe('protocol v2 vectors', () => {
     const replay = { n: 2, p: vectors.expected.envelopes[1].payload, m: vectors.expected.envelopes[1].mac };
     expect(channel.unwrap(replay)).toBeNull();
   });
+
+  test('client and server sign different directions', () => {
+    const deviceKey = deriveDeviceKey(
+      vectors.pairSecret,
+      vectors.deviceId,
+      vectors.serverId,
+      vectors.nonceC,
+      vectors.nonceS
+    );
+    const sessionKey = deriveSessionKey(deviceKey, vectors.serverId, vectors.nonceS, vectors.nonceC);
+    const payload = vectors.expected.envelopes[0].payload;
+    const fromClient = JSON.parse(new SignedChannel(sessionKey, 'c2s').wrap(payload));
+    const fromServer = JSON.parse(new SignedChannel(sessionKey, 's2c').wrap(payload));
+
+    // The server expects c2s from the app: signing as s2c makes it drop the socket.
+    expect(fromClient.m).not.toBe(fromServer.m);
+    expect(new SignedChannel(sessionKey, 's2c').unwrap(fromClient)).toBeNull();
+    expect(new SignedChannel(sessionKey, 'c2s').unwrap(fromServer)).toBeNull();
+  });
 });
