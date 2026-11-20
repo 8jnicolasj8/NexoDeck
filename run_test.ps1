@@ -1,5 +1,5 @@
 $ErrorActionPreference = "Continue"
-$publishDir = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
+$publishDir = "D:\Archivos\Proyectos_personales\VexaDeck\server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
 $dll = Join-Path $publishDir "Microsoft.Web.WebView2.Core.dll"
 [System.Reflection.Assembly]::LoadFrom($dll) | Out-Null
 

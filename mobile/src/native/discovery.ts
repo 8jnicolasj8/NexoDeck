@@ -21,7 +21,7 @@ export async function fetchIdent(address: string, port = 47801, timeoutMs = 800)
     const response = await fetch(`http://${address}:${port}/api/ident`, { signal: controller.signal });
     if (!response.ok) return null;
     const data = await response.json();
-    if (data?.app !== 'nexodeck' || typeof data.serverId !== 'string') return null;
+    if (data?.app !== 'vexadeck' || typeof data.serverId !== 'string') return null;
     return data as IdentInfo;
   } catch {
     return null;
@@ -53,14 +53,14 @@ export function findHostByMdns(serverId: string, timeoutMs = 3000): Promise<stri
     });
 
     try {
-      zeroconf.scan('nexodeck', 'tcp', 'local.');
+      zeroconf.scan('vexadeck', 'tcp', 'local.');
     } catch {
       finish(null);
     }
   });
 }
 
-/** Lists every NexoDeck PC visible through mDNS. */
+/** Lists every VexaDeck PC visible through mDNS. */
 export function discoverHosts(timeoutMs = 4000): Promise<IdentInfo[]> {
   return new Promise((resolve) => {
     const found = new Map<string, IdentInfo>();
@@ -89,7 +89,7 @@ export function discoverHosts(timeoutMs = 4000): Promise<IdentInfo[]> {
     });
 
     try {
-      zeroconf.scan('nexodeck', 'tcp', 'local.');
+      zeroconf.scan('vexadeck', 'tcp', 'local.');
     } catch {
       finish();
     }

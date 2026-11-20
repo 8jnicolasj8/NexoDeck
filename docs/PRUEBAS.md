@@ -1,4 +1,4 @@
-# Pruebas manuales - v1.0.3
+# Pruebas manuales - v1.0.0
 
 Estas pruebas requieren hardware real (una PC Windows y al menos un Android).
 Marcar cada una al validar un release.
@@ -9,7 +9,7 @@ Marcar cada una al validar un release.
 - [ ] Revocar el dispositivo desde **Emparejar → Dispositivos** y comprobar que la app se desconecta y no puede volver sin re-emparejar.
 - [ ] Intentar reutilizar un QR ya usado: el servidor responde `pair2err` y `4401`.
 - [ ] Esperar 5 minutos y escanear un QR vencido: debe fallar con "El código venció".
-- [ ] Copiar el enlace `nexodeck://pair?...` y abrirlo desde otra app: la app debe **pedir confirmación** antes de conectar.
+- [ ] Copiar el enlace `vexadeck://pair?...` y abrirlo desde otra app: la app debe **pedir confirmación** antes de conectar.
 - [ ] Con la app conectada, matar el proceso del servidor y volver a abrirlo: la app reconecta sola y sigue controlando.
 
 ## Varias PCs
@@ -29,7 +29,7 @@ Marcar cada una al validar un release.
 - [ ] Desenchufar el cable con WiFi encendido: conmuta a LAN sin diálogos.
 - [ ] "Instalar app en el celular" instala el APK con `adb install -r`.
 - [ ] "Emparejar" abre el diálogo de confirmación en la app, sin escanear nada.
-- [ ] Cerrar NexoDeck: si el servidor ADB lo levantó NexoDeck, se detiene.
+- [ ] Cerrar VexaDeck: si el servidor ADB lo levantó VexaDeck, se detiene.
 
 ## Descubrimiento y red
 
@@ -48,5 +48,5 @@ Marcar cada una al validar un release.
 - [ ] Un iPhone sigue emparejando y funcionando con protocolo v1.
 - [ ] El panel sigue accesible **solo** en `127.0.0.1:47802`.
 - [ ] `/api/ident` responde en LAN pero no expone perfiles, dispositivos ni tokens.
-- [ ] `NexoDeck.Server.exe --verify-v2 docs/protocol-v2-vectors.json` devuelve 0.
+- [ ] `VexaDeck.Server.exe --verify-v2 docs/protocol-v2-vectors.json` devuelve 0.
 - [ ] `npm test` en `mobile/` pasa con el mismo archivo de vectores.

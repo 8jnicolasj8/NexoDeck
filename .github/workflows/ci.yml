@@ -1,4 +1,4 @@
-name: NexoDeck CI & Release
+name: VexaDeck CI & Release
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           npm --prefix web run build
 
       - name: Build .NET Server Solution
-        run: dotnet build server/src/NexoDeck.Server/NexoDeck.Server.csproj -c Release
+        run: dotnet build server/src/VexaDeck.Server/VexaDeck.Server.csproj -c Release
 
       - name: Run Build & Packaging Script
         shell: powershell
@@ -50,7 +50,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: NexoDeck-Release-Binaries
+          name: VexaDeck-Release-Binaries
           path: dist/*
 
       - name: Create GitHub Release (On Tag)

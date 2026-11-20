@@ -1,13 +1,13 @@
 import { requireOptionalNativeModule } from 'expo-modules-core';
 
-interface NexoDeckNetNative {
+interface VexaDeckNetNative {
   wake(mac: string, port: number): Promise<boolean>;
   localSubnets(): Promise<string[]>;
   acquireMulticast(): Promise<void>;
   releaseMulticast(): Promise<void>;
 }
 
-const Native = requireOptionalNativeModule<NexoDeckNetNative>('NexoDeckNet');
+const Native = requireOptionalNativeModule<VexaDeckNetNative>('VexaDeckNet');
 
 /**
  * Wake-on-LAN needs a UDP broadcast, which the WebView cannot do. The Kotlin

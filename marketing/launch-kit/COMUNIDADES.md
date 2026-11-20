@@ -8,7 +8,7 @@ Título: `Hice una botonera para la PC que corre 100 % en tu red local (open sou
 
 Cuerpo:
 
-> Hace un tiempo quería una botonera tipo Stream Deck pero no quería otro aparato ni depender de la nube, así que armé NexoDeck: un servidor en Windows y una interfaz web que usás desde el celular.
+> Hace un tiempo quería una botonera tipo Stream Deck pero no quería otro aparato ni depender de la nube, así que armé VexaDeck: un servidor en Windows y una interfaz web que usás desde el celular.
 >
 > Lo que hace hoy: perfiles que cambian según la app en primer plano, telemetría de CPU/GPU/RAM, volumen por aplicación, portapapeles y textos rápidos. Todo por LAN, sin cuentas ni telemetría.
 >
@@ -18,7 +18,7 @@ Sugerencias: r/selfhosted, r/opensource, r/Windows11, r/androidapps, r/argentina
 
 ## Show HN
 
-Título: `Show HN: NexoDeck – use your phone as a local macro deck for Windows`
+Título: `Show HN: VexaDeck – use your phone as a local macro deck for Windows`
 
 > I built a local-first alternative to a hardware macro deck: a Windows server plus a web UI you open on your phone. Profiles switch based on the foreground app, telemetry comes from LibreHardwareMonitor, and audio uses WASAPI. No cloud, no accounts, no telemetry.
 >

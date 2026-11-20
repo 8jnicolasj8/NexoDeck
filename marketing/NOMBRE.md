@@ -1,13 +1,13 @@
-# Verificación del nombre «NexoDeck»
+# Verificación del nombre «VexaDeck»
 
 > El nombre lo eligió el usuario. Este documento **no cambia nada**: deja la lista para decidir con datos.
 > No se completaron resultados para no inventar disponibilidad. Abrí cada enlace y anotá la fecha.
 
 ## ⚠️ Conflicto conocido
 
-Existe un proyecto open source llamado **NexoDeck** (`nekename/NexoDeck`), software libre para dispositivos Stream Deck (Flathub, winget, Product Hunt). **Es otro producto**, pero el nombre es casi idéntico. Riesgos:
+Existe un proyecto open source llamado **VexaDeck** (`nekename/VexaDeck`), software libre para dispositivos Stream Deck (Flathub, winget, Product Hunt). **Es otro producto**, pero el nombre es casi idéntico. Riesgos:
 
-- SEO: las búsquedas de "NexoDeck" probablemente lleven a ese proyecto.
+- SEO: las búsquedas de "VexaDeck" probablemente lleven a ese proyecto.
 - Tiendas y gestores de paquetes: nombres y slugs ocupados.
 - Marca: posible conflicto si el otro proyecto registra el nombre.
 
@@ -15,16 +15,16 @@ Existe un proyecto open source llamado **NexoDeck** (`nekename/NexoDeck`), softw
 
 | Verificación | Enlace | Resultado | Fecha |
 |---|---|---|---|
-| GitHub (repos y usuarios) | https://github.com/search?q=NexoDeck&type=repositories | | |
-| npm | https://www.npmjs.com/search?q=NexoDeck | | |
-| winget-pkgs | https://github.com/microsoft/winget-pkgs/search?q=NexoDeck | | |
-| Flathub | https://flathub.org/apps/search?q=NexoDeck | | |
-| Product Hunt | https://www.producthunt.com/search?q=NexoDeck | | |
-| Dominio `.com` | https://www.namecheap.com/domains/registration/results/?domain=nexodeck.com | | |
+| GitHub (repos y usuarios) | https://github.com/search?q=VexaDeck&type=repositories | | |
+| npm | https://www.npmjs.com/search?q=VexaDeck | | |
+| winget-pkgs | https://github.com/microsoft/winget-pkgs/search?q=VexaDeck | | |
+| Flathub | https://flathub.org/apps/search?q=VexaDeck | | |
+| Product Hunt | https://www.producthunt.com/search?q=VexaDeck | | |
+| Dominio `.com` | https://www.namecheap.com/domains/registration/results/?domain=vexadeck.com | | |
 | Dominio `.ar` | https://nic.ar/ | | |
-| Usuario TikTok | https://www.tiktok.com/@nexodeck | | |
-| Usuario YouTube | https://www.youtube.com/@nexodeck | | |
-| Usuario Instagram | https://www.instagram.com/nexodeck/ | | |
+| Usuario TikTok | https://www.tiktok.com/@vexadeck | | |
+| Usuario YouTube | https://www.youtube.com/@vexadeck | | |
+| Usuario Instagram | https://www.instagram.com/vexadeck/ | | |
 | Marca INPI (AR) | https://www.argentina.gob.ar/inpi | | |
 | Marca EUIPO | https://euipo.europa.eu/eSearch/ | | |
 | Marca USPTO | https://tmsearch.uspto.gov/ | | |

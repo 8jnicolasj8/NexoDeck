@@ -6,14 +6,14 @@ obj/
 node_modules/
 dist/
 
-# --- datos y logs locales de NexoDeck ---
+# --- datos y logs locales de VexaDeck ---
 /data/
 logs/
 *.log
 .verify-*/
 .verify-publish/
 .measure-data/
-server/src/NexoDeck.Server/wwwroot/logs/
+server/src/VexaDeck.Server/wwwroot/logs/
 
 # --- proyecto de video (no va al repo) ---
 landing/video/
@@ -27,8 +27,8 @@ marketing/video/.qa/
 marketing/footage/*.mp4
 
 # --- documentos usados como prompt ---
-NEXODECK_v0.2_PROMPT.md
-NEXODECK_BLUEPRINT.md
+VEXADECK_v0.2_PROMPT.md
+VEXADECK_BLUEPRINT.md
 
 # --- herramientas y scratch local ---
 .freebuff/
@@ -55,9 +55,9 @@ mobile/modules/*/android/build/
 web/dist-native/
 *.keystore
 *.jks
-NEXODECK_v0.3_PROMPT.md
-NEXODECK_LANZAMIENTO_PROMPT.md
-NEXODECK_PENDIENTES_PROMPT.md
+VEXADECK_v0.3_PROMPT.md
+VEXADECK_LANZAMIENTO_PROMPT.md
+VEXADECK_PENDIENTES_PROMPT.md
 
 # --- Astro generado ---
 website/.astro/

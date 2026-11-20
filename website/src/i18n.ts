@@ -50,7 +50,7 @@ export interface Copy {
 const rawCopy: Record<Lang, Copy> = {
   es: {
     htmlLang: 'es-AR',
-    title: 'NexoDeck — Usá tu celular como botonera para la PC',
+    title: 'VexaDeck — Usá tu celular como botonera para la PC',
     description:
       'Convertí tu Android o iPhone en una botonera táctil para Windows: perfiles automáticos, telemetría en vivo, volumen, portapapeles y más. Gratis, open source y 100 % local.',
     nav: { how: 'Cómo funciona', features: 'Funciones', downloads: 'Descargas', faq: 'Preguntas', repo: 'GitHub', otherLang: 'English', otherLangHref: '/en/' },
@@ -99,17 +99,17 @@ const rawCopy: Record<Lang, Copy> = {
         {
           title: 'La botonera',
           body: 'Botones grandes, telemetría arriba y navegación abajo. Todo cabe en una mano.',
-          alt: 'Botonera de NexoDeck en horizontal con botones de audio, captura y control, y telemetría de CPU, RAM, ping y red.',
+          alt: 'Botonera de VexaDeck en horizontal con botones de audio, captura y control, y telemetría de CPU, RAM, ping y red.',
         },
         {
           title: 'En vertical',
           body: 'El mismo deck se reacomoda solo cuando girás el teléfono.',
-          alt: 'Botonera de NexoDeck en vertical con una grilla de doce botones y telemetría en la parte superior.',
+          alt: 'Botonera de VexaDeck en vertical con una grilla de doce botones y telemetría en la parte superior.',
         },
         {
           title: 'El panel en la PC',
           body: 'Armá perfiles, botones y vistas previas desde el panel local, sin cuenta y sin nube.',
-          alt: 'Panel de configuración de NexoDeck en la PC con perfiles, grilla de botones y vista previa móvil.',
+          alt: 'Panel de configuración de VexaDeck en la PC con perfiles, grilla de botones y vista previa móvil.',
         },
       ],
     },
@@ -172,7 +172,7 @@ const rawCopy: Record<Lang, Copy> = {
       license: 'Licencia',
     },
     footer: {
-      trademark: 'Stream Deck es una marca registrada de Elgato. NexoDeck no está afiliado ni respaldado por Elgato.',
+      trademark: 'Stream Deck es una marca registrada de Elgato. VexaDeck no está afiliado ni respaldado por Elgato.',
       license: 'Licencia',
       security: 'Seguridad',
       made: 'Hecho para Windows, Android y iPhone.',
@@ -182,7 +182,7 @@ const rawCopy: Record<Lang, Copy> = {
     },
     guides: {
       iphone: {
-        title: 'Usar NexoDeck en iPhone',
+        title: 'Usar VexaDeck en iPhone',
         lead: 'En iPhone no hay app nativa: la botonera se usa desde Safari como PWA.',
         steps: [
           'Conectá el iPhone a la misma red WiFi que la PC.',
@@ -222,7 +222,7 @@ const rawCopy: Record<Lang, Copy> = {
   },
   en: {
     htmlLang: 'en',
-    title: 'NexoDeck — Turn your phone into a PC macro deck',
+    title: 'VexaDeck — Turn your phone into a PC macro deck',
     description:
       'Turn an Android phone or iPhone into a touch macro deck for Windows: automatic profiles, live telemetry, volume, clipboard and more. Free, open source and 100% local.',
     nav: { how: 'How it works', features: 'Features', downloads: 'Downloads', faq: 'FAQ', repo: 'GitHub', otherLang: 'Español', otherLangHref: '/' },
@@ -271,17 +271,17 @@ const rawCopy: Record<Lang, Copy> = {
         {
           title: 'The deck',
           body: 'Large buttons, telemetry up top and navigation at the bottom. It all fits in one hand.',
-          alt: 'NexoDeck deck in landscape with audio, capture and PC control buttons, plus CPU, RAM, ping and network telemetry.',
+          alt: 'VexaDeck deck in landscape with audio, capture and PC control buttons, plus CPU, RAM, ping and network telemetry.',
         },
         {
           title: 'Portrait',
           body: 'The same deck rearranges itself when you rotate the phone.',
-          alt: 'NexoDeck deck in portrait with a twelve-button grid and telemetry across the top.',
+          alt: 'VexaDeck deck in portrait with a twelve-button grid and telemetry across the top.',
         },
         {
           title: 'The PC panel',
           body: 'Build profiles, buttons and live previews from the local panel, with no account and no cloud.',
-          alt: 'NexoDeck configuration panel on the PC with profiles, button grid and phone preview.',
+          alt: 'VexaDeck configuration panel on the PC with profiles, button grid and phone preview.',
         },
       ],
     },
@@ -344,7 +344,7 @@ const rawCopy: Record<Lang, Copy> = {
       license: 'License',
     },
     footer: {
-      trademark: 'Stream Deck is a registered trademark of Elgato. NexoDeck is not affiliated with or endorsed by Elgato.',
+      trademark: 'Stream Deck is a registered trademark of Elgato. VexaDeck is not affiliated with or endorsed by Elgato.',
       license: 'License',
       security: 'Security',
       made: 'Made for Windows, Android and iPhone.',
@@ -354,7 +354,7 @@ const rawCopy: Record<Lang, Copy> = {
     },
     guides: {
       iphone: {
-        title: 'Using NexoDeck on iPhone',
+        title: 'Using VexaDeck on iPhone',
         lead: 'There is no native app on iPhone: the deck runs in Safari as a PWA.',
         steps: [
           'Connect the iPhone to the same WiFi network as the PC.',
@@ -396,7 +396,7 @@ const rawCopy: Record<Lang, Copy> = {
 
 /** Replaces the literal brand name with the value from brand.json, recursively. */
 function withBrand<T>(value: T, name: string): T {
-  if (typeof value === 'string') return value.replaceAll('NexoDeck', name) as unknown as T;
+  if (typeof value === 'string') return value.replaceAll('VexaDeck', name) as unknown as T;
   if (Array.isArray(value)) return value.map((item) => withBrand(item, name)) as unknown as T;
   if (value && typeof value === 'object') {
     return Object.fromEntries(

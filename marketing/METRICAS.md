@@ -6,15 +6,15 @@ La landing no tiene analíticas, píxeles ni cookies. Todo lo que se puede medir
 
 ```bash
 # Estrellas, forks, issues y watchers
-curl -s https://api.github.com/repos/8jnicolasj8/NexoDeck \
+curl -s https://api.github.com/repos/8jnicolasj8/VexaDeck \
   | jq '{stars: .stargazers_count, forks: .forks_count, issues: .open_issues_count}'
 
 # Descargas por asset del último release
-curl -s https://api.github.com/repos/8jnicolasj8/NexoDeck/releases/latest \
+curl -s https://api.github.com/repos/8jnicolasj8/VexaDeck/releases/latest \
   | jq '.assets[] | {name, download_count}'
 
 # Descargas acumuladas de todos los releases (paginado)
-curl -s "https://api.github.com/repos/8jnicolasj8/NexoDeck/releases?per_page=100" \
+curl -s "https://api.github.com/repos/8jnicolasj8/VexaDeck/releases?per_page=100" \
   | jq '[.[].assets[].download_count] | add'
 ```
 

@@ -3,7 +3,7 @@
 Medición real sobre el sitio publicado con Lighthouse 12.8.2 y Chrome headless, con el CDN de Netlify ya en caché.
 
 - **Fecha:** 19 de noviembre de 2026
-- **URL auditada:** `https://nexodeck-app.netlify.app/`
+- **URL auditada:** `https://vexadeck-app.netlify.app/`
 - **Móvil:** emulación por defecto de Lighthouse (Moto G Power, 4G lenta, CPU 4× más lenta)
 - **Escritorio:** preset `desktop`
 

@@ -23,7 +23,7 @@ export const ShellScreen: React.FC<Props> = ({ onOpenAddHost }) => {
 
   const send = (payload: unknown) => {
     const json = JSON.stringify(JSON.stringify(payload));
-    web.current?.injectJavaScript(`window.__nexodeckReceive && window.__nexodeckReceive(${json}); true;`);
+    web.current?.injectJavaScript(`window.__vexadeckReceive && window.__vexadeckReceive(${json}); true;`);
   };
 
   const sendHosts = () => {

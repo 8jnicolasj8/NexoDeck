@@ -19,8 +19,8 @@ export const App: React.FC = () => {
   );
   const [showBoot, setShowBoot] = useState(() => {
     return (
-      localStorage.getItem('nexodeck_boot_anim') !== 'false' &&
-      !sessionStorage.getItem('nexodeck_booted')
+      localStorage.getItem('vexadeck_boot_anim') !== 'false' &&
+      !sessionStorage.getItem('vexadeck_booted')
     );
   });
 
@@ -28,7 +28,7 @@ export const App: React.FC = () => {
   const profile = getActiveProfile();
 
   const handleBootComplete = () => {
-    sessionStorage.setItem('nexodeck_booted', 'true');
+    sessionStorage.setItem('vexadeck_booted', 'true');
     setShowBoot(false);
   };
 

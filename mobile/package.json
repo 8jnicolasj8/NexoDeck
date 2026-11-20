@@ -1,6 +1,6 @@
 {
-  "name": "nexodeck-mobile",
-  "version": "1.0.3",
+  "name": "vexadeck-mobile",
+  "version": "1.0.0",
   "private": true,
   "main": "index.js",
   "scripts": {

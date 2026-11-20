@@ -3,8 +3,8 @@ import { HostConnectionStatus, NativeHostInfo, OutgoingMessage, Transport, Trans
 declare global {
   interface Window {
     ReactNativeWebView?: { postMessage: (data: string) => void };
-    webkit?: { messageHandlers?: { nexodeck?: { postMessage: (data: unknown) => void } } };
-    __nexodeckReceive?: (json: string) => void;
+    webkit?: { messageHandlers?: { vexadeck?: { postMessage: (data: unknown) => void } } };
+    __vexadeckReceive?: (json: string) => void;
   }
 }
 
@@ -27,7 +27,7 @@ export class NativeTransport implements Transport {
   private readonly hostListHandlers: ((list: NativeHostInfo[], activeId: string | null) => void)[] = [];
 
   constructor() {
-    document.addEventListener('nexodeck:native', (event) => this.handle((event as CustomEvent).detail));
+    document.addEventListener('vexadeck:native', (event) => this.handle((event as CustomEvent).detail));
     window.addEventListener('message', (event) => {
       try {
         const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
@@ -36,7 +36,7 @@ export class NativeTransport implements Transport {
         // Not a bridge message.
       }
     });
-    window.__nexodeckReceive = (json: string) => {
+    window.__vexadeckReceive = (json: string) => {
       try { this.handle(JSON.parse(json)); } catch { }
     };
   }
@@ -82,7 +82,7 @@ export class NativeTransport implements Transport {
     const json = JSON.stringify(message);
     try {
       window.ReactNativeWebView?.postMessage(json);
-      window.webkit?.messageHandlers?.nexodeck?.postMessage(message);
+      window.webkit?.messageHandlers?.vexadeck?.postMessage(message);
     } catch {
       // Bridge unavailable: the mock keeps the UI usable during development.
     }
@@ -105,7 +105,7 @@ export class NativeTransport implements Transport {
         break;
       case 'clipboard.value':
         // The clipboard view reads it back through a request/response store field.
-        window.dispatchEvent(new CustomEvent('nexodeck:clipboard', { detail: data.text }));
+        window.dispatchEvent(new CustomEvent('vexadeck:clipboard', { detail: data.text }));
         break;
     }
   }

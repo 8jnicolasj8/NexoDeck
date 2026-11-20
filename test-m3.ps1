@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$exePath = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
-$dataDir = "D:\Archivos\Proyectos_personales\NexoDeck\.verify-data"
+$exePath = "D:\Archivos\Proyectos_personales\VexaDeck\server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\VexaDeck.Server.exe"
+$dataDir = "D:\Archivos\Proyectos_personales\VexaDeck\.verify-data"
 
-Write-Host "Starting NexoDeck.Server in background with data-dir $dataDir..."
+Write-Host "Starting VexaDeck.Server in background with data-dir $dataDir..."
 $proc = Start-Process -FilePath $exePath -ArgumentList "--background --dev --data-dir `"$dataDir`"" -PassThru
 
 try {

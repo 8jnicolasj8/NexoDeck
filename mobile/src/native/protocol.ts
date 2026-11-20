@@ -23,7 +23,7 @@ export const randomNonce = (): string => toBase64Url(randomBytes(16));
 export function parsePairLink(link: string): PairLink | null {
   try {
     const url = new URL(link.trim());
-    if (url.protocol !== 'nexodeck:' || url.hostname !== 'pair') return null;
+    if (url.protocol !== 'vexadeck:' || url.hostname !== 'pair') return null;
     const query = url.searchParams;
     if (query.get('v') !== '2') return null;
     const serverId = query.get('sid');
@@ -54,7 +54,7 @@ export function pairProof(secret: string, serverId: string, deviceId: string, no
 export function deriveDeviceKey(secret: string, deviceId: string, serverId: string, nonceC: string, nonceS: string): Uint8Array {
   const ikm = fromBase64Url(secret);
   const salt = utf8ToBytes(deviceId);
-  const info = utf8ToBytes(`nexodeck-device-key|${serverId}|${nonceC}|${nonceS}`);
+  const info = utf8ToBytes(`vexadeck-device-key|${serverId}|${nonceC}|${nonceS}`);
   return hkdf(sha256, ikm, salt, info, 32);
 }
 

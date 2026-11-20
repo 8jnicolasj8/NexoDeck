@@ -142,7 +142,7 @@ class DeckClient {
 
       case 'error': {
         if (msg.d?.code === 'unauthorized') {
-          localStorage.removeItem('nexodeck_token');
+          localStorage.removeItem('vexadeck_token');
           store.setHostConnection(hostId, 'unverified');
         }
         if (msg.d?.code === 'action_failed' && msg.d?.message) {

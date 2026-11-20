@@ -3,6 +3,29 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.0.0] - 2026-11-19
+
+### Agregado
+- **VexaDeck**: el proyecto se renombra de NexoDeck a VexaDeck. Nueva identidad visual, logo, instalador y nombres de artefactos.
+- **Nueva identidad de app**: paquete Android `app.vexadeck.android`, scheme `vexadeck://`, servicio mDNS `_vexadeck._tcp` y claves de almacenamiento `vexadeck.*`.
+- **Migración de datos**: el servidor copia `%APPDATA%\NexoDeck` a `%APPDATA%\VexaDeck` en el primer arranque; la PWA migra las claves `nexodeck_*` a `vexadeck_*`.
+- **Instalador limpio**: nuevo AppId de Inno Setup para convivir con la instalación anterior sin pisarla.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.0.0**. El APK usa `versionCode` 1000.
+- El repositorio pasa a `8jnicolasj8/VexaDeck` y el sitio a `vexadeck-app.netlify.app`.
+- La app Android anterior no se actualiza en sitio: al cambiar el `applicationId` hay que instalar VexaDeck y emparejar de nuevo.
+
+### Corregido
+- **Conexión Android estable**: la app firmaba los mensajes con la dirección equivocada y el servidor cerraba el socket al instante. Ahora cada dirección usa su propia firma y se evitan conexiones duplicadas.
+- **Emparejamiento Android**: los bytes aleatorios vienen del generador seguro del sistema, no de `crypto.getRandomValues`.
+
+### Nota histórica
+Las entradas siguientes pertenecen a la etapa anterior del proyecto (NexoDeck). Se conservan como referencia y sus nombres se actualizaron a VexaDeck.
+
+<details>
+<summary>Historial anterior (etapa NexoDeck)</summary>
+
 ## [1.0.3] - 2026-11-19
 
 ### Corregido
@@ -54,7 +77,7 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 - **App Android nativa** (`mobile/`, Expo + Kotlin): shell con WebView que empaqueta el mismo cliente web, protocolo v2 firmado y conexión directa por `ws://` sin instalar certificados.
 - **Varias PCs**: hasta cinco conexiones simultáneas y una activa. Chip de PC en la barra superior, hoja "Mis PCs", swipe para cambiar, caché por PC y alertas de PCs en segundo plano.
 - **Conexión por USB**: `adb reverse` desde el panel (opt-in), con instalación del APK y emparejamiento por cable. ADB solo se descarga si el usuario lo pide.
-- **Descubrimiento automático**: `/api/ident`, responder mDNS `_nexodeck._tcp` y barrido de subred bajo demanda para encontrar la PC cuando cambia la IP.
+- **Descubrimiento automático**: `/api/ident`, responder mDNS `_vexadeck._tcp` y barrido de subred bajo demanda para encontrar la PC cuando cambia la IP.
 - **Wake-on-LAN**: la app enciende la PC apagada con un magic packet desde Android; el panel muestra la MAC, permite probar el paquete y documenta los requisitos de BIOS/Windows.
 - **Esta PC**: `serverId` estable, nombre, color e ícono editables, con botón para regenerar la identidad.
 - **Emparejamiento con dos pestañas** en el panel: "Android (app)" (QR v2 + enlace copiable) e "iPhone / navegador" (QR v1).
@@ -124,4 +147,6 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 - **M6**: Portapapeles bidireccional PC ↔ Celular con historial en memoria, widget Now Playing (GSMTC), acciones seguras de energía (apagar con confirmación) y ejecución de scripts `.vbs` con lista blanca.
 - **M7**: Panel de configuración integral en WebView2 con editor visual de grillas, modal de edición de botones, vinculación de procesos y exportación/importación de `config.json`.
 - **M8**: Alertas hápticas de temperatura (>85°C), animación de arranque tipo terminal, atenuación automática por inactividad, modo OLED, modo reordenar botones desde el celular y soporte PWA.
-- **M9**: Script de instalación Inno Setup 6 (`installer/NexoDeck.iss`), empaquetador automático (`installer/build.ps1`), distribución portable `.zip` y documentación completa.
+- **M9**: Script de instalación Inno Setup 6 (`installer/VexaDeck.iss`), empaquetador automático (`installer/build.ps1`), distribución portable `.zip` y documentación completa.
+
+</details>

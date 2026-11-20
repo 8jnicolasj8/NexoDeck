@@ -36,14 +36,14 @@ export class BrowserTransport implements Transport {
   private async open(): Promise<void> {
     if (this.socket && this.socket.readyState <= WebSocket.OPEN) return;
 
-    let token = localStorage.getItem('nexodeck_token');
+    let token = localStorage.getItem('vexadeck_token');
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
     const queryToken = params.get('token');
 
     if (queryToken) {
       token = queryToken;
-      localStorage.setItem('nexodeck_token', token);
+      localStorage.setItem('vexadeck_token', token);
       params.delete('token');
       window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     }
@@ -59,7 +59,7 @@ export class BrowserTransport implements Transport {
         if (res.ok) {
           const pairData = await res.json();
           token = pairData.token;
-          if (token) localStorage.setItem('nexodeck_token', token);
+          if (token) localStorage.setItem('vexadeck_token', token);
           params.delete('code');
           window.history.replaceState({}, '', `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`);
         }
@@ -68,7 +68,7 @@ export class BrowserTransport implements Transport {
       }
     }
 
-    const host = localStorage.getItem('nexodeck_host') || window.location.host;
+    const host = localStorage.getItem('vexadeck_host') || window.location.host;
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 
     try {
@@ -82,7 +82,7 @@ export class BrowserTransport implements Transport {
           d: {
             token: token || '',
             deviceName: navigator.userAgent.includes('Android') ? 'Celular Android' : 'Cliente Web',
-            clientVersion: '1.0.3',
+            clientVersion: '1.0.0',
           },
         });
       };

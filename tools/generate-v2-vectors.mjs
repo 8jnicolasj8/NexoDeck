@@ -17,7 +17,7 @@ const hmac = (key, text) => createHmac('sha256', key).update(text, 'utf8').diges
 
 const pairProof = b64url(hmac(Buffer.from(pairSecret, 'base64url'), `pair|${serverId}|${deviceId}|${nonceC}`));
 const deviceKey = Buffer.from(
-  hkdfSync('sha256', Buffer.from(pairSecret, 'base64url'), Buffer.from(deviceId, 'utf8'), Buffer.from(`nexodeck-device-key|${serverId}|${nonceC}|${nonceS}`, 'utf8'), 32)
+  hkdfSync('sha256', Buffer.from(pairSecret, 'base64url'), Buffer.from(deviceId, 'utf8'), Buffer.from(`vexadeck-device-key|${serverId}|${nonceC}|${nonceS}`, 'utf8'), 32)
 );
 const deviceKeyB64 = b64url(deviceKey);
 const authProof = b64url(hmac(deviceKey, `auth|${serverId}|${nonceS}|${nonceC}`));

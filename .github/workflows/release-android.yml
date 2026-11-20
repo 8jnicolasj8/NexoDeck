@@ -63,7 +63,7 @@ jobs:
 
       - name: Restore keystore
         if: ${{ env.KEYSTORE_BASE64 != '' }}
-        run: printf '%s' "$KEYSTORE_BASE64" | base64 -d > android/app/nexodeck-release.keystore
+        run: printf '%s' "$KEYSTORE_BASE64" | base64 -d > android/app/vexadeck-release.keystore
         working-directory: mobile
 
       - name: Build APK
@@ -72,7 +72,7 @@ jobs:
           chmod +x gradlew
           if [ -n "$KEYSTORE_BASE64" ]; then
             ./gradlew assembleRelease \
-              -Pandroid.injected.signing.store.file="$PWD/app/nexodeck-release.keystore" \
+              -Pandroid.injected.signing.store.file="$PWD/app/vexadeck-release.keystore" \
               -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
               -Pandroid.injected.signing.key.alias="$KEY_ALIAS" \
               -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
@@ -89,14 +89,14 @@ jobs:
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           mkdir -p artifacts
-          cp "mobile/android/$APK_PATH" "artifacts/NexoDeck-Android-${VERSION}.apk"
-          cp "artifacts/NexoDeck-Android-${VERSION}.apk" artifacts/NexoDeck-Android.apk
+          cp "mobile/android/$APK_PATH" "artifacts/VexaDeck-Android-${VERSION}.apk"
+          cp "artifacts/VexaDeck-Android-${VERSION}.apk" artifacts/VexaDeck-Android.apk
           cd artifacts && sha256sum *.apk > SHA256SUMS-android.txt
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: nexodeck-android
+          name: vexadeck-android
           path: artifacts/*
 
       # El release de Windows lo crea ci.yml en paralelo. No publicamos un

@@ -1,6 +1,6 @@
 # Guía de Contribución / Contributing Guidelines
 
-¡Gracias por tu interés en contribuir a NexoDeck!
+¡Gracias por tu interés en contribuir a VexaDeck!
 
 ## 📌 Principios del Proyecto
 
@@ -15,7 +15,7 @@
 1. Clonar el repositorio.
 2. Compilar el backend:
    ```powershell
-   dotnet build server/src/NexoDeck.Server/NexoDeck.Server.csproj
+   dotnet build server/src/VexaDeck.Server/VexaDeck.Server.csproj
    ```
 3. Compilar el frontend web:
    ```powershell

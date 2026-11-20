@@ -5,11 +5,11 @@ Registro de todo lo que el prompt dejaba abierto, con el criterio usado.
 ## Nombre y marca
 
 - `brand.json` es la única fuente del nombre, el lema, el repo, el sitio y la paleta. La landing lo lee en build; el video y los guiones lo repiten a mano porque son piezas estáticas (si cambia el nombre hay que buscar y reemplazar en `marketing/`).
-- Se mantiene **NexoDeck** tal como pidió el usuario, con el aviso de nombre en `NOMBRE.md`.
+- Se mantiene **VexaDeck** tal como pidió el usuario, con el aviso de nombre en `NOMBRE.md`.
 
 ## Landing
 
-- **Sitio**: `https://nexodeck-app.netlify.app` como valor por defecto de `brand.json`. Si Netlify asigna otro nombre, hay que actualizar `brand.json` y `public/robots.txt` (o definir `SITE_URL` en el build).
+- **Sitio**: `https://vexadeck-app.netlify.app` como valor por defecto de `brand.json`. Si Netlify asigna otro nombre, hay que actualizar `brand.json` y `public/robots.txt` (o definir `SITE_URL` en el build).
 - **Stack**: Astro 5 + Tailwind 4 con salida estática. Sin islas de JavaScript: el único script es el botón "Copiar hash", que Astro empaqueta como archivo propio.
 - **Fuentes**: se reutilizan los `.woff2` de Inter y JetBrains Mono que ya viajaban con la PWA (licencia OFL), copiados a `website/public/fonts/`. Sin CDN.
 - **Capturas**: no hay grabaciones ni capturas reales en el repositorio y esta sesión no tiene panel de navegador para capturar la UI. El hero usa una composición **decorativa** (no simula una captura) y la sección "Mirá cómo se ve" queda como marcador explícito. Ver `footage/LEEME.md` para grabar y reemplazar.

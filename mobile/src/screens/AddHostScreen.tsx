@@ -27,7 +27,7 @@ export const AddHostScreen: React.FC<Props> = ({ onCancel, onPaired }) => {
     setError('');
     const parsed = parsePairLink(value);
     if (!parsed) {
-      setError('Ese enlace no es válido o es de una versión anterior de NexoDeck.');
+      setError('Ese enlace no es válido o es de una versión anterior de VexaDeck.');
       return;
     }
     setBusy(true);
@@ -85,7 +85,7 @@ export const AddHostScreen: React.FC<Props> = ({ onCancel, onPaired }) => {
               facing="back"
               barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
               onBarcodeScanned={({ data }) => {
-                if (data.startsWith('nexodeck://')) void applyLink(data);
+                if (data.startsWith('vexadeck://')) void applyLink(data);
               }}
             />
           ) : (
@@ -103,7 +103,7 @@ export const AddHostScreen: React.FC<Props> = ({ onCancel, onPaired }) => {
           <TextInput
             value={link}
             onChangeText={setLink}
-            placeholder="nexodeck://pair?v=2&…"
+            placeholder="vexadeck://pair?v=2&…"
             placeholderTextColor={colors.muted}
             autoCapitalize="none"
             style={styles.input}

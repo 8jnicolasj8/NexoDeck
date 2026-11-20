@@ -1,10 +1,10 @@
-# Arquitectura de NexoDeck
+# Arquitectura de VexaDeck
 
-NexoDeck está diseñado como una solución 100% local dividida en dos componentes principales: el **Servidor de Escritorio Windows** y el **Cliente Móvil Web (PWA)**.
+VexaDeck está diseñado como una solución 100% local dividida en dos componentes principales: el **Servidor de Escritorio Windows** y el **Cliente Móvil Web (PWA)**.
 
 ```mermaid
 flowchart TD
-    subgraph PC["PC Windows (NexoDeck.Server)"]
+    subgraph PC["PC Windows (VexaDeck.Server)"]
         subgraph Ports["Puertos Kestrel"]
             P47800["47800: HTTPS / WSS (LAN)"]
             P47801["47801: HTTP / Setup (LAN)"]
@@ -50,7 +50,7 @@ flowchart TD
 ## Flujo de datos y eventos
 
 1. **Arranque del servidor**:
-   - Resuelve `DataDir` según la prioridad: argumento `--data-dir`, `portable.flag`, `bootstrap.json` o `%AppData%\NexoDeck`.
+   - Resuelve `DataDir` según la prioridad: argumento `--data-dir`, `portable.flag`, `bootstrap.json` o `%AppData%\VexaDeck`.
    - Consulta `http://127.0.0.1:47802/api/health` para garantizar instancia única. Si ya existe una instancia, solicita `POST /api/admin/show-window` y finaliza.
    - Genera la Autoridad Certificadora (CA) y el certificado de servidor con los Subject Alternative Names (SAN) de las IPs locales.
    - Inicia los listeners de Kestrel y el bucle de telemetría pasiva.
@@ -78,9 +78,9 @@ flowchart TD
 mobile/                     App Android (Expo, Kotlin)
 ├─ src/native/              protocolo v2, conexión, storage, descubrimiento, WoL
 ├─ src/screens/             Mis PCs · Agregar PC · Shell (WebView)
-└─ modules/nexodeck-net/    módulo Kotlin: magic packet, mDNS lock, subredes
+└─ modules/vexadeck-net/    módulo Kotlin: magic packet, mDNS lock, subredes
 
-server/src/NexoDeck.Server/
+server/src/VexaDeck.Server/
 ├─ Services/ProtocolV2.cs   HMAC/HKDF y sobres firmados
 ├─ Services/HostIdentityService.cs  serverId, nombre, color, /api/ident, deep link
 ├─ Services/MdnsAdvertiser.cs       responder mDNS/DNS-SD sin dependencias

@@ -1,13 +1,13 @@
 # Rendimiento y consumo de memoria
 
 Medición del **Working Set - Private** (contador `\Process V2(*)\Working Set - Private`) de
-`NexoDeck.Server.exe` y de todos sus procesos hijo `msedgewebview2.exe`.
+`VexaDeck.Server.exe` y de todos sus procesos hijo `msedgewebview2.exe`.
 
 Herramienta: `tools/measure-ram.ps1`.
 
 ```powershell
 # Publicar primero el binario self-contained que se quiere medir
-dotnet publish server/src/NexoDeck.Server/NexoDeck.Server.csproj -c Release -r win-x64 --self-contained true
+dotnet publish server/src/VexaDeck.Server/VexaDeck.Server.csproj -c Release -r win-x64 --self-contained true
 
 # A = ventana abierta · B = ventana cerrada (bandeja) · C = cerrada + celular conectado
 .\tools\measure-ram.ps1 -Scenario All -Samples 5 -IntervalMs 2000
@@ -27,7 +27,7 @@ Escenarios:
 
 Fecha: 2026-11-17 · Build: Release `win-x64`, self-contained · 3 muestras × 1500 ms.
 
-| Escenario | nexodeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |
+| Escenario | vexadeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |
 |---|---:|---:|---:|---:|
 | A (ventana abierta) | 29,6 | 5 | 82,2 | 111,8 |
 | B (ventana cerrada) | 30,7 | **7** | **113,2** | 143,9 |
@@ -47,7 +47,7 @@ eliminar por completo los procesos de WebView2 con la ventana cerrada.
 
 Fecha: 2026-11-17 · Build: Release `win-x64`, self-contained · 3 muestras × 1500 ms.
 
-| Escenario | nexodeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |
+| Escenario | vexadeck.server (MB) | msedgewebview2 (procesos) | msedgewebview2 (MB) | Total (MB) |
 |---|---:|---:|---:|---:|
 | A (ventana abierta) | 29,7 | 5 | 92,5 | 122,2 |
 | B (ventana cerrada) | **8,8** | **0** | **0** | **8,8** |
@@ -62,7 +62,7 @@ Fecha: 2026-11-17 · Build: Release `win-x64`, self-contained · 3 muestras × 1
 | C (cerrada + celular) | 146,7 | **16,4** | 7 | **0** |
 
 **Resultado:** con la ventana cerrada no queda ningún proceso `msedgewebview2.exe` de
-NexoDeck y el servidor idle queda muy por debajo del objetivo de 100 MB (8,8 MB solo,
+VexaDeck y el servidor idle queda muy por debajo del objetivo de 100 MB (8,8 MB solo,
 16,4 MB con un celular conectado). El escenario A no es el uso normal: con el panel
 abierto el motor WebView2 se paga aparte y su cifra varía con la versión del runtime
 instalado, no con este cambio.
@@ -80,7 +80,7 @@ celular conectado.
 
 ## v0.3.0
 
-- mDNS: un socket UDP y un hilo de recepción que solo responde consultas de `_nexodeck._tcp.local`; se cierra al pausar el servidor.
+- mDNS: un socket UDP y un hilo de recepción que solo responde consultas de `_vexadeck._tcp.local`; se cierra al pausar el servidor.
 - ADB: no se ejecuta nada salvo que "Conexión USB" esté habilitada. Sin celulares aprobados no hay sondeos periódicos.
 - Telemetría: sigue pausándose si nadie mira y `view:false` en v2 evita enviar frames a PCs que no son la activa.
 - App: los sockets se cierran a los 60 s en segundo plano y se reabren al volver.

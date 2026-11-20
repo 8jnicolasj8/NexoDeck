@@ -19,38 +19,38 @@ export const SettingsView: React.FC = () => {
   } = useDeckStore();
 
   const [customHost, setCustomHost] = useState(
-    localStorage.getItem('nexodeck_host') || window.location.host
+    localStorage.getItem('vexadeck_host') || window.location.host
   );
   const [hostSaved, setHostSaved] = useState(false);
   const [dimTimeout, setDimTimeout] = useState(
-    localStorage.getItem('nexodeck_dim_timeout') || '3'
+    localStorage.getItem('vexadeck_dim_timeout') || '3'
   );
   const [bootAnimEnabled, setBootAnimEnabled] = useState(
-    localStorage.getItem('nexodeck_boot_anim') !== 'false'
+    localStorage.getItem('vexadeck_boot_anim') !== 'false'
   );
   const [vibrateAlerts, setVibrateAlerts] = useState(
-    localStorage.getItem('nexodeck_vibrate_alerts') !== 'false'
+    localStorage.getItem('vexadeck_vibrate_alerts') !== 'false'
   );
   const [preferUsb, setPreferUsb] = useState(
-    localStorage.getItem('nexodeck_prefer_usb') !== 'false'
+    localStorage.getItem('vexadeck_prefer_usb') !== 'false'
   );
 
   const handleSetDimTimeout = (val: string) => {
-    localStorage.setItem('nexodeck_dim_timeout', val);
+    localStorage.setItem('vexadeck_dim_timeout', val);
     setDimTimeout(val);
     triggerHaptic();
   };
 
   const handleToggleBootAnim = () => {
     const next = !bootAnimEnabled;
-    localStorage.setItem('nexodeck_boot_anim', String(next));
+    localStorage.setItem('vexadeck_boot_anim', String(next));
     setBootAnimEnabled(next);
     triggerHaptic();
   };
 
   const handleToggleVibrateAlerts = () => {
     const next = !vibrateAlerts;
-    localStorage.setItem('nexodeck_vibrate_alerts', String(next));
+    localStorage.setItem('vexadeck_vibrate_alerts', String(next));
     setVibrateAlerts(next);
     triggerHaptic();
   };
@@ -59,7 +59,7 @@ export const SettingsView: React.FC = () => {
   const [wakeLockSentinel, setWakeLockSentinel] = useState<any>(null);
 
   const handleSaveHost = () => {
-    localStorage.setItem('nexodeck_host', customHost.trim());
+    localStorage.setItem('vexadeck_host', customHost.trim());
     setHostSaved(true);
     setTimeout(() => setHostSaved(false), 2000);
     deckSocket.connect();
@@ -67,8 +67,8 @@ export const SettingsView: React.FC = () => {
 
   const handleUnpair = () => {
     if (window.confirm('¿Desvincular este celular de la PC? Vas a tener que volver a escanear el QR.')) {
-      localStorage.removeItem('nexodeck_token');
-      localStorage.removeItem('nexodeck_host');
+      localStorage.removeItem('vexadeck_token');
+      localStorage.removeItem('vexadeck_host');
       window.location.reload();
     }
   };
@@ -148,7 +148,7 @@ export const SettingsView: React.FC = () => {
                 type="checkbox"
                 checked={preferUsb}
                 onChange={(event) => {
-                  localStorage.setItem('nexodeck_prefer_usb', String(event.target.checked));
+                  localStorage.setItem('vexadeck_prefer_usb', String(event.target.checked));
                   setPreferUsb(event.target.checked);
                 }}
               />

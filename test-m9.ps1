@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-# NexoDeck v1.0.3 regression checks:
+# VexaDeck v1.0.0 regression checks:
 #   1. Grid rules shared by the panel and GridService (Node self-check).
 #   2. Action schema registry completeness.
 #   3. v0.1 -> v0.3 config migration without losing any button.
@@ -8,11 +8,11 @@ $ErrorActionPreference = "Stop"
 #   5. Spotify/Gamer edits (positions and deleted buttons) survive a save.
 
 $repoRoot = (Get-Item $PSScriptRoot).FullName
-$exePath = Join-Path $repoRoot "server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
+$exePath = Join-Path $repoRoot "server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\VexaDeck.Server.exe"
 if (-not (Test-Path $exePath)) { throw "Published exe not found. Run installer/build.ps1 first." }
 
-$running = Get-Process -Name "NexoDeck.Server" -ErrorAction SilentlyContinue
-if ($running) { throw "NexoDeck is already running. Close it before running this test." }
+$running = Get-Process -Name "VexaDeck.Server" -ErrorAction SilentlyContinue
+if ($running) { throw "VexaDeck is already running. Close it before running this test." }
 
 Write-Host "`n1. Grid rules self-check..."
 node (Join-Path $repoRoot "tools\grid-rules-check.js")
@@ -67,7 +67,7 @@ try {
     }
     if (-not $health) { throw "Server did not become healthy on port 47802." }
     Write-Host "  -> health OK, version $($health.version)"
-    if ($health.version -ne "1.0.3") { throw "Expected version 1.0.3, got '$($health.version)'" }
+    if ($health.version -ne "1.0.0") { throw "Expected version 1.0.0, got '$($health.version)'" }
 
     Write-Host "`n2. Action schema registry..."
     $schemas = Invoke-RestMethod -Uri "http://127.0.0.1:47802/api/admin/action-schemas"
@@ -156,7 +156,7 @@ try {
     if ($spotifyAfter.PSObject.Properties.Name -contains "locked") { throw "Spotify is still marked as a locked profile." }
     Write-Host "  -> Spotify kept 4/5 buttons in the new order, Gamer kept its new order"
 
-    Write-Host "`nAll v1.0.3 checks passed." -ForegroundColor Green
+    Write-Host "`nAll v1.0.0 checks passed." -ForegroundColor Green
 }
 finally {
     if ($proc -and -not $proc.HasExited) { $proc.Kill(); $proc.WaitForExit() }

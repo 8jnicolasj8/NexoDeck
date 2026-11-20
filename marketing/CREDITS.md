@@ -9,7 +9,7 @@ Todo recurso de terceros usado en la landing, el video y el material promocional
 | Inter (400, 600, 700) | Landing y video | SIL Open Font License 1.1 | https://github.com/rsms/inter |
 | JetBrains Mono (500, 700) | Landing y video | SIL Open Font License 1.1 | https://github.com/JetBrains/JetBrainsMono |
 
-Los `.woff2` se copiaron del propio cliente web de NexoDeck (`website/public/fonts/`), sin CDN.
+Los `.woff2` se copiaron del propio cliente web de VexaDeck (`website/public/fonts/`), sin CDN.
 
 ## Software
 
@@ -23,7 +23,7 @@ Los `.woff2` se copiaron del propio cliente web de NexoDeck (`website/public/fon
 
 ## Imágenes y logo
 
-- Logo e íconos de NexoDeck: provistos por el autor del proyecto.
+- Logo e íconos de VexaDeck: provistos por el autor del proyecto.
 - No se usan logos, capturas ni gráficos de Elgato ni de otras marcas.
 
 ## Música y efectos
@@ -34,4 +34,4 @@ Los `.woff2` se copiaron del propio cliente web de NexoDeck (`website/public/fon
 
 ## Marcas
 
-Stream Deck es una marca registrada de Elgato. NexoDeck no está afiliado ni respaldado por Elgato. El nombre se usa de forma descriptiva ("botonera tipo Stream Deck").
+Stream Deck es una marca registrada de Elgato. VexaDeck no está afiliado ni respaldado por Elgato. El nombre se usa de forma descriptiva ("botonera tipo Stream Deck").

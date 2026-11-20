@@ -3,21 +3,21 @@
 Bloque listo para pegar al inicio del README actual (o reemplazarlo). Mantiene las promesas honestas del proyecto.
 
 ```md
-![NexoDeck](NexoDeck-logo.png)
+![VexaDeck](VexaDeck-logo.png)
 
-# NexoDeck 🎛️
+# VexaDeck 🎛️
 
 Botonera táctil para Windows desde el celular: perfiles que cambian solos, telemetría en vivo,
 volumen, portapapeles y más. 100 % local, sin cuentas y sin telemetría.
 
-[![Última versión](https://img.shields.io/github/v/release/8jnicolasj8/NexoDeck?label=versi%C3%B3n&color=00FF9C)](https://github.com/8jnicolasj8/NexoDeck/releases/latest)
-[![Licencia](https://img.shields.io/github/license/8jnicolasj8/NexoDeck?color=2D7BFF)](LICENSE)
-[![Descargas](https://img.shields.io/github/downloads/8jnicolasj8/NexoDeck/total?color=00FF9C)](https://github.com/8jnicolasj8/NexoDeck/releases)
+[![Última versión](https://img.shields.io/github/v/release/8jnicolasj8/VexaDeck?label=versi%C3%B3n&color=00FF9C)](https://github.com/8jnicolasj8/VexaDeck/releases/latest)
+[![Licencia](https://img.shields.io/github/license/8jnicolasj8/VexaDeck?color=2D7BFF)](LICENSE)
+[![Descargas](https://img.shields.io/github/downloads/8jnicolasj8/VexaDeck/total?color=00FF9C)](https://github.com/8jnicolasj8/VexaDeck/releases)
 
-[Descargar para Windows](https://nexodeck-app.netlify.app/windows) ·
-[Android (APK)](https://nexodeck-app.netlify.app/apk) ·
-[Guía para iPhone](https://nexodeck-app.netlify.app/iphone) ·
-[Sitio](https://nexodeck-app.netlify.app)
+[Descargar para Windows](https://vexadeck-app.netlify.app/windows) ·
+[Android (APK)](https://vexadeck-app.netlify.app/apk) ·
+[Guía para iPhone](https://vexadeck-app.netlify.app/iphone) ·
+[Sitio](https://vexadeck-app.netlify.app)
 
 ## Inicio rápido
 
@@ -45,7 +45,7 @@ Leé [CONTRIBUTING.md](CONTRIBUTING.md) y buscá los issues con `good first issu
 
 ## Aviso de marca
 
-Stream Deck es una marca registrada de Elgato. NexoDeck no está afiliado ni respaldado por Elgato.
+Stream Deck es una marca registrada de Elgato. VexaDeck no está afiliado ni respaldado por Elgato.
 ```
 
 ## Topics sugeridos

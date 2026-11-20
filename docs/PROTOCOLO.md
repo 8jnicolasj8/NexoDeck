@@ -1,4 +1,4 @@
-# Especificación del Protocolo WebSocket (NexoDeck v1)
+# Especificación del Protocolo WebSocket (VexaDeck v1)
 
 La comunicación en tiempo real entre el servidor PC y el cliente móvil se realiza a través de WebSockets en formato JSON estructurado.
 
@@ -179,12 +179,12 @@ limit de 120 req/min por IP:
 
 ```json
 {
-  "app": "nexodeck",
+  "app": "vexadeck",
   "serverId": "3f1c…",
   "pcName": "PC-Escritorio",
   "pcColor": "#00FF9C",
   "pcIcon": "monitor",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "protocol": [1, 2],
   "addresses": ["192.168.1.20"],
   "httpPort": 47801,
@@ -203,13 +203,13 @@ necesita para Wake-on-LAN cuando la PC está apagada.
 1. Panel → Emparejar → **Android (app)** genera un `pairSecret` de 16 bytes,
    de un solo uso, válido 5 minutos.
 2. El QR y el enlace contienen
-   `nexodeck://pair?v=2&sid=…&name=…&color=…&addr=…&port=47801&s=…&exp=…&mac=…`.
+   `vexadeck://pair?v=2&sid=…&name=…&color=…&addr=…&port=47801&s=…&exp=…&mac=…`.
 3. La app abre `/ws2` y envía `pair2` en claro con
    `proof = HMAC(pairSecret, "pair|serverId|deviceId|nonceC")`.
 4. El servidor consume el secreto, responde `pair2ok` con `nonceS` y guarda
    `deviceKey` protegida con DPAPI (ámbito del usuario actual).
 5. Ambos derivan, sin transmitirla,
-   `deviceKey = HKDF-SHA256(pairSecret, salt=deviceId, info="nexodeck-device-key|serverId|nonceC|nonceS", 32)`.
+   `deviceKey = HKDF-SHA256(pairSecret, salt=deviceId, info="vexadeck-device-key|serverId|nonceC|nonceS", 32)`.
 
 ### Sesión (`hello2`)
 
@@ -245,7 +245,7 @@ valide es la prueba de que la PC conoce la clave (autenticación mutua).
 de `pairProof`, `deviceKey`, `authProof`, `sessionKey` y dos MACs. Lo verifican
 los dos lados:
 
-- C#: `NexoDeck.Server.exe --verify-v2 docs/protocol-v2-vectors.json` (exit 0).
+- C#: `VexaDeck.Server.exe --verify-v2 docs/protocol-v2-vectors.json` (exit 0).
 - Android: `npm test` en `mobile/` (Jest).
 
 Para regenerar los vectores: `node tools/generate-v2-vectors.mjs`.

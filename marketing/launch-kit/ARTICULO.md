@@ -43,4 +43,4 @@ El APK carga el bundle web desde los assets locales y expone un puente nativo m�
 - El panel de administración es la superficie más sensible: loopback obligatorio y sin acceso desde la red.
 - El modo OLED no es estético: en un celular viejo usado como panel fijo, el negro puro y la atenuación cambian la experiencia.
 
-Repo y código: <https://github.com/8jnicolasj8/NexoDeck>
+Repo y código: <https://github.com/8jnicolasj8/VexaDeck>

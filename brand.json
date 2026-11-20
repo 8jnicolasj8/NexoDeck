@@ -1,8 +1,8 @@
 {
-  "name": "NexoDeck",
+  "name": "VexaDeck",
   "tagline": "Tu celular, ahora es una botonera para tu PC.",
-  "repo": "https://github.com/8jnicolasj8/NexoDeck",
-  "siteUrl": "https://nexodeck-app.netlify.app",
+  "repo": "https://github.com/8jnicolasj8/VexaDeck",
+  "siteUrl": "https://vexadeck-app.netlify.app",
   "accent": "#00FF9C",
   "accentAlt": "#2D7BFF",
   "bg": "#0A0C0F"

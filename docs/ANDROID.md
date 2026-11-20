@@ -1,10 +1,10 @@
-# NexoDeck para Android
+# VexaDeck para Android
 
 La app nativa es un **shell Kotlin/Expo** que empaqueta el mismo cliente web de
 la PWA dentro de un APK. Toda la red (sockets, emparejamiento, USB, mDNS,
 Wake-on-LAN) vive en la capa nativa; el WebView no abre sockets.
 
-- `applicationId` provisorio: `app.nexodeck.android` (se define una sola vez en
+- `applicationId` provisorio: `app.vexadeck.android` (se define una sola vez en
   `mobile/app.config.ts`).
 - `minSdk 26` (Android 8.0), `targetSdk 35`.
 - Protocolo v2 con mensajes firmados. No requiere instalar ninguna CA.
@@ -47,8 +47,8 @@ reproducibles).
 
 ```bash
 keytool -genkeypair -v -storetype PKCS12 \
-  -keystore nexodeck-release.keystore \
-  -alias nexodeck -keyalg RSA -keysize 2048 -validity 10000
+  -keystore vexadeck-release.keystore \
+  -alias vexadeck -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 **Guardá la keystore y sus contraseñas fuera del repositorio.** Si se pierde, no
@@ -58,9 +58,9 @@ nueva. En CI se usan los secretos `ANDROID_KEYSTORE_BASE64`,
 
 ## Instalación por APK (sideload)
 
-1. Descargá `NexoDeck-Android.apk` desde el release.
+1. Descargá `VexaDeck-Android.apk` desde el release.
 2. Al abrirlo, Android pide **"Permitir instalar apps de esta fuente"**.
-3. Abrí NexoDeck y escaneá el QR de **Panel → Emparejar → Android (app)**.
+3. Abrí VexaDeck y escaneá el QR de **Panel → Emparejar → Android (app)**.
 
 ## Permisos y por qué
 
@@ -86,7 +86,7 @@ HTTPS o una VPN (Tailscale/WireGuard).
 
 ## Wake-on-LAN
 
-La app envía el magic packet desde Kotlin (`modules/nexodeck-net`) a los
+La app envía el magic packet desde Kotlin (`modules/vexadeck-net`) a los
 broadcasts de la red local. La PC debe tener:
 
 1. Wake-on-LAN activado en la BIOS/UEFI.
@@ -111,5 +111,5 @@ No se publica todavía. Antes de hacerlo hace falta:
 ## Tests
 
 `npm test` en `mobile/` corre Jest con `docs/protocol-v2-vectors.json`, el mismo
-archivo que verifica el servidor C# (`NexoDeck.Server.exe --verify-v2`). Si un
+archivo que verifica el servidor C# (`VexaDeck.Server.exe --verify-v2`). Si un
 lado cambia el protocolo, el otro falla en el test.

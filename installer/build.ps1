@@ -7,52 +7,53 @@ $distDir = Join-Path $repoRoot "dist"
 New-Item -ItemType Directory -Force -Path $distDir | Out-Null
 
 # La versión sale del csproj para que el zip, el instalador y el panel no se desincronicen.
-$versionMatch = Select-String -Path (Join-Path $repoRoot "server\src\NexoDeck.Server\NexoDeck.Server.csproj") -Pattern '<Version>([^<]+)</Version>'
+$versionMatch = Select-String -Path (Join-Path $repoRoot "server\src\VexaDeck.Server\VexaDeck.Server.csproj") -Pattern '<Version>([^<]+)</Version>'
 if (-not $versionMatch) { throw "No se pudo leer <Version> del csproj." }
 $appVersion = $versionMatch.Matches[0].Groups[1].Value
 
 # dist/ solo conserva los binarios de la versión actual: los instaladores y
 # zips viejos confunden al publicar y no deben subirse al release.
 Get-ChildItem -Path $distDir -File | Where-Object {
-    ($_.Name -match '^(NexoDeck|OpenDeck)-' -and $_.Extension -in '.exe', '.zip') -or
-    $_.Name -eq 'SHA256SUMS.txt'
+    $_.Name -match '^(NexoDeck|OpenDeck)-' -or
+    (($_.Name -match '^VexaDeck-' -and $_.Extension -in '.exe', '.zip') -or
+    $_.Name -eq 'SHA256SUMS.txt')
 } | Remove-Item -Force
 
 Write-Host "=============================================" -ForegroundColor Cyan
-Write-Host " NexoDeck Build & Package Script" -ForegroundColor Cyan
+Write-Host " VexaDeck Build & Package Script" -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 
 # 1. Build Web PWA Frontend
 Write-Host "`n1. Building Web PWA Client (Vite)..." -ForegroundColor Yellow
 # Vite usa emptyOutDir=false para no borrar admin.html; limpiamos los bundles
 # viejos a mano para no empaquetar dos versiones de la PWA.
-$assetsDir = Join-Path $repoRoot "server\src\NexoDeck.Server\wwwroot\assets"
+$assetsDir = Join-Path $repoRoot "server\src\VexaDeck.Server\wwwroot\assets"
 if (Test-Path $assetsDir) { Remove-Item -Recurse -Force $assetsDir }
 npm --prefix web run build
 if ($LASTEXITCODE -ne 0) { throw "Web build failed." }
 
 # 2. Publish .NET Desktop Server
 Write-Host "`n2. Publishing .NET Server (Release win-x64, self-contained)..." -ForegroundColor Yellow
-dotnet publish server/src/NexoDeck.Server/NexoDeck.Server.csproj -c Release -r win-x64 --self-contained true
+dotnet publish server/src/VexaDeck.Server/VexaDeck.Server.csproj -c Release -r win-x64 --self-contained true
 if ($LASTEXITCODE -ne 0) { throw "Dotnet publish failed." }
 
-$publishDir = Join-Path $repoRoot "server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
+$publishDir = Join-Path $repoRoot "server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish"
 
 # 3. Create Portable Zip
 Write-Host "`n3. Creating Portable Package..." -ForegroundColor Yellow
-$portableDir = Join-Path $repoRoot "dist\NexoDeck-portable"
+$portableDir = Join-Path $repoRoot "dist\VexaDeck-portable"
 if (Test-Path $portableDir) { Remove-Item -Recurse -Force $portableDir }
 New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
 
 Copy-Item -Path "$publishDir\*" -Destination $portableDir -Recurse
 New-Item -ItemType File -Force -Path (Join-Path $portableDir "portable.flag") | Out-Null
 
-$portableZip = Join-Path $distDir "NexoDeck-$appVersion-portable.zip"
+$portableZip = Join-Path $distDir "VexaDeck-$appVersion-portable.zip"
 if (Test-Path $portableZip) { Remove-Item -Force $portableZip }
 Compress-Archive -Path "$portableDir\*" -DestinationPath $portableZip -CompressionLevel Optimal
 Remove-Item -Recurse -Force $portableDir
 # Stable name for the landing page: one URL that always points to the latest build.
-Copy-Item -Path $portableZip -Destination (Join-Path $distDir "NexoDeck-Portable.zip") -Force
+Copy-Item -Path $portableZip -Destination (Join-Path $distDir "VexaDeck-Portable.zip") -Force
 Write-Host "  -> Portable ZIP created: $portableZip" -ForegroundColor Green
 
 # 4. Compile Installer with Inno Setup
@@ -79,10 +80,10 @@ foreach ($candidate in $isccCandidates) {
 
 if ($isccPath) {
     Write-Host "  -> Found Inno Setup Compiler at: $isccPath"
-    $issFile = Join-Path $repoRoot "installer\NexoDeck.iss"
+    $issFile = Join-Path $repoRoot "installer\VexaDeck.iss"
     & $isccPath "/DMyAppVersion=$appVersion" $issFile
     if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-    Copy-Item -Path (Join-Path $distDir "NexoDeck-Setup-$appVersion.exe") -Destination (Join-Path $distDir "NexoDeck-Setup.exe") -Force
+    Copy-Item -Path (Join-Path $distDir "VexaDeck-Setup-$appVersion.exe") -Destination (Join-Path $distDir "VexaDeck-Setup.exe") -Force
     Write-Host "  -> Installer generated successfully in: $distDir" -ForegroundColor Green
 } else {
     Write-Warning "Inno Setup compiler (ISCC.exe) not found. Installer generation skipped."
@@ -91,10 +92,10 @@ if ($isccPath) {
 # 5. Checksums for the release assets
 Write-Host "`n5. Writing SHA256SUMS.txt..." -ForegroundColor Yellow
 $checksumNames = @(
-    "NexoDeck-$appVersion-portable.zip",
-    "NexoDeck-Portable.zip",
-    "NexoDeck-Setup-$appVersion.exe",
-    "NexoDeck-Setup.exe"
+    "VexaDeck-$appVersion-portable.zip",
+    "VexaDeck-Portable.zip",
+    "VexaDeck-Setup-$appVersion.exe",
+    "VexaDeck-Setup.exe"
 )
 $checksumLines = @()
 foreach ($name in $checksumNames) {

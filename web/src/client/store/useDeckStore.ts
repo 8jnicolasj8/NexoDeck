@@ -169,8 +169,8 @@ export const useDeckStore = create<DeckState>((set, get) => ({
   states: {},
   activeTab: 'deck',
   ping: 0,
-  isOled: localStorage.getItem('nexodeck_oled') === 'true',
-  hapticLevel: (localStorage.getItem('nexodeck_haptic') as 'off' | 'low' | 'med' | 'high') || 'med',
+  isOled: localStorage.getItem('vexadeck_oled') === 'true',
+  hapticLevel: (localStorage.getItem('vexadeck_haptic') as 'off' | 'low' | 'med' | 'high') || 'med',
   clipboardLast: '',
   clipboardHistory: [],
   nowPlaying: null,
@@ -185,12 +185,12 @@ export const useDeckStore = create<DeckState>((set, get) => ({
 
   setActiveTab: (activeTab) => set({ activeTab }),
   setOled: (isOled) => {
-    localStorage.setItem('nexodeck_oled', String(isOled));
+    localStorage.setItem('vexadeck_oled', String(isOled));
     document.body.classList.toggle('oled', isOled);
     set({ isOled });
   },
   setHapticLevel: (hapticLevel) => {
-    localStorage.setItem('nexodeck_haptic', hapticLevel);
+    localStorage.setItem('vexadeck_haptic', hapticLevel);
     set({ hapticLevel });
   },
   triggerHaptic: () => {

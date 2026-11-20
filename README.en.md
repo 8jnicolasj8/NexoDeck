@@ -1,6 +1,6 @@
-# NexoDeck 🎛️
+# VexaDeck 🎛️
 
-![NexoDeck](NexoDeck-logo.png)
+![VexaDeck](VexaDeck-logo.png)
 
 Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone or tablet into your personal stream deck with zero cloud dependencies and absolute privacy.
 
@@ -20,40 +20,25 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 
 ## 🚀 Installation & Usage
 
-### What's new in 1.0.3
-- **Stable Android connection**: the app signed messages with the wrong direction and the server closed the socket immediately, causing constant connect/disconnect cycles. Each direction now uses its own signature and duplicate connections are avoided.
-
-### What's new in 1.0.2
-- **Android pairing fixed**: scanning the QR code or pasting the link no longer fails with `crypto.getRandomValues must be defined`. The app now uses the system's secure random generator.
-
-### What's new in 1.0.1
-- **Factory profiles are editable**: Spotify and Gamer keep the buttons, order and changes you make in the panel. Saving any configuration used to reset the Spotify deck to its original layout.
-- **Spotify without a lock**: the profile still shows the current track and cover art, but its buttons can be moved, changed or deleted like any other profile.
-
 ### What's new in 1.0.0
-- **Gamer profile**: activates by itself when the foreground app looks like a game, using the detected library (Steam, Epic, `D:\Games`, etc.) or Direct3D fullscreen. Browsers, launchers and media players are excluded.
-- **Spotify profile**: shows the current track with cover art and a compact deck.
-- **Power actions report errors**: shutdown and restart use the full `shutdown.exe` path, retry through the shell and send the error back to the phone instead of failing silently.
-- **Optional profiles**: Spotify and Gamer can be removed and added back from Profiles.
+- **New name, same deck**: NexoDeck is now VexaDeck, with a new logo, installer and artifact names.
+- **Stable Android connection**: the app signs each message with the correct direction and avoids duplicate connections, so it no longer gets stuck in a connect/disconnect loop.
+- **Clean install**: VexaDeck uses a new Android `applicationId` and Windows AppId. The previous Android app is not updated in place: install VexaDeck and pair again.
+- **Data preserved**: the server migrates the configuration from `%APPDATA%\NexoDeck` automatically, and the PWA keeps host, token and settings.
 
-### What's new in 0.3.0
-- **Android app**: the APK bundles the same web client and connects over signed `ws://`, with no certificate to install. The PWA and iPhone keep working over v1.
-- **Multiple PCs**: up to five live connections with one active PC, a PC chip, a "My PCs" sheet and background alerts.
-- **Wake-on-LAN**: turn the PC on from the phone when it is fully off (needs WoL enabled in BIOS and on the adapter).
-- **USB fallback**: `adb reverse` when Wi-Fi is unavailable, plus APK install and cable pairing from the panel.
-- **Self discovery**: `/api/ident`, mDNS and on-demand subnet scanning when the PC IP changes.
+The full version history is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ### Option 1: Official Installer (Recommended)
-Download `NexoDeck-Setup-1.0.3.exe` from the Releases section or build it using the package script.
+Download `VexaDeck-Setup-1.0.0.exe` from the Releases section or build it using the package script.
 - Sets up an elevated scheduled task to run on Windows startup without UAC prompts.
 - Configures Windows Firewall rules for private networks automatically.
 - Allows choosing your custom data directory.
 
 ### Option 2: Portable Version
-Download and extract `NexoDeck-1.0.3-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
+Download and extract `VexaDeck-1.0.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
 
 ### Option 3: Android App
-Download `NexoDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).
+Download `VexaDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).
 
 ---
 

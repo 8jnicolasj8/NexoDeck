@@ -1,9 +1,9 @@
 {
   "lighthouseVersion": "12.8.2",
-  "requestedUrl": "https://nexodeck-app.netlify.app/",
-  "mainDocumentUrl": "https://nexodeck-app.netlify.app/",
-  "finalDisplayedUrl": "https://nexodeck-app.netlify.app/",
-  "finalUrl": "https://nexodeck-app.netlify.app/",
+  "requestedUrl": "https://vexadeck-app.netlify.app/",
+  "mainDocumentUrl": "https://vexadeck-app.netlify.app/",
+  "finalDisplayedUrl": "https://vexadeck-app.netlify.app/",
+  "finalUrl": "https://vexadeck-app.netlify.app/",
   "fetchTime": "2026-11-19T22:16:28.105Z",
   "gatherMode": "navigation",
   "runWarnings": [],
@@ -281,7 +281,7 @@
         ],
         "items": [
           {
-            "url": "https://nexodeck-app.netlify.app/",
+            "url": "https://vexadeck-app.netlify.app/",
             "responseTime": 64.43299999999999
           }
         ],
@@ -347,7 +347,7 @@
         "chains": {
           "8F2BFF94F735AB625E3AA7D554946063": {
             "request": {
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "startTime": 17362.467644,
               "endTime": 17362.736453,
               "responseReceivedTime": 17362.735925,
@@ -356,7 +356,7 @@
             "children": {
               "24116.5": {
                 "request": {
-                  "url": "https://nexodeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
+                  "url": "https://vexadeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
                   "startTime": 17362.744581,
                   "endTime": 17362.91553,
                   "responseReceivedTime": 17362.915165,
@@ -365,7 +365,7 @@
               },
               "24116.19": {
                 "request": {
-                  "url": "https://nexodeck-app.netlify.app/manifest.webmanifest",
+                  "url": "https://vexadeck-app.netlify.app/manifest.webmanifest",
                   "startTime": 17362.746716,
                   "endTime": 17363.355717,
                   "responseReceivedTime": 17363.355371,
@@ -773,7 +773,7 @@
         ],
         "items": [
           {
-            "url": "https://nexodeck-app.netlify.app/",
+            "url": "https://vexadeck-app.netlify.app/",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 0,
@@ -790,7 +790,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/inter-400.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/inter-400.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.01199999824166,
@@ -808,7 +808,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/inter-600.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/inter-600.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.2609999999404,
@@ -826,7 +826,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/jetbrains-mono-500.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/jetbrains-mono-500.woff2",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.31700000166893,
@@ -844,7 +844,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
+            "url": "https://vexadeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.3649999983609,
@@ -861,7 +861,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/logo-mark.png",
+            "url": "https://vexadeck-app.netlify.app/logo-mark.png",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.42800000309944,
@@ -878,7 +878,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-560.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-560.avif",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 274.49599999934435,
@@ -895,7 +895,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/manifest.webmanifest",
+            "url": "https://vexadeck-app.netlify.app/manifest.webmanifest",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 279.4869999997318,
@@ -912,7 +912,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-840.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-840.avif",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 578.5650000013411,
@@ -929,7 +929,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-vertical-360.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-vertical-360.avif",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 578.6530000008643,
@@ -946,7 +946,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/panel.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/panel.avif",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 578.6909999996424,
@@ -963,7 +963,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/favicon.ico",
+            "url": "https://vexadeck-app.netlify.app/favicon.ico",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 662.702999997884,
@@ -980,7 +980,7 @@
             "entity": "netlify.app"
           },
           {
-            "url": "https://nexodeck-app.netlify.app/icon-192.png",
+            "url": "https://vexadeck-app.netlify.app/icon-192.png",
             "sessionTargetType": "page",
             "protocol": "h2",
             "rendererStartTime": 889.8260000012815,
@@ -1003,61 +1003,61 @@
           "initiators": [
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 1081
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 1171
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 1270
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 3071
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 3629
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 3,
               "columnNumber": 7118
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 6,
               "columnNumber": 8954
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 6,
               "columnNumber": 8954
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 6,
               "columnNumber": 8954
             },
             {
               "type": "parser",
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "lineNumber": 6,
               "columnNumber": 8954
             }
@@ -1091,7 +1091,7 @@
         ],
         "items": [
           {
-            "origin": "https://nexodeck-app.netlify.app",
+            "origin": "https://vexadeck-app.netlify.app",
             "rtt": 53.81299999999999
           }
         ],
@@ -1126,7 +1126,7 @@
         ],
         "items": [
           {
-            "origin": "https://nexodeck-app.netlify.app",
+            "origin": "https://vexadeck-app.netlify.app",
             "serverResponseTime": 39.343
           }
         ],
@@ -1365,8 +1365,8 @@
                     "width": 479,
                     "height": 326
                   },
-                  "snippet": "<img src=\"https://nexodeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de NexoDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
-                  "nodeLabel": "Botonera de NexoDeck en horizontal con botones de audio, captura y control, y t…"
+                  "snippet": "<img src=\"https://vexadeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de VexaDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
+                  "nodeLabel": "Botonera de VexaDeck en horizontal con botones de audio, captura y control, y t…"
                 }
               }
             ]
@@ -1450,8 +1450,8 @@
                 "width": 479,
                 "height": 326
               },
-              "snippet": "<img src=\"https://nexodeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de NexoDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
-              "nodeLabel": "Botonera de NexoDeck en horizontal con botones de audio, captura y control, y t…"
+              "snippet": "<img src=\"https://vexadeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de VexaDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
+              "nodeLabel": "Botonera de VexaDeck en horizontal con botones de audio, captura y control, y t…"
             }
           }
         ]
@@ -1635,11 +1635,11 @@
           "type": "debugdata",
           "initiatorPath": [
             {
-              "url": "https://nexodeck-app.netlify.app/screens/deck-560.avif",
+              "url": "https://vexadeck-app.netlify.app/screens/deck-560.avif",
               "initiatorType": "parser"
             },
             {
-              "url": "https://nexodeck-app.netlify.app/",
+              "url": "https://vexadeck-app.netlify.app/",
               "initiatorType": "other"
             }
           ],
@@ -1843,7 +1843,7 @@
         "type": "treemap-data",
         "nodes": [
           {
-            "name": "https://nexodeck-app.netlify.app/",
+            "name": "https://vexadeck-app.netlify.app/",
             "resourceBytes": 294,
             "encodedBytes": 0,
             "unusedBytes": 210,
@@ -2789,43 +2789,43 @@
         ],
         "items": [
           {
-            "url": "https://nexodeck-app.netlify.app/screens/panel.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/panel.avif",
             "totalBytes": 46013
           },
           {
-            "url": "https://nexodeck-app.netlify.app/icon-192.png",
+            "url": "https://vexadeck-app.netlify.app/icon-192.png",
             "totalBytes": 31316
           },
           {
-            "url": "https://nexodeck-app.netlify.app/logo-mark.png",
+            "url": "https://vexadeck-app.netlify.app/logo-mark.png",
             "totalBytes": 28448
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/inter-600.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/inter-600.woff2",
             "totalBytes": 24571
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/inter-400.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/inter-400.woff2",
             "totalBytes": 23792
           },
           {
-            "url": "https://nexodeck-app.netlify.app/fonts/jetbrains-mono-500.woff2",
+            "url": "https://vexadeck-app.netlify.app/fonts/jetbrains-mono-500.woff2",
             "totalBytes": 21952
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-840.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-840.avif",
             "totalBytes": 12424
           },
           {
-            "url": "https://nexodeck-app.netlify.app/",
+            "url": "https://vexadeck-app.netlify.app/",
             "totalBytes": 7521
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-560.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-560.avif",
             "totalBytes": 7080
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/deck-vertical-360.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/deck-vertical-360.avif",
             "totalBytes": 6911
           }
         ],
@@ -3073,7 +3073,7 @@
               "snippet": "<img src=\"/logo-mark.png\" alt=\"\" width=\"26\" height=\"26\">",
               "nodeLabel": "div.grid > div > div.flex > img"
             },
-            "url": "https://nexodeck-app.netlify.app/logo-mark.png",
+            "url": "https://vexadeck-app.netlify.app/logo-mark.png",
             "fromProtocol": true,
             "isCrossOrigin": false,
             "totalBytes": 28320,
@@ -3216,7 +3216,7 @@
               "snippet": "<img src=\"/logo-mark.png\" alt=\"\" width=\"30\" height=\"30\" class=\"h-[30px] w-[30px]\">",
               "nodeLabel": "header.sticky > div.mx-auto > a.flex > img.h-[30px]"
             },
-            "url": "https://nexodeck-app.netlify.app/logo-mark.png",
+            "url": "https://vexadeck-app.netlify.app/logo-mark.png",
             "totalBytes": 28320,
             "wastedBytes": 26764,
             "wastedPercent": 94.5068359375
@@ -3235,10 +3235,10 @@
                 "width": 1110,
                 "height": 695
               },
-              "snippet": "<img src=\"https://nexodeck-app.netlify.app/screens/panel.avif\" width=\"1440\" height=\"900\" alt=\"Panel de configuración de NexoDeck en la PC con perfiles, grilla de botone…\" class=\"h-auto w-full border-b border-line/60\" loading=\"lazy\" decoding=\"async\">",
-              "nodeLabel": "Panel de configuración de NexoDeck en la PC con perfiles, grilla de botones y v…"
+              "snippet": "<img src=\"https://vexadeck-app.netlify.app/screens/panel.avif\" width=\"1440\" height=\"900\" alt=\"Panel de configuración de VexaDeck en la PC con perfiles, grilla de botone…\" class=\"h-auto w-full border-b border-line/60\" loading=\"lazy\" decoding=\"async\">",
+              "nodeLabel": "Panel de configuración de VexaDeck en la PC con perfiles, grilla de botones y v…"
             },
-            "url": "https://nexodeck-app.netlify.app/screens/panel.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/panel.avif",
             "totalBytes": 45855,
             "wastedBytes": 18599,
             "wastedPercent": 40.56018518518518
@@ -4101,7 +4101,7 @@
         ],
         "items": [
           {
-            "url": "https://nexodeck-app.netlify.app/logo-mark.png",
+            "url": "https://vexadeck-app.netlify.app/logo-mark.png",
             "totalBytes": 28320,
             "wastedBytes": 28170,
             "subItems": {
@@ -4119,7 +4119,7 @@
             }
           },
           {
-            "url": "https://nexodeck-app.netlify.app/screens/panel.avif",
+            "url": "https://vexadeck-app.netlify.app/screens/panel.avif",
             "totalBytes": 45855,
             "wastedBytes": 18609,
             "subItems": {
@@ -4219,8 +4219,8 @@
               "width": 479,
               "height": 326
             },
-            "snippet": "<img src=\"https://nexodeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de NexoDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
-            "nodeLabel": "Botonera de NexoDeck en horizontal con botones de audio, captura y control, y t…"
+            "snippet": "<img src=\"https://vexadeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de VexaDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
+            "nodeLabel": "Botonera de VexaDeck en horizontal con botones de audio, captura y control, y t…"
           }
         ]
       },
@@ -4271,8 +4271,8 @@
               "width": 479,
               "height": 326
             },
-            "snippet": "<img src=\"https://nexodeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de NexoDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
-            "nodeLabel": "Botonera de NexoDeck en horizontal con botones de audio, captura y control, y t…"
+            "snippet": "<img src=\"https://vexadeck-app.netlify.app/screens/deck-560.avif\" width=\"1120\" height=\"760\" alt=\"Botonera de VexaDeck en horizontal con botones de audio, captura y control…\" class=\"h-auto w-full rounded-[1.5rem] border border-line/80 bg-bg\" loading=\"eager\" fetchpriority=\"high\" decoding=\"async\">",
+            "nodeLabel": "Botonera de VexaDeck en horizontal con botones de audio, captura y control, y t…"
           }
         ]
       },
@@ -4372,20 +4372,20 @@
               "type": "network-tree",
               "chains": {
                 "8F2BFF94F735AB625E3AA7D554946063": {
-                  "url": "https://nexodeck-app.netlify.app/",
+                  "url": "https://vexadeck-app.netlify.app/",
                   "navStartToEndTime": 277,
                   "transferSize": 7521,
                   "isLongest": true,
                   "children": {
                     "24116.19": {
-                      "url": "https://nexodeck-app.netlify.app/manifest.webmanifest",
+                      "url": "https://vexadeck-app.netlify.app/manifest.webmanifest",
                       "navStartToEndTime": 889,
                       "transferSize": 1058,
                       "isLongest": true,
                       "children": {}
                     },
                     "24116.5": {
-                      "url": "https://nexodeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
+                      "url": "https://vexadeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
                       "navStartToEndTime": 450,
                       "transferSize": 6074,
                       "children": {}
@@ -4455,7 +4455,7 @@
         ],
         "items": [
           {
-            "url": "https://nexodeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
+            "url": "https://vexadeck-app.netlify.app/_astro/iphone-guide.CC5ySdTm.css",
             "totalBytes": 6074
           }
         ]
@@ -5628,7 +5628,7 @@
     {
       "name": "netlify.app",
       "origins": [
-        "https://nexodeck-app.netlify.app"
+        "https://vexadeck-app.netlify.app"
       ],
       "isFirstParty": true,
       "isUnrecognized": true

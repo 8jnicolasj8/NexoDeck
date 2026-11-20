@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
-$exePath = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
-$dataDir = "D:\Archivos\Proyectos_personales\NexoDeck\.verify-data"
+$exePath = "D:\Archivos\Proyectos_personales\VexaDeck\server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\VexaDeck.Server.exe"
+$dataDir = "D:\Archivos\Proyectos_personales\VexaDeck\.verify-data"
 
 # Create scripts directory and sample test script
 $scriptsDir = Join-Path $dataDir "scripts"
@@ -17,7 +17,7 @@ file.Close
 "@
 Set-Content -Path (Join-Path $scriptsDir "hello.vbs") -Value $vbsContent -Encoding ASCII
 
-Write-Host "Starting NexoDeck.Server in background with data-dir $dataDir..."
+Write-Host "Starting VexaDeck.Server in background with data-dir $dataDir..."
 $proc = Start-Process -FilePath $exePath -ArgumentList "--background --dev --data-dir `"$dataDir`"" -PassThru
 
 try {
@@ -89,7 +89,7 @@ try {
 
     # 3. Test Clipboard: Celu -> PC
     Write-Host "`n3. Testing Clipboard Celu -> PC..."
-    $testClipboard = "Texto enviado desde NexoDeck Celular $([System.Guid]::NewGuid().ToString().Substring(0,8))"
+    $testClipboard = "Texto enviado desde VexaDeck Celular $([System.Guid]::NewGuid().ToString().Substring(0,8))"
     Send-WsJson @{
         v = 1
         t = "clipboard.send"
@@ -175,7 +175,7 @@ try {
 }
 finally {
     if ($proc -and -not $proc.HasExited) {
-        Write-Host "Stopping NexoDeck.Server process (PID: $($proc.Id))..."
+        Write-Host "Stopping VexaDeck.Server process (PID: $($proc.Id))..."
         Stop-Process -Id $proc.Id -Force
     }
 }

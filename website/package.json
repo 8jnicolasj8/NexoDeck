@@ -1,6 +1,6 @@
 {
-  "name": "nexodeck-website",
-  "version": "1.0.3",
+  "name": "vexadeck-website",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {

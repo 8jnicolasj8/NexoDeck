@@ -7,21 +7,21 @@
   "nonceS": "3sr7rQ8eLTxLWml4h5altA",
   "expected": {
     "pairProof": "AirLtzEYnzNLeQDDqlX16hh5HQTmf2isieneHZ9UUsw",
-    "deviceKey": "KngbsP_LepXpVsmGdEuxVidKCD42lsboOqv99qySW0g",
-    "authProof": "jsWo5S5vvtb2Ama5mBNsFuR6SxjtuDRFfgMGLWXd4_U",
-    "sessionKey": "hSINWtwwTkj1_fwwFkxyTdoSg_2nSPXUBn43nTDDRmI",
+    "deviceKey": "AR4Kv_3Jw-cjsZt_xPCb970HaustId1bb03yzPrACR4",
+    "authProof": "2go6sUTBwsOtGuM5zTylicsBBXvDDzQWN3l2dg95KiE",
+    "sessionKey": "mLCZr8t6eRAM3D7rY_6JeOhpwsM2TC_yvAAgnTRfxW0",
     "envelopes": [
       {
         "direction": "s2c",
         "counter": 1,
         "payload": "{\"v\":2,\"t\":\"ping\",\"id\":null,\"d\":{\"ts\":1}}",
-        "mac": "PUWDFNy7dznQlRETT8RGxw"
+        "mac": "Rfgivsu8cDae7pzTfCM6Bg"
       },
       {
         "direction": "s2c",
         "counter": 2,
         "payload": "{\"v\":2,\"t\":\"welcome\",\"id\":null,\"d\":{\"configRevision\":3}}",
-        "mac": "owV1JI4mZI4l2sc6BQz_PA"
+        "mac": "fDolQrE4-1gGMyvMZ7CzEA"
       }
     ]
   }

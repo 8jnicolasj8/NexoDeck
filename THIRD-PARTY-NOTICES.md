@@ -1,6 +1,6 @@
 # Third-Party Software Notices and Licenses
 
-NexoDeck uses the following open source libraries and components:
+VexaDeck uses the following open source libraries and components:
 
 ---
 

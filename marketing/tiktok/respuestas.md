@@ -15,7 +15,7 @@ Responder corto, sin vender de más.
 > Todo queda en tu red local: no hay cuentas, nube ni telemetría. El código es abierto para revisarlo.
 
 **¿Link?**
-> En la bio 👆 o buscá el repo en GitHub (NexoDeck).
+> En la bio 👆 o buscá el repo en GitHub (VexaDeck).
 
 **¿Qué celular necesito?**
 > Cualquier Android o iPhone con navegador. Para la app Android, Android 8 o superior.

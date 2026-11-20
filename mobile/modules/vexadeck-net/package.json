@@ -1,0 +1,7 @@
+{
+  "name": "vexadeck-net",
+  "version": "1.0.0",
+  "description": "Wake-on-LAN, multicast lock and local subnet helpers for VexaDeck",
+  "main": "index.ts",
+  "private": true
+}

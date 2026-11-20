@@ -5,9 +5,9 @@ Sitio estático en `website/` (Astro). La configuración vive en el `netlify.tom
 ## Opción A · Conectar el repositorio (recomendado)
 
 1. Netlify → **Add new site → Import an existing project → GitHub**.
-2. Elegí `8jnicolasj8/NexoDeck`.
+2. Elegí `8jnicolasj8/VexaDeck`.
 3. Netlify lee `netlify.toml` solo: build `npm run build`, base `website`, publish `dist`, Node 22.
-4. Antes de darle Deploy, elegí el nombre del sitio. Si no es `nexodeck-app`, actualizá:
+4. Antes de darle Deploy, elegí el nombre del sitio. Si no es `vexadeck-app`, actualizá:
    - `brand.json` → `siteUrl`
    - `website/public/robots.txt` → línea `Sitemap:`
    - Opcional: variable de entorno `SITE_URL` con el dominio final.
@@ -23,7 +23,7 @@ npm run build
 npx netlify-cli deploy --prod --dir=dist
 ```
 
-Para fijar el nombre del sitio: `npx netlify-cli sites:create --name nexodeck-app` y luego `npx netlify-cli link`.
+Para fijar el nombre del sitio: `npx netlify-cli sites:create --name vexadeck-app` y luego `npx netlify-cli link`.
 
 ## Rebuild automático al publicar un release
 
@@ -36,7 +36,7 @@ Sin el secreto, el workflow no falla: avisa y termina.
 
 ## Datos del release en el sitio
 
-En build, `src/lib/release.ts` consulta `https://api.github.com/repos/8jnicolasj8/NexoDeck/releases/latest`:
+En build, `src/lib/release.ts` consulta `https://api.github.com/repos/8jnicolasj8/VexaDeck/releases/latest`:
 
 - Con `GITHUB_TOKEN` (opcional, definilo en Netlify) evita el límite de 60 requests por hora.
 - Si la API falla, el build **igual termina**: usa los enlaces `releases/latest/download/<archivo>` sin versión, tamaño ni hash.
@@ -44,9 +44,9 @@ En build, `src/lib/release.ts` consulta `https://api.github.com/repos/8jnicolasj
 Para que las tarjetas muestren versión, tamaño y SHA-256, el release debe incluir estos assets con nombre estable:
 
 ```
-NexoDeck-Setup.exe
-NexoDeck-Portable.zip
-NexoDeck-Android.apk
+VexaDeck-Setup.exe
+VexaDeck-Portable.zip
+VexaDeck-Android.apk
 SHA256SUMS.txt
 ```
 

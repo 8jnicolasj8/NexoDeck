@@ -1,9 +1,9 @@
 $ErrorActionPreference = "Stop"
 
-$exePath = "D:\Archivos\Proyectos_personales\NexoDeck\server\src\NexoDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\NexoDeck.Server.exe"
-$dataDir = "D:\Archivos\Proyectos_personales\NexoDeck\.verify-data"
+$exePath = "D:\Archivos\Proyectos_personales\VexaDeck\server\src\VexaDeck.Server\bin\Release\net8.0-windows10.0.19041.0\win-x64\publish\VexaDeck.Server.exe"
+$dataDir = "D:\Archivos\Proyectos_personales\VexaDeck\.verify-data"
 
-Write-Host "Starting NexoDeck.Server in background with data-dir $dataDir..."
+Write-Host "Starting VexaDeck.Server in background with data-dir $dataDir..."
 $proc = Start-Process -FilePath $exePath -ArgumentList "--background --dev --data-dir `"$dataDir`"" -PassThru
 
 try {
@@ -12,14 +12,14 @@ try {
     # 1. Test PWA files over HTTP LAN
     Write-Host "`n1. Testing Mobile PWA serving on port 47801..."
     $indexHtml = Invoke-RestMethod -Uri "http://127.0.0.1:47801/" -Method Get
-    if ($indexHtml -notmatch "NexoDeck" -and $indexHtml -notmatch "root") {
+    if ($indexHtml -notmatch "VexaDeck" -and $indexHtml -notmatch "root") {
         throw "PWA index.html missing expected content"
     }
     Write-Host "  -> PWA index.html served OK ($($indexHtml.Length) bytes)"
 
     $manifest = Invoke-RestMethod -Uri "http://127.0.0.1:47801/manifest.webmanifest" -Method Get
-    if ($manifest.name -ne "NexoDeck") {
-        throw "Expected manifest name 'NexoDeck', got '$($manifest.name)'"
+    if ($manifest.name -ne "VexaDeck") {
+        throw "Expected manifest name 'VexaDeck', got '$($manifest.name)'"
     }
     Write-Host "  -> manifest.webmanifest served OK: Name=$($manifest.name), Icons=$($manifest.icons.Count)"
 
@@ -183,7 +183,7 @@ try {
 }
 finally {
     if ($proc -and -not $proc.HasExited) {
-        Write-Host "Stopping NexoDeck.Server (PID $($proc.Id))..."
+        Write-Host "Stopping VexaDeck.Server (PID $($proc.Id))..."
         $proc.Kill()
         $proc.WaitForExit()
         Write-Host "Stopped."

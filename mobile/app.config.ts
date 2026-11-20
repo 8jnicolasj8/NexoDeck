@@ -4,15 +4,15 @@ import type { ConfigContext, ExpoConfig } from 'expo/config';
  * Single place for the applicationId so it can change before a Play Store
  * release without touching native code.
  */
-export const APPLICATION_ID = 'app.nexodeck.android';
+export const APPLICATION_ID = 'app.vexadeck.android';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'NexoDeck',
-  slug: 'nexodeck',
-  version: '1.0.3',
+  name: 'VexaDeck',
+  slug: 'vexadeck',
+  version: '1.0.0',
   orientation: 'default',
-  scheme: 'nexodeck',
+  scheme: 'vexadeck',
   userInterfaceStyle: 'dark',
   backgroundColor: '#0A0C0F',
   splash: {
@@ -22,7 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: APPLICATION_ID,
-    versionCode: 1003,
+    versionCode: 1000,
     softwareKeyboardLayoutMode: 'pan',
     adaptiveIcon: {
       foregroundImage: './assets/icon.png',
@@ -40,7 +40,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         action: 'VIEW',
         autoVerify: false,
-        data: [{ scheme: 'nexodeck', host: 'pair' }],
+        data: [{ scheme: 'vexadeck', host: 'pair' }],
         category: ['BROWSABLE', 'DEFAULT'],
       },
     ],
@@ -62,7 +62,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       'expo-camera',
       {
-        cameraPermission: 'NexoDeck usa la cámara solo para escanear el código QR de emparejamiento.',
+        cameraPermission: 'VexaDeck usa la cámara solo para escanear el código QR de emparejamiento.',
       },
     ],
   ],

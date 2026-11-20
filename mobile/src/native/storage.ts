@@ -4,9 +4,9 @@ import { toBase64Url } from './base64';
 import { randomBytes } from './random';
 import { SavedHost } from './types';
 
-const HOSTS_KEY = 'nexodeck.hosts.v1';
-const PREFER_USB_KEY = 'nexodeck.preferUsb';
-const DEVICE_ID_KEY = 'nexodeck.deviceId';
+const HOSTS_KEY = 'vexadeck.hosts.v1';
+const PREFER_USB_KEY = 'vexadeck.preferUsb';
+const DEVICE_ID_KEY = 'vexadeck.deviceId';
 
 /** Stable identity of this phone: one per installation, independent of the PC. */
 export async function loadDeviceId(): Promise<string> {
@@ -34,14 +34,14 @@ export async function saveHosts(hosts: SavedHost[]): Promise<void> {
 
 export async function saveDeviceKey(serverId: string, key: Uint8Array): Promise<void> {
   const encoded = Array.from(key, (byte) => byte.toString(16).padStart(2, '0')).join('');
-  await SecureStore.setItemAsync(`nexodeck.key.${serverId}`, encoded, {
+  await SecureStore.setItemAsync(`vexadeck.key.${serverId}`, encoded, {
     keychainAccessible: SecureStore.WHEN_UNLOCKED,
   });
 }
 
 export async function loadDeviceKey(serverId: string): Promise<Uint8Array | null> {
   try {
-    const stored = await SecureStore.getItemAsync(`nexodeck.key.${serverId}`);
+    const stored = await SecureStore.getItemAsync(`vexadeck.key.${serverId}`);
     if (!stored) return null;
     const bytes = new Uint8Array(stored.length / 2);
     for (let index = 0; index < bytes.length; index++) {
@@ -55,7 +55,7 @@ export async function loadDeviceKey(serverId: string): Promise<Uint8Array | null
 
 export async function deleteDeviceKey(serverId: string): Promise<void> {
   try {
-    await SecureStore.deleteItemAsync(`nexodeck.key.${serverId}`);
+    await SecureStore.deleteItemAsync(`vexadeck.key.${serverId}`);
   } catch {
     // Nothing to delete.
   }

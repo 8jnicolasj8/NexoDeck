@@ -12,8 +12,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'NexoDeck',
-        short_name: 'NexoDeck',
+        name: 'VexaDeck',
+        short_name: 'VexaDeck',
         description: 'Botonera local y telemetría LAN para Windows',
         theme_color: '#0A0C0F',
         background_color: '#0A0C0F',
@@ -35,7 +35,7 @@ export default defineConfig({
     })
   ],
   build: {
-    outDir: resolve(__dirname, '../server/src/NexoDeck.Server/wwwroot'),
+    outDir: resolve(__dirname, '../server/src/VexaDeck.Server/wwwroot'),
     emptyOutDir: false,
     rollupOptions: {
       input: {

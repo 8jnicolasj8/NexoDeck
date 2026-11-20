@@ -1,8 +1,8 @@
-# NexoDeck 🎛️
+# VexaDeck 🎛️
 
 Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cualquier celular o tablet en un Stream Deck personal con cero dependencias en la nube y privacidad absoluta.
 
-![NexoDeck](NexoDeck-logo.png)
+![VexaDeck](VexaDeck-logo.png)
 
 ## ✨ Características principales
 
@@ -16,56 +16,29 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 - **Scripts Seguros (.vbs)**: Ejecución de scripts locales con lista blanca estricta y protección contra path-traversal.
 - **Panel de Configuración Completo**: Editor visual de grilla, creador de perfiles y botones, vinculación de procesos y exportación/importación en una ventana nativa WebView2.
 
-### Novedades en 1.0.3
-- **Conexión Android estable**: la app firmaba los mensajes con la dirección equivocada y el servidor cerraba el socket al instante, por eso se conectaba y desconectaba sin parar. Ahora cada dirección usa su propia firma y se evitan conexiones duplicadas.
-
-### Novedades en 1.0.2
-- **Emparejamiento Android arreglado**: escanear el QR o pegar el enlace ya no falla con `crypto.getRandomValues must be defined`. La app usa el generador aleatorio seguro del sistema.
-
-### Novedades en 1.0.1
-- **Perfiles de fábrica editables**: Spotify y Gamer conservan los botones, el orden y los cambios que hagas en el panel. Antes, guardar cualquier configuración devolvía los botones de Spotify a su posición original.
-- **Spotify sin candado**: el perfil sigue mostrando la canción y la carátula, pero ahora podés mover, cambiar o eliminar sus botones como en cualquier otro perfil.
-
 ### Novedades en 1.0.0
-- **Perfil Gamer**: se activa solo cuando la app en primer plano parece un juego, mirando la biblioteca detectada (Steam, Epic, `D:\Games`, etc.) o la pantalla completa de Direct3D. Navegadores, launchers y reproductores quedan afuera.
-- **Perfil Spotify**: muestra la canción actual con carátula y una botonera chica.
-- **Apagar y reiniciar con error visible**: las acciones de energía usan la ruta completa de `shutdown.exe`, reintentan por shell y devuelven el error al celular en vez de fallar en silencio.
-- **Perfiles opcionales**: Spotify y Gamer se pueden quitar y volver a agregar desde Perfiles.
+- **Nuevo nombre, misma botonera**: NexoDeck pasa a llamarse VexaDeck, con logo, instalador y artefactos nuevos.
+- **Conexión Android estable**: la app firma cada mensaje con la dirección correcta y evita conexiones duplicadas, así que ya no entra en el ciclo de conectar/desconectar.
+- **Instalación limpia**: VexaDeck usa un `applicationId` y un AppId de Windows nuevos. La app Android anterior no se actualiza encima: hay que instalar VexaDeck y emparejar de nuevo.
+- **Datos conservados**: el servidor migra automáticamente la configuración de `%APPDATA%\NexoDeck` y la PWA conserva host, token y ajustes.
 
-### Novedades en 0.3.0
-- **App Android**: el APK empaqueta el mismo cliente web y conecta por `ws://` firmado, sin instalar ninguna CA. La PWA y el iPhone siguen funcionando igual.
-- **Varias PCs**: hasta cinco conexiones a la vez, una activa, con chip de PC, hoja "Mis PCs" y alertas de las PCs que no estás mirando.
-- **Encendé la PC apagada**: Wake-on-LAN desde el celular (la PC necesita WoL activo en la BIOS y en el adaptador).
-- **Por cable (USB)**: si el WiFi falla, la app va por ADB con `adb reverse`, y el panel instala el APK y empareja con un clic.
-- **Encuentra la PC sola**: `/api/ident` + mDNS + barrido de subred cuando cambia la IP.
-
-### Novedades en 0.2.1
-- **Botonera navegable**: flechas para cambiar de página y de perfil directo desde el celular, sin abrir el panel.
-- **Perfil temporal**: elegir un perfil en la botonera no lo fija; el auto-switching retoma al cambiar de app.
-- **Landing con descargas**: página de presentación lista para publicar, con enlaces al último release.
-
-### Novedades en 0.2.0
-- **Editor por selectores**: cada acción se elige y configura con selectores, presets de atajos, grabador de teclas y selectores de app, proceso, dispositivo de audio, script, página y perfil. Ya no se escriben valores técnicos a mano y el estado del botón se deduce solo.
-- **Botones arrastrables**: mové un botón a cualquier celda, intercambiá dos botones o soltalo sobre otra pestaña, con deshacer (`Ctrl+Z`) y soporte de teclado.
-- **Logos reales**: los botones de lanzar muestran el ícono nítido de la app (incluidas apps de la Tienda y accesos `.lnk`).
-- **Portapapeles como acciones**: copiar, cortar, pegar, pegar solo texto y pegar una plantilla fija desde el celular.
-- **Menos RAM**: cerrar la ventana libera WebView2 por completo (0 procesos `msedgewebview2.exe`) y el servidor en reposo queda en ~9 MB.
+El historial completo de versiones está en [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `NexoDeck-Setup-1.0.3.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `VexaDeck-Setup-1.0.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `NexoDeck-1.0.3-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `VexaDeck-1.0.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
 
 ### Opción 3: App Android
-Descargá `NexoDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
+Descargá `VexaDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
 
 ---
 
@@ -84,7 +57,7 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `NexoDeck-Setup-1.0.3.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `VexaDeck-Setup-1.0.0.exe` en la carpeta `dist/`.
 
 Para la app Android hace falta además JDK 17 y el Android SDK:
 ```bash
@@ -98,11 +71,11 @@ cd android && ./gradlew assembleRelease
 ## 📂 Estructura del Proyecto
 
 ```
-NexoDeck/
+VexaDeck/
 ├── server/              # Backend .NET 8 (Kestrel, WASAPI, WebView2, Tray)
-│   └── src/NexoDeck.Server/
+│   └── src/VexaDeck.Server/
 ├── web/                 # Frontend Móvil PWA (React, TypeScript, Vite, Tailwind)
-├── mobile/              # App Android (Expo + módulo Kotlin nexodeck-net)
+├── mobile/              # App Android (Expo + módulo Kotlin vexadeck-net)
 ├── installer/           # Script Inno Setup 6 y build.ps1
 ├── dist/                # Binarios de distribución e instaladores
 ├── docs/                # Documentación técnica y arquitectura

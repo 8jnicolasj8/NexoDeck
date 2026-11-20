@@ -19,7 +19,7 @@ Cinco tareas reales y acotadas. Crear cada una en GitHub con la etiqueta `good f
 ## 3. Presets de atajos por aplicación
 
 **Qué**: crear 5 presets (VS Code, navegador, Spotify, OBS, juego) con acciones existentes.
-**Dónde**: `server/src/NexoDeck.Server/wwwroot/` y el formato de configuración.
+**Dónde**: `server/src/VexaDeck.Server/wwwroot/` y el formato de configuración.
 **Listo cuando**: se pueden importar desde el panel y quedan documentados en `docs/`.
 **Extra**: incluir una captura del resultado.
 

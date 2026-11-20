@@ -98,7 +98,7 @@ function buildConfig(host: (typeof HOSTS)[number]) {
 }
 
 const send = (payload: unknown) => {
-  window.__nexodeckReceive?.(JSON.stringify(payload));
+  window.__vexadeckReceive?.(JSON.stringify(payload));
 };
 
 let activeHostId = HOSTS[0].id;
@@ -127,7 +127,7 @@ window.ReactNativeWebView = {
               activeProfileId: host.profile.id,
               pinned: false,
               states: { 'demo.state': true },
-              serverVersion: '1.0.3-demo',
+              serverVersion: '1.0.0-demo',
               serverId: host.id,
               pcName: host.name,
               pcColor: host.color,
