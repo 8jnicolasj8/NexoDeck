@@ -16,11 +16,10 @@ Botonera macro local y monitor de telemetría por LAN para Windows. Convierte cu
 - **Scripts Seguros (.vbs)**: Ejecución de scripts locales con lista blanca estricta y protección contra path-traversal.
 - **Panel de Configuración Completo**: Editor visual de grilla, creador de perfiles y botones, vinculación de procesos y exportación/importación en una ventana nativa WebView2.
 
-### Novedades en 1.0.0
-- **Nuevo nombre, misma botonera**: NexoDeck pasa a llamarse VexaDeck, con logo, instalador y artefactos nuevos.
-- **Conexión Android estable**: la app firma cada mensaje con la dirección correcta y evita conexiones duplicadas, así que ya no entra en el ciclo de conectar/desconectar.
-- **Instalación limpia**: VexaDeck usa un `applicationId` y un AppId de Windows nuevos. La app Android anterior no se actualiza encima: hay que instalar VexaDeck y emparejar de nuevo.
-- **Datos conservados**: el servidor migra automáticamente la configuración de `%APPDATA%\NexoDeck` y la PWA conserva host, token y ajustes.
+### Novedades en 1.1.0
+- **Spotify vinculado**: conectá tu cuenta desde el panel con OAuth 2.0 + PKCE (sin Client Secret). Los tokens se guardan cifrados con DPAPI y se renuevan solos.
+- **Botones de Spotify**: nueva acción `spotify` en el editor para reproducir/pausa, siguiente y anterior sobre la cuenta vinculada.
+- **Canción actual en el panel**: la tarjeta de integración muestra qué está sonando y permite desconectar la cuenta.
 
 El historial completo de versiones está en [`CHANGELOG.md`](CHANGELOG.md).
 
@@ -29,13 +28,13 @@ El historial completo de versiones está en [`CHANGELOG.md`](CHANGELOG.md).
 ## 🚀 Instalación y Uso
 
 ### Opción 1: Instalador oficial (Recomendada)
-Descargá `VexaDeck-Setup-1.0.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
+Descargá `VexaDeck-Setup-1.1.0.exe` desde la sección de lanzamientos o compilalo con el script de empaquetado.
 - Configura automáticamente la tarea programada sin UAC para arrancar con Windows.
 - Crea las reglas necesarias en el Firewall de Windows para red privada.
 - Te permite elegir la carpeta donde se almacenan tus datos y configuraciones.
 
 ### Opción 2: Versión Portable
-Descargá y descomprimí `VexaDeck-1.0.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
+Descargá y descomprimí `VexaDeck-1.1.0-portable.zip` en cualquier carpeta o pendrive. Los datos se guardan en la subcarpeta local `data/`.
 
 ### Opción 3: App Android
 Descargá `VexaDeck-Android.apk` desde el release, aceptá "instalar apps de esta fuente" y escaneá el QR de **Panel → Emparejar → Android (app)**. Requiere Android 8 o superior y no necesita ningún certificado. Detalles de compilación y firma en [`docs/ANDROID.md`](docs/ANDROID.md).
@@ -57,7 +56,7 @@ Ejecutá el script de build integral:
 powershell -ExecutionPolicy Bypass -File installer/build.ps1
 ```
 
-Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `VexaDeck-Setup-1.0.0.exe` en la carpeta `dist/`.
+Este script compila el frontend PWA, publica el servidor .NET auto-contenido y genera tanto el archivo portable `.zip` como el instalador `VexaDeck-Setup-1.1.0.exe` en la carpeta `dist/`.
 
 Para la app Android hace falta además JDK 17 y el Android SDK:
 ```bash

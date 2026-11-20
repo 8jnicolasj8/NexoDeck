@@ -10,7 +10,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'VexaDeck',
   slug: 'vexadeck',
-  version: '1.0.0',
+  version: '1.1.0',
   orientation: 'default',
   scheme: 'vexadeck',
   userInterfaceStyle: 'dark',
@@ -22,7 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: APPLICATION_ID,
-    versionCode: 1000,
+    versionCode: 1100,
     softwareKeyboardLayoutMode: 'pan',
     adaptiveIcon: {
       foregroundImage: './assets/icon.png',

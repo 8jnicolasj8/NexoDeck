@@ -20,22 +20,21 @@ Local LAN macro deck and hardware telemetry monitor for Windows. Turn any phone 
 
 ## 🚀 Installation & Usage
 
-### What's new in 1.0.0
-- **New name, same deck**: NexoDeck is now VexaDeck, with a new logo, installer and artifact names.
-- **Stable Android connection**: the app signs each message with the correct direction and avoids duplicate connections, so it no longer gets stuck in a connect/disconnect loop.
-- **Clean install**: VexaDeck uses a new Android `applicationId` and Windows AppId. The previous Android app is not updated in place: install VexaDeck and pair again.
-- **Data preserved**: the server migrates the configuration from `%APPDATA%\NexoDeck` automatically, and the PWA keeps host, token and settings.
+### What's new in 1.1.0
+- **Spotify connected**: link your account from the panel with OAuth 2.0 + PKCE (no Client Secret). Tokens are encrypted with DPAPI and refresh automatically.
+- **Spotify buttons**: new `spotify` action in the editor for play/pause, next and previous on the linked account.
+- **Now playing in the panel**: the integration card shows what is playing and lets you disconnect the account.
 
 The full version history is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ### Option 1: Official Installer (Recommended)
-Download `VexaDeck-Setup-1.0.0.exe` from the Releases section or build it using the package script.
+Download `VexaDeck-Setup-1.1.0.exe` from the Releases section or build it using the package script.
 - Sets up an elevated scheduled task to run on Windows startup without UAC prompts.
 - Configures Windows Firewall rules for private networks automatically.
 - Allows choosing your custom data directory.
 
 ### Option 2: Portable Version
-Download and extract `VexaDeck-1.0.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
+Download and extract `VexaDeck-1.1.0-portable.zip` anywhere. Configuration and runtime data are stored locally in the `data/` subfolder.
 
 ### Option 3: Android App
 Download `VexaDeck-Android.apk` from the release, allow installing from unknown sources and scan the QR in **Panel → Pair → Android (app)**. Android 8+ and no certificate required. Build and signing details in [`docs/ANDROID.md`](docs/ANDROID.md).

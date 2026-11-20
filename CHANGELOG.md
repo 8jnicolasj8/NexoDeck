@@ -3,6 +3,16 @@
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/) y se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.1.0] - 2026-11-20
+
+### Agregado
+- **Integración con Spotify**: vinculación de la cuenta desde el panel con OAuth 2.0 + PKCE (sin Client Secret), callback en `http://127.0.0.1:47810/callback`, tokens cifrados con DPAPI y renovación automática del `access_token`.
+- **Acción de botonera `spotify`**: reproducir/pausa, siguiente y anterior sobre la cuenta vinculada, disponible también en el editor de acciones.
+- **Tarjeta de integración en el panel**: guarda el Client ID, muestra la cuenta conectada y la canción actual, y permite desconectar.
+
+### Cambiado
+- Servidor, PWA, app Android, instalador, portable y landing pasan a **1.1.0**. El APK usa `versionCode` 1100.
+
 ## [1.0.0] - 2026-11-19
 
 ### Agregado

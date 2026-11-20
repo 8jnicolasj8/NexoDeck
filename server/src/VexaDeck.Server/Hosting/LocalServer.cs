@@ -72,6 +72,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
     private readonly NowPlayingService _nowPlaying;
     private readonly HostIdentityService _identity;
     private readonly AdbService _adb;
+    private readonly SpotifyAuthService _spotify;
     private readonly ConcurrentDictionary<string, ClientSession> _sessions = new();
     private readonly ConcurrentDictionary<string, (long Window, int Count)> _identRate = new();
     private MdnsAdvertiser? _mdns;
@@ -103,6 +104,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         _identity = new HostIdentityService(_config);
         _identity.Ensure();
         _adb = new AdbService(_config, dataDir);
+        _spotify = new SpotifyAuthService(dataDir);
 
         _audio.StateChanged += (key, value) =>
         {
@@ -392,6 +394,61 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
             var sent = WakeOnLan.Send(mac, host.WolPort);
             return Results.Json(new { ok = sent, mac, port = host.WolPort, targets = NetworkInfo.GetBroadcastTargets() });
         });
+        // --- Spotify (OAuth 2.0 + PKCE, sin Client Secret) ---
+        _app.MapGet("/api/admin/spotify", () => Results.Json(_spotify.GetStatus()));
+        _app.MapPost("/api/admin/spotify/client-id", async (HttpContext context) =>
+        {
+            try
+            {
+                var request = await JsonSerializer.DeserializeAsync<SpotifyClientIdRequest>(context.Request.Body, ConfigService.JsonOptions);
+                _spotify.SetClientId(request?.ClientId);
+                return Results.Json(_spotify.GetStatus());
+            }
+            catch (JsonException) { return Results.BadRequest(new { error = "JSON inválido." }); }
+            catch (SpotifyException ex) { return Results.BadRequest(new { error = ex.Message }); }
+        });
+        _app.MapPost("/api/admin/spotify/connect", async (HttpContext context) =>
+        {
+            try
+            {
+                var status = await _spotify.LinkAsync(context.RequestAborted);
+                return Results.Json(new { ok = true, status });
+            }
+            catch (SpotifyException ex) { return Results.Json(new { ok = false, error = ex.Message }); }
+            catch (HttpRequestException ex) { return Results.Json(new { ok = false, error = $"No se pudo conectar con Spotify: {ex.Message}" }); }
+            catch (OperationCanceledException) { return Results.Json(new { ok = false, error = "La vinculación se canceló." }); }
+        });
+        _app.MapPost("/api/admin/spotify/disconnect", () =>
+        {
+            _spotify.Unlink();
+            return Results.Json(new { ok = true, status = _spotify.GetStatus() });
+        });
+        _app.MapGet("/api/admin/spotify/now-playing", async (HttpContext context) =>
+        {
+            try
+            {
+                var track = await _spotify.GetCurrentlyPlayingAsync(context.RequestAborted);
+                return Results.Json(new { ok = true, track });
+            }
+            catch (SpotifyException ex) { return Results.Json(new { ok = false, error = ex.Message }); }
+            catch (HttpRequestException) { return Results.Json(new { ok = false, error = "No se pudo conectar con Spotify." }); }
+            catch (OperationCanceledException) { return Results.Json(new { ok = false, error = "Se canceló la consulta." }); }
+        });
+        _app.MapPost("/api/admin/spotify/command", async (HttpContext context) =>
+        {
+            try
+            {
+                var request = await JsonSerializer.DeserializeAsync<SpotifyCommandRequest>(context.Request.Body, ConfigService.JsonOptions);
+                var command = (request?.Command ?? "").Trim().ToLowerInvariant();
+                var track = await RunSpotifyCommandAsync(command, context.RequestAborted);
+                return Results.Json(new { ok = true, track });
+            }
+            catch (JsonException) { return Results.BadRequest(new { ok = false, error = "JSON inválido." }); }
+            catch (SpotifyException ex) { return Results.Json(new { ok = false, error = ex.Message }); }
+            catch (HttpRequestException) { return Results.Json(new { ok = false, error = "No se pudo conectar con Spotify." }); }
+            catch (OperationCanceledException) { return Results.Json(new { ok = false, error = "Se canceló la acción." }); }
+        });
+
         // --- USB (ADB) ---
         _app.MapGet("/api/admin/usb", async () => Results.Json(await _adb.GetStateAsync()));
         _app.MapPost("/api/admin/usb/enable", async (UsbToggleRequest? request) =>
@@ -1405,6 +1462,39 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         return new(updated with { Profiles = profiles }, errors, warnings);
     }
 
+    /// <summary>Igual que <see cref="RunSpotifyCommandAsync"/> pero sin bloquear el WebSocket.</summary>
+    private void RunSpotifyCommandInBackground(string command) =>
+        _ = Task.Run(async () =>
+        {
+            try { await RunSpotifyCommandAsync(command, CancellationToken.None); }
+            catch (SpotifyException ex) { AppLog.Warn($"Spotify: {ex.Message}"); }
+            catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException)
+            {
+                AppLog.Warn($"Spotify sin respuesta: {ex.Message}");
+            }
+        });
+
+    /// <summary>
+    /// Comandos de Spotify compartidos por la botonera y el panel. Lanza
+    /// <see cref="SpotifyException"/> con un mensaje mostrable al usuario.
+    /// </summary>
+    private async Task<SpotifyTrackInfo?> RunSpotifyCommandAsync(string command, CancellationToken token)
+    {
+        switch (command)
+        {
+            case "next": await _spotify.NextAsync(token); break;
+            case "prev":
+            case "previous": await _spotify.PreviousAsync(token); break;
+            case "playpause":
+            case "toggle":
+            case "play":
+            case "pause": await _spotify.TogglePlaybackAsync(token); break;
+            case "nowplaying": return await _spotify.GetCurrentlyPlayingAsync(token);
+            default: throw new SpotifyException("Comando de Spotify desconocido.");
+        }
+        return await _spotify.GetCurrentlyPlayingAsync(token);
+    }
+
     private string? ExecuteAction(string buttonId, JsonElement val, JsonElement rawData = default)
     {
         // 1. Quick utility actions
@@ -1528,6 +1618,17 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
                         _media.Execute(cmd);
                         _ = Task.Delay(200).ContinueWith(_ => _nowPlaying.RefreshNowPlayingAsync());
                     }
+                    break;
+                }
+
+                case "spotify":
+                {
+                    if (!_spotify.IsLinked)
+                    {
+                        return "Vinculá tu cuenta de Spotify desde el panel de VexaDeck.";
+                    }
+                    var command = ParamReader.GetString(prms, "cmd") ?? "playpause";
+                    RunSpotifyCommandInBackground(command);
                     break;
                 }
 
@@ -1949,6 +2050,7 @@ internal sealed class LocalServer : IAsyncDisposable, IDisposable
         _mdns?.Dispose();
         _mdns = null;
         _adb.Shutdown();
+        await _spotify.DisposeAsync();
         if (_app is not null) await _app.DisposeAsync();
         _nowPlaying.Dispose();
         _clipboard.Dispose();
@@ -1971,3 +2073,5 @@ internal sealed record OpenFolderRequest(string? Target);
 internal sealed record ScriptTestRequest(string? File);
 internal sealed record PickFileRequest(string? Kind);
 internal sealed record IconRequest(string? Target);
+internal sealed record SpotifyClientIdRequest(string? ClientId);
+internal sealed record SpotifyCommandRequest(string? Command);

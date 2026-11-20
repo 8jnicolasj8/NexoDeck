@@ -62,6 +62,7 @@ function openPage(name) {
 
   if (name === 'inicio') {
     loadOverview();
+    loadSpotify();
     startTelemetryLoop();
   } else {
     stopTelemetryLoop();
@@ -160,6 +161,65 @@ async function fetchLiveTelemetry() {
       document.querySelector('#homeNetVal').textContent = `${down} KB/s`;
     }
   } catch { }
+}
+
+// --- SPOTIFY ---
+async function loadSpotify() {
+  const statusText = document.querySelector('#spotifyStatusText');
+  if (!statusText) return;
+  try {
+    const res = await fetch('/api/admin/spotify');
+    if (!res.ok) return;
+    const data = await res.json();
+    renderSpotify(data);
+    if (data.clientIdConfigured && data.linked) refreshSpotifyTrack();
+  } catch {
+    statusText.textContent = 'No se pudo consultar el estado de Spotify.';
+  }
+}
+
+function renderSpotify(data) {
+  const badge = document.querySelector('#spotifyBadge');
+  const statusText = document.querySelector('#spotifyStatusText');
+  const account = document.querySelector('#spotifyAccount');
+  const redirect = document.querySelector('#spotifyRedirect');
+  const connect = document.querySelector('#btnSpotifyConnect');
+
+  if (redirect && data.redirectUri) redirect.textContent = data.redirectUri;
+  if (connect) connect.disabled = !data.clientIdConfigured;
+
+  if (data.linked) {
+    if (badge) badge.textContent = 'VINCULADO';
+    if (statusText) statusText.textContent = data.displayName ? `Conectado como ${data.displayName}` : 'Cuenta vinculada.';
+    if (account) account.textContent = 'PREMIUM';
+  } else {
+    if (badge) badge.textContent = 'SIN VINCULAR';
+    if (statusText) {
+      statusText.textContent = data.clientIdConfigured
+        ? 'Falta autorizar tu cuenta desde el navegador.'
+        : 'Pegá el Client ID de tu app de Spotify para empezar.';
+    }
+    if (account) account.textContent = '—';
+  }
+}
+
+async function refreshSpotifyTrack() {
+  const node = document.querySelector('#spotifyTrack');
+  if (!node) return;
+  try {
+    const res = await fetch('/api/admin/spotify/now-playing');
+    const data = await res.json();
+    if (!data.ok) {
+      node.textContent = data.error || '';
+      return;
+    }
+    const track = data.track;
+    node.textContent = track
+      ? `${track.playing ? '▶' : '❚❚'} ${track.title} — ${track.artists}`
+      : 'Sin reproducción activa.';
+  } catch {
+    node.textContent = '';
+  }
 }
 
 // --- CONFIG API ---
@@ -1736,6 +1796,63 @@ document.addEventListener('DOMContentLoaded', async () => {
       alert('¡Configuración importada exitosamente!');
     } catch (err) {
       alert('Error importando archivo: ' + err.message);
+    }
+  });
+
+  // Spotify
+  document.querySelector('#btnSpotifySaveClient')?.addEventListener('click', async () => {
+    const input = document.querySelector('#spotifyClientId');
+    const clientId = (input?.value || '').trim();
+    try {
+      const res = await fetch('/api/admin/spotify/client-id', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientId })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showToast(data.error || 'No se pudo guardar el Client ID.', 'error');
+        return;
+      }
+      if (input) input.value = '';
+      renderSpotify(data);
+      showToast('Client ID guardado.', 'success');
+    } catch {
+      showToast('No se pudo guardar el Client ID.', 'error');
+    }
+  });
+
+  document.querySelector('#btnSpotifyConnect')?.addEventListener('click', async () => {
+    const btn = document.querySelector('#btnSpotifyConnect');
+    const statusText = document.querySelector('#spotifyStatusText');
+    if (btn) { btn.disabled = true; btn.textContent = 'Esperando a Spotify…'; }
+    if (statusText) statusText.textContent = 'Terminá la autorización en el navegador.';
+    try {
+      const res = await fetch('/api/admin/spotify/connect', { method: 'POST' });
+      const data = await res.json();
+      if (!data.ok) showToast(data.error || 'No se pudo vincular Spotify.', 'error');
+      else showToast('Spotify vinculado.', 'success');
+      if (data.status) renderSpotify(data.status);
+      else await loadSpotify();
+      refreshSpotifyTrack();
+    } catch {
+      showToast('No se pudo vincular Spotify.', 'error');
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Conectar Spotify'; }
+    }
+  });
+
+  document.querySelector('#btnSpotifyDisconnect')?.addEventListener('click', async () => {
+    if (!confirm('¿Desconectar la cuenta de Spotify de VexaDeck?')) return;
+    try {
+      const res = await fetch('/api/admin/spotify/disconnect', { method: 'POST' });
+      const data = await res.json();
+      if (data.status) renderSpotify(data.status);
+      const track = document.querySelector('#spotifyTrack');
+      if (track) track.textContent = '';
+      showToast('Cuenta de Spotify desconectada.', 'success');
+    } catch {
+      showToast('No se pudo desconectar la cuenta.', 'error');
     }
   });
 

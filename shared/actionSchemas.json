@@ -126,6 +126,27 @@
       ]
     },
     {
+      "kind": "spotify",
+      "category": "media",
+      "labelKey": "action.spotify",
+      "icon": "music",
+      "params": [
+        {
+          "name": "cmd",
+          "type": "select",
+          "labelKey": "param.spotifyCmd",
+          "required": true,
+          "default": "playpause",
+          "options": [
+            { "value": "playpause", "labelKey": "option.spotify.playpause" },
+            { "value": "next", "labelKey": "option.spotify.next" },
+            { "value": "prev", "labelKey": "option.spotify.prev" }
+          ]
+        }
+      ],
+      "helpKey": "help.spotify"
+    },
+    {
       "kind": "volume.master",
       "category": "audio",
       "labelKey": "action.volumeMaster",
