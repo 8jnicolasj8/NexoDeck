@@ -157,6 +157,13 @@ class DeckClient {
   public send(payload: Record<string, unknown>): void {
     // Always talk to the PC the user is looking at. With several hosts the
     // last welcome could leave currentHostId pointing at another machine.
+    // The PWA transport only answers to its own id ('local'); after the
+    // welcome the store's activeHostId is the PC's serverId, so sending there
+    // made the browser drop every outgoing message (the deck was dead).
+    if (!this.transport.capabilities.native) {
+      this.transport.send('local', payload);
+      return;
+    }
     const activeHostId = useDeckStore.getState().activeHostId;
     this.transport.send(activeHostId === 'local' ? this.currentHostId : activeHostId, payload);
   }
