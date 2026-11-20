@@ -71,6 +71,9 @@ export const ShellScreen: React.FC<Props> = ({ onOpenAddHost }) => {
     switch (data.k) {
       case 'ready':
       case 'hosts.request':
+        // The WebView may load after the handshake finished: replay welcome and
+        // connection status so the deck is not left without config.
+        connections.replay();
         sendHosts();
         break;
       case 'tx':
@@ -116,7 +119,10 @@ export const ShellScreen: React.FC<Props> = ({ onOpenAddHost }) => {
         setBuiltInZoomControls={false}
         mediaPlaybackRequiresUserAction={false}
         onMessage={(event) => { void handleWebMessage(event.nativeEvent.data); }}
-        onLoadEnd={sendHosts}
+        onLoadEnd={() => {
+          connections.replay();
+          sendHosts();
+        }}
         onShouldStartLoadWithRequest={(request) => request.url.startsWith('file://') || request.url === 'about:blank'}
         style={styles.web}
       />

@@ -32,6 +32,8 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
 
   const longPressTimer = useRef<number | null>(null);
   const isLongPressActive = useRef(false);
+  // A long press must not fire the action when the click arrives after it.
+  const suppressClick = useRef(false);
 
   // Check state binding for toggles
   const isToggle = button.type === 'toggle';
@@ -44,10 +46,7 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
     // Ignore taps right after changing PC so nothing runs on the wrong machine.
     if (!useDeckStore.getState().canAcceptInput()) return;
 
-    if (isReordering) {
-      onClickInReorder?.();
-      return;
-    }
+    if (isReordering) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
     setGlowPos({
@@ -59,6 +58,7 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
     isLongPressActive.current = false;
     longPressTimer.current = window.setTimeout(() => {
       isLongPressActive.current = true;
+      suppressClick.current = true;
       setIsPressed(false);
       triggerHaptic();
       onLongPress?.();
@@ -76,10 +76,7 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
       return;
     }
 
-    if (isPressed) {
-      setIsPressed(false);
-      deckSocket.sendAction(button.id);
-    }
+    setIsPressed(false);
   };
 
   const handlePointerCancel = () => {
@@ -87,8 +84,33 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
       clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
     }
+    isLongPressActive.current = false;
     setIsPressed(false);
     setGlowPos(null);
+  };
+
+  /**
+   * The action fires on click, not on pointerup: Android WebViews cancel the
+   * pointer when a tap moves a couple of pixels, so pointerup never arrived and
+   * the deck looked dead. `click` is always synthesized after a real tap.
+   */
+  const handleClick = () => {
+    if (disabled) return;
+
+    if (suppressClick.current) {
+      suppressClick.current = false;
+      return;
+    }
+
+    // Ignore taps right after changing PC so nothing runs on the wrong machine.
+    if (!useDeckStore.getState().canAcceptInput()) return;
+
+    if (isReordering) {
+      onClickInReorder?.();
+      return;
+    }
+
+    deckSocket.sendAction(button.id);
   };
 
   return (
@@ -96,10 +118,13 @@ export const DeckButton: React.FC<DeckButtonProps> = ({
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerCancel}
+      onClick={handleClick}
+      onContextMenu={(event) => event.preventDefault()}
       disabled={disabled}
       style={{
         width: `${size}px`,
         height: `${size}px`,
+        touchAction: 'manipulation',
         borderColor: isSelectedForSwap ? accent : isActive ? accent : undefined,
         backgroundColor: isActive ? `${accent}1F` : undefined,
       }}

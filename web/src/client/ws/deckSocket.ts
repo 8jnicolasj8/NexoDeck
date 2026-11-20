@@ -155,7 +155,10 @@ class DeckClient {
   }
 
   public send(payload: Record<string, unknown>): void {
-    this.transport.send(this.currentHostId, payload);
+    // Always talk to the PC the user is looking at. With several hosts the
+    // last welcome could leave currentHostId pointing at another machine.
+    const activeHostId = useDeckStore.getState().activeHostId;
+    this.transport.send(activeHostId === 'local' ? this.currentHostId : activeHostId, payload);
   }
 
   public sendAction(buttonId: string, value?: unknown): void {

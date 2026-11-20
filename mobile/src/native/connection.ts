@@ -20,6 +20,7 @@ interface Link {
   hostId: string;
   socket: WebSocket | null;
   outbound: SignedChannel | null;
+  welcome: any;
   status: HostStatus;
   transport: TransportKind;
   latencyMs: number;
@@ -223,13 +224,26 @@ export class ConnectionManager {
   }
 
   send(hostId: string, message: Record<string, unknown>): void {
-    const link = this.links.get(hostId);
+    // An unknown id (the WebView may still say "local") falls back to the
+    // active PC instead of dropping the tap silently.
+    const resolved = this.links.has(hostId) || !this.activeId ? hostId : this.activeId;
+    const link = this.links.get(resolved);
     if (!link?.socket || link.socket.readyState !== SOCKET_OPEN) return;
     try {
       const payload = JSON.stringify(message);
       link.socket.send(link.outbound ? link.outbound.wrap(payload) : payload);
     } catch {
       // A failed send is handled by the socket close event.
+    }
+  }
+
+  /** Re-emits the handshake state, e.g. when the WebView finishes loading late. */
+  replay(): void {
+    for (const link of this.links.values()) {
+      if (link.socket && link.status === 'connected' && link.welcome) {
+        for (const listener of this.messageListeners) listener(link.hostId, { t: 'welcome', d: link.welcome });
+      }
+      this.emitStatus(link);
     }
   }
 
@@ -274,6 +288,7 @@ export class ConnectionManager {
       hostId,
       socket: null,
       outbound: null,
+      welcome: null,
       status: 'offline',
       transport: 'lan',
       latencyMs: 0,
@@ -294,6 +309,7 @@ export class ConnectionManager {
     link.reconnectTimer = null;
     link.socket = session.socket;
     link.outbound = session.outbound;
+    link.welcome = session.welcome;
     link.transport = transport;
     link.status = 'connected';
     link.reconnectDelay = 500;
@@ -328,6 +344,7 @@ export class ConnectionManager {
       }
       link.socket = null;
       link.outbound = null;
+      link.welcome = null;
       link.status = 'offline';
       this.emitStatus(link);
       this.scheduleReconnect(host.id);
