@@ -35,6 +35,17 @@ cd android
 # APK: android/app/build/outputs/apk/release/app-release.apk
 ```
 
+Ese comando firma con la clave de depuración. Para firmar con la keystore de
+release, pasá las propiedades inyectadas (las mismas que usa el CI):
+
+```bash
+./gradlew assembleRelease \
+  -Pandroid.injected.signing.store.file="$KEYSTORE_PATH" \
+  -Pandroid.injected.signing.store.password="$KEYSTORE_PASSWORD" \
+  -Pandroid.injected.signing.key.alias=vexadeck \
+  -Pandroid.injected.signing.key.password="$KEY_PASSWORD"
+```
+
 El plugin `mobile/plugins/withWebAssets.ts` copia `web/dist-native` a
 `android/app/src/main/assets/web` en cada `prebuild`. Si falta la carpeta, el
 prebuild falla con un mensaje claro: ejecutá `npm run build:native` primero.
@@ -55,6 +66,13 @@ keytool -genkeypair -v -storetype PKCS12 \
 se pueden publicar actualizaciones sobre el mismo APK: Android rechaza la firma
 nueva. En CI se usan los secretos `ANDROID_KEYSTORE_BASE64`,
 `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` y `ANDROID_KEY_PASSWORD`.
+
+La keystore de release 1.0.0 tiene esta huella SHA-256 (verificala con
+`apksigner verify --print-certs`):
+
+```
+4E:42:F4:68:AF:6C:65:A5:E7:CA:5C:1C:FA:77:66:71:FF:98:9C:FB:81:18:57:A6:85:1D:11:80:EB:92:6D:AC
+```
 
 ## Instalación por APK (sideload)
 
